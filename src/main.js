@@ -90,7 +90,20 @@ firebase.auth().onAuthStateChanged(user => {
   })
 
 
-})
+});
 
+const messaging = firebase.messaging();
 
+messaging.usePublicVapidKey('BMapW914m-WtfzTIMoe7h7qU8F9CRILOcV1dooCBQa4ldPzGRemC4a5Bmpoi8-vgI_Jm6SlOX1upo8M9OU48YN8');
 
+messaging.requestPermission().then(function () {
+  console.log('Permiso de notificaciones concedido');
+
+  messaging.getToken().then(function (currentToken) {
+    console.log(currentToken);
+  }).catch(function (error) {
+    console.log('Ocurrio un error con el token', error);
+  });
+}).catch(function (error) {
+  console.log('No se concedio permiso para recibir notificaciones', error);
+});
