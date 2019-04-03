@@ -5,7 +5,7 @@ module.exports = {
         name: 'Odr',
         appleMobileWebAppCapable: 'no',
         workboxOptions: {
-            importWorkboxFrom: 'local',
+            importWorkboxFrom: 'cdn',
             maximumFileSizeToCacheInBytes: 50 * 1024 * 1024,
             runtimeCaching:[{
                 urlPattern: '/',

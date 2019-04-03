@@ -8,6 +8,7 @@ import User from './user'
 import Shared from './shared'
 import Buscador from './buscador'
 import Amigos from './amigos'
+import Foro from './foro'
 
 Vue.use(Vuex)
 
@@ -18,5 +19,6 @@ export const store = new Vuex.Store({
         shared: Shared,
         buscador: Buscador,
         amigos: Amigos,
+        foro: Foro,
     }
 })

@@ -10,6 +10,7 @@ import MainLogin from '@/components/login/mainLogin.vue'
 import Avatar from '@/components/avatar/avatar.vue'
 import ProfileView from '@/components/profile/profileView.vue'
 import Chat from '@/components/red social/chat.vue'
+import CreateTopic from '@/components/foro/crearTopic.vue'
 import { store } from '../store'
 // Profile
 import Configuration from '@/components/profile/configuration.vue'
@@ -87,6 +88,12 @@ const router = new Router({
       name: 'Chat',
       component: Chat,
       beforeEnter: AuthGuard
+    },
+    {
+      path: '/forums',
+      name: 'Create Topic',
+      component: CreateTopic,
+      
     }
   ],
   mode: 'history'
