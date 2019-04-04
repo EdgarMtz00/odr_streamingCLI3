@@ -11,6 +11,10 @@ import Avatar from '@/components/avatar/avatar.vue'
 import ProfileView from '@/components/profile/profileView.vue'
 import Chat from '@/components/red social/chat.vue'
 import CreateTopic from '@/components/foro/crearTopic.vue'
+import CreatePost from '@/components/foro/crearPost.vue'
+import Forums from '@/components/foro/foroBase.vue'
+import ForumCategories from '@/components/foro/foroCategorias.vue'
+import ShowTopics from '@/components/foro/mostrarTopics.vue'
 import { store } from '../store'
 // Profile
 import Configuration from '@/components/profile/configuration.vue'
@@ -90,10 +94,29 @@ const router = new Router({
       beforeEnter: AuthGuard
     },
     {
-      path: '/forums',
+      path: '/createTopic',
       name: 'Create Topic',
-      component: CreateTopic,
-      
+      component: CreateTopic
+    },
+    {
+      path: '/createPosts',
+      name: 'Create Post',
+      component: CreatePost
+    },
+    {
+      path: '/forums',
+      name: 'Forums',
+      component: Forums
+    },
+    {
+      path: '/forums/:urlSaga',
+      name: 'Forum Categories',
+      component: ForumCategories
+    },
+    {
+      path: '/forums/:urlSaga/:urlCategory',
+      name: 'Category Topics',
+      component: ShowTopics
     }
   ],
   mode: 'history'

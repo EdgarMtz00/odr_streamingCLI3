@@ -54,21 +54,13 @@ export default {
         }
     },
     computed: {
-        posts () {
-            let aux = this.$store.getters.getPosts
-            if (aux.length > 0){
-                return aux
-            } else {
-                return []
-            }
-        }
+        
     },
     watch: {
 
     },
     created () {
-        this.$store.dispatch("loadPosts")
-        console.log("Prueba del created", this.$route.params.idSaga)
+
     }
 }
 </script>
