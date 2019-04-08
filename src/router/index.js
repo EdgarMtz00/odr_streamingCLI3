@@ -15,6 +15,7 @@ import CreatePost from '@/components/foro/crearPost.vue'
 import Forums from '@/components/foro/foroBase.vue'
 import ForumCategories from '@/components/foro/foroCategorias.vue'
 import ShowTopics from '@/components/foro/mostrarTopics.vue'
+import MainProductos from "@/components/tienda/mainTienda.vue";
 import { store } from '../store'
 // Profile
 import Configuration from '@/components/profile/configuration.vue'
@@ -117,7 +118,12 @@ const router = new Router({
       path: '/forums/:urlSaga/:urlCategory',
       name: 'Category Topics',
       component: ShowTopics
-    }
+    },
+    {
+      path: "/shop",
+      name: "Tienda",
+      component: MainProductos
+    },
   ],
   mode: 'history'
 })

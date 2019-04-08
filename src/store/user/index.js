@@ -14,6 +14,7 @@ export default({
             state.user.email = payload.email
         },
         setUserConfig (state, payload) {
+            state.user.cuenta = payload.cuenta
             state.user.configuration.nombre = payload.NombreUsuario
             state.user.configuration.nickname = payload.Nickname
             state.user.configuration.descripcion = payload.Descripcion

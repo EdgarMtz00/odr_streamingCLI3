@@ -48,7 +48,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
 
-        <buscador v-if="!xsOnly"></buscador>
+        <buscador v-if="!xsOnly" class="mt-1"></buscador>
 
         <v-btn flat class="white--text" @click="gotoToPage('profileConfiguration')" v-if="isUserLogged"
         :icon="xsOnly"> 
@@ -61,6 +61,10 @@
           </v-layout>
           <div v-if="!xsOnly">{{userData.nickname}}</div>
         </v-btn>
+
+        <carrito-component class="mt-2 ml-3"></carrito-component>
+
+        <crear-producto-component class="mt-2"></crear-producto-component>
 
         <v-btn color="primary" v-if="xsOnly" icon fab @click="buscar = !buscar">
           <v-icon v-if="!buscar">search</v-icon>
@@ -125,13 +129,15 @@ export default {
           name: ['Foro','Forum'],
           icon: 'vertical_split',
           value: 'forum',
-          color: 'teal'
+          color: 'teal',
+          url: 'forum'
         },
         {
           name: ['Tienda','Shop'],
           icon: 'shopping_cart',
           value: 'shop',
-          color: 'teal'
+          color: 'teal',
+          url: 'shop'
         },
         {
           name: ['Hub','Hub'],
