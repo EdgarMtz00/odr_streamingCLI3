@@ -1,18 +1,18 @@
 <template>
     <v-layout row wrap justify-center>
         <v-flex>
-            <v-autocomplete :items="foroData" item-text="titulo" prepend-inner-icon="search"
-             color="black" background-color="white" label="Buscar" clearable>
-                <template slot="item" slot-scope="data">
-                    <v-list-tile-avatar  @click="goToRoute(data.item.type, data.item.url, data.item.id)">
-                        <img :src="data.item.thumbnail">
-                    </v-list-tile-avatar>
-                    <v-list-tile-content @click="goToRoute(data.item.type, data.item.url, data.item.id)">
-                        <v-list-tile-title v-html="data.item.titulo"></v-list-tile-title>
-                        <v-list-tile-sub-title v-html="data.item.type"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                </template>
-            </v-autocomplete>
+            <v-layout justify-center>
+                <v-data-table :items="foroData" rows-per-page-text="Foros por página">
+                    <template slot="items" slot-scope="data">
+                        <v-layout @click="goToRoute(data.item.type, data.item.url, data.item.id)">
+                            <td><v-img :src="data.item.thumbnail"></v-img></td>
+                            <td class="text-xs-right">{{ data.item.id }}</td>
+                            <td class="text-xs-right">{{ data.item.titulo }}</td>
+                            <td class="text-xs-right">{{ data.item.type }}</td>
+                        </v-layout>
+                    </template>
+                </v-data-table>
+            </v-layout>
         </v-flex>
     </v-layout>
 </template>

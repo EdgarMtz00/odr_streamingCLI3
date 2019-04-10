@@ -1,19 +1,18 @@
 <template>
     <v-layout row wrap justify-center>
         <v-flex>
-            <v-autocomplete :items="categoriaData" item-text="titulo" prepend-inner-icon="search"
-             color="black" background-color="white" label="Buscar" clearable>
-                <template slot="item" slot-scope="data">
-                    <v-list-tile-content @click="goToRoute(data.item.type, data.item.url, data.item.id)">
-                        <v-list-tile-title v-html="data.item.titulo"></v-list-tile-title>
-                        <v-list-tile-sub-title v-html="data.item.type"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                    <v-list-tile-content @click="goToRoute(data.item.type, data.item.url, data.item.id)">
-                        <v-list-tile-title v-html="data.item.descripcion"></v-list-tile-title>
-                        <v-list-tile-sub-title v-html="data.item.type"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                </template>
-            </v-autocomplete>
+            <v-layout justify-center>
+                <v-btn @click="back"> Return </v-btn>
+                <v-data-table :items="categoriaData" rows-per-page-text="Categorías por página">
+                    <template slot="items" slot-scope="data">
+                        <v-layout @click="goToRoute(data.item.type, data.item.url, data.item.id)">
+                            <td class="text-xs-right">{{ data.item.id }}</td>
+                            <td class="text-xs-right">{{ data.item.nombre }}</td>
+                            <td class="text-xs-right">{{ data.item.descripcion }}</td>
+                        </v-layout>
+                    </template>
+                </v-data-table>
+            </v-layout>
         </v-flex>
     </v-layout>
 </template>
@@ -36,8 +35,12 @@ export default {
                 }
             }
             this.$store.commit("guardarIdCategoria", id)
+        },
+        back  () {
+            this.$nextTick(() => {
+                this.$router.push('/forums/')
+            })
         }
-        
     },
     computed: {
         categorias () {

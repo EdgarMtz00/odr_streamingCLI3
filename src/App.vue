@@ -125,7 +125,8 @@ export default {
           name: ['Foro','Forum'],
           icon: 'vertical_split',
           value: 'forum',
-          color: 'teal'
+          color: 'teal',
+          url: 'forums'
         },
         {
           name: ['Tienda','Shop'],

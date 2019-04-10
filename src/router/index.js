@@ -15,6 +15,7 @@ import CreatePost from '@/components/foro/crearPost.vue'
 import Forums from '@/components/foro/foroBase.vue'
 import ForumCategories from '@/components/foro/foroCategorias.vue'
 import ShowTopics from '@/components/foro/mostrarTopics.vue'
+import ShowPosts from '@/components/foro/mostrarPosts.vue'
 import { store } from '../store'
 // Profile
 import Configuration from '@/components/profile/configuration.vue'
@@ -94,14 +95,16 @@ const router = new Router({
       beforeEnter: AuthGuard
     },
     {
-      path: '/createTopic',
+      path: '/forums/:urlSaga/:urlCategory/createTopic',
       name: 'Create Topic',
-      component: CreateTopic
+      component: CreateTopic,
+      beforeEnter: AuthGuard
     },
     {
-      path: '/createPosts',
+      path: '/forums/:urlSaga/:urlCategory/:urlThread/createPost',
       name: 'Create Post',
-      component: CreatePost
+      component: CreatePost,
+      beforeEnter: AuthGuard
     },
     {
       path: '/forums',
@@ -117,6 +120,11 @@ const router = new Router({
       path: '/forums/:urlSaga/:urlCategory',
       name: 'Category Topics',
       component: ShowTopics
+    },
+    {
+      path: '/forums/:urlSaga/:urlCategory/:urlThread',
+      name: 'Topic Posts',
+      component: ShowPosts
     }
   ],
   mode: 'history'

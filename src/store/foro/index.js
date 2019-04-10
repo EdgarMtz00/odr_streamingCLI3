@@ -7,8 +7,10 @@ export default ({
         sagasForo: [],
         categoriasForo: [],
         topicsCategoria: [],
+        postsTopic: [],
         sagaElegida: "",
-        categoriaElegida: ""
+        categoriaElegida: "",
+        topicElegido: ""
     },
     mutations: {
         setSagasForo (state, payload) {
@@ -20,13 +22,18 @@ export default ({
         setTopicsCategoria (state, payload) {
             state.topicsCategoria = payload
         },
+        setPostsTopic (state, payload) {
+            state.postsTopic = payload
+        },
         guardarIdSaga (state, payload) {
-            console.log("El id de la saga: ", payload)
             state.sagaElegida = payload
         },
         guardarIdCategoria (state, payload) {
-            console.log("El id de la categoria: ", payload)
             state.categoriaElegida = payload
+        },
+        guardarIdThread (state, payload) {
+            console.log("El id del thread: ", payload)
+            state.topicElegido = payload
         }
     },
     actions: {
@@ -94,9 +101,11 @@ export default ({
                             idSaga: elementTopics.IdSaga,
                             idCategoriaForo: elementTopics.IdCategoriaForo,
                             titulo: elementTopics.TituloThread,
+                            contenidoThread: elementTopics.ContenidoThread,
                             fecha: elementTopics.FechaDeCreacion,
                             url: elementTopics.IdThread,
-                            type: 'Topic',
+                            nickname: elementTopics.Nickname,
+                            type: 'Topic'
                         })       
                     });
                 }
@@ -106,6 +115,32 @@ export default ({
                 console.log("Hubo un error en el POST a /forum/getTopics", error)
             })
         },
+        loadPosts ({commit, getters}) {
+            let urlBase = getters.urlBase
+
+            axios.post("http://localhost/Odr/connections/forum/getPosts.php").then(function (response) {
+                console.log("Los posts son: ", response.data)
+                let data = response.data
+                let posts = []
+                posts.push({header: 'Posts'})
+                if (Array.isArray(data.posts)) {
+                    data.posts.forEach(elementPosts => {
+                        posts.push({
+                            idPost: elementPosts.IdPost,
+                            contenidoPost: elementPosts.ContenidoPost,
+                            fecha: elementPosts.FechaDeCreacion,
+                            idThread: elementPosts.IdThread,
+                            nickname: elementPosts.Nickname,
+                            type: 'Post'
+                        })       
+                    });
+                }
+                console.log("Lo que se va al commit de posts: ", posts)
+                commit('setPostsTopic', posts)
+            }).catch(function (error) {
+                console.log("Hubo un error en el POST a /forum/getPosts", error)
+            })
+        }
     },
     getters: {
         getSagasForo (state) {
@@ -117,11 +152,17 @@ export default ({
         getTopicsCategoria (state) {
             return state.topicsCategoria
         },
+        getPostsTopic (state) {
+            return state.postsTopic
+        },
         getSagaElegida (state) {
             return state.sagaElegida
         },
         getCategoriaElegida (state) {
             return state.categoriaElegida
+        },
+        getTopicElegido (state) {
+            return state.topicElegido
         }
     }
 })
