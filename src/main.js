@@ -27,6 +27,14 @@ import Comments from './components/common/comments.vue'
 import Buscador from './components/common/buscador.vue'
 import RowContent from './components/streaming main page/rowContent.vue'
 
+import Producto from "./components/tienda/producto.vue";
+import MainCarrito from "./components/tienda/carrito/mainCarrito.vue";
+import CrearProducto from "./components/tienda/crearProducto.vue";
+import EditarProducto from './components/tienda/editarProducto.vue'
+import ContactarUsuario from './components/tienda/contactarUsuario.vue'
+import ShopImagesSelector from './components/tienda/imagesSelector.vue'
+
+
 //Implementar componentes
 Vue.component('content-tab-item', contentTabItem)
 Vue.component('create-holder-dialog', CreateHolderDialog)
@@ -40,6 +48,13 @@ Vue.component('comments', Comments)
 Vue.component('buscador', Buscador)
 Vue.component('row-content', RowContent)
 Vue.component('unity', Unity)
+
+Vue.component("producto-component", Producto);
+Vue.component("carrito-component", MainCarrito);
+Vue.component("crear-producto-component", CrearProducto);
+Vue.component('editar-producto-component', EditarProducto)
+Vue.component('contactar-usuario-component', ContactarUsuario)
+Vue.component('shop-images-selector-carousel', ShopImagesSelector)
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
@@ -85,25 +100,33 @@ firebase.auth().onAuthStateChanged(user => {
     components: { App },
     template: '<App/>',
     mounted () {
-
+      // Registrar el SW
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').then(res => {
+          console.log("JAJAJA")
+        }).catch(error => {
+          console.log("No sirve")
+        })
+      } else {
+        alert ('NO')
+      }
+      
     }
   })
-
-
 });
 
-const messaging = firebase.messaging();
+// const messaging = firebase.messaging();
 
-messaging.usePublicVapidKey('BMapW914m-WtfzTIMoe7h7qU8F9CRILOcV1dooCBQa4ldPzGRemC4a5Bmpoi8-vgI_Jm6SlOX1upo8M9OU48YN8');
+// messaging.usePublicVapidKey('BMapW914m-WtfzTIMoe7h7qU8F9CRILOcV1dooCBQa4ldPzGRemC4a5Bmpoi8-vgI_Jm6SlOX1upo8M9OU48YN8');
 
-messaging.requestPermission().then(function () {
-  console.log('Permiso de notificaciones concedido');
+// messaging.requestPermission().then(function () {
+//   console.log('Permiso de notificaciones concedido');
 
-  messaging.getToken().then(function (currentToken) {
-    console.log(currentToken);
-  }).catch(function (error) {
-    console.log('Ocurrio un error con el token', error);
-  });
-}).catch(function (error) {
-  console.log('No se concedio permiso para recibir notificaciones', error);
-});
+//   messaging.getToken().then(function (currentToken) {
+//     console.log(currentToken);
+//   }).catch(function (error) {
+//     console.log('Ocurrio un error con el token', error);
+//   });
+// }).catch(function (error) {
+//   console.log('No se concedio permiso para recibir notificaciones', error);
+// });
