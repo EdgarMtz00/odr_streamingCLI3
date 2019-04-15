@@ -107,15 +107,17 @@ export default {
         sendMessage () {
             let nickname = this.user.configuration.nickname
             let idChat = this.selectedChat.idChat
+            
             let aux = this.chats.find(auxFind => {
                 return auxFind.idChat == idChat
             })
-            // console.log('MENSJAES LENGTH XD', aux.mensajes.length)
             let cantidad;
+            console.log('MENSJAES XD', aux)
             if (aux)
                 cantidad = aux.mensajes.length
             else
                 cantidad = 0
+
             let chat = {
                 idChat: idChat,
                 idUser: this.user.id,
@@ -155,6 +157,7 @@ export default {
             console.log("Current CHAT", aux)
             if (aux !== undefined){
                 if (aux.mensajes !== undefined) {
+                    if (Array.isArray(aux.mensajes))
                     aux.mensajes.forEach(elementMsg => {
                         if (elementMsg.nombre.toLowerCase() === this.user.configuration.nickname.toLowerCase()) {
                             elementMsg.type = 1

@@ -4,7 +4,7 @@ import * as firebase from 'firebase'
 export default({
     state: {
         urlBase: 'http://localhost/Odr/',
-        loading: false
+        loading: false,
     },
     mutations: {
         setLoading (state, payload) {
