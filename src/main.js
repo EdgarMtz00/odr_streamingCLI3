@@ -61,8 +61,8 @@ Vue.use(VueAxios, axios)
 Vue.prototype.moment = moment
 
 Vue.use(Vuetify, { theme: {
-  primary: '#53435c',
-  secondary: '#424242',
+  primary: '#9D7E69',
+  secondary: '#D5C0AF',
   accent: '#82B1FF',
   error: '#FF5252',
   info: '#2196F3',
@@ -70,9 +70,9 @@ Vue.use(Vuetify, { theme: {
   warning: '#FFC107',
   skin: '#f2d5c0',
   gem: '#482648',
-  darkergem: '#1a1325',
-  clothing: '#e3d0db',
-  blush: '#e5b1c1'
+  darkergem: '#9D7E69',
+  clothing: '#D5C0AF',
+  blush: '#9D7E69'
 }})
 
 firebase.initializeApp({
@@ -110,12 +110,30 @@ firebase.auth().onAuthStateChanged(user => {
       } else {
         alert ('NO')
       }
+
+      // fetch('https://jsonplaceholder.typicode.com/todos/')
+      // .then(response => console.log('api response', response))
+      // .then(data => {
+      //     let people = data;
+          
+      // })
+
+      // fetch('http://localhost/Odr/connections/streamingContent/getSagaContent.php')
+      // .then(response => response.json())
+      // .then(data => {
+      //     let people = data;
+      //     console.log("[FETCH] Data", data)
+      // })
+
+      // axios.post('http://localhost/Odr/connections/productos/getAllProductos.php').then(res => {
+      //   console.log("[AXIOS] Data", res)
+      // })
       
     }
   })
 });
 
-// const messaging = firebase.messaging();
+// const messaging = firebase.messaging(); npm run serve -s dist
 
 // messaging.usePublicVapidKey('BMapW914m-WtfzTIMoe7h7qU8F9CRILOcV1dooCBQa4ldPzGRemC4a5Bmpoi8-vgI_Jm6SlOX1upo8M9OU48YN8');
 

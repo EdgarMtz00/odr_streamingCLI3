@@ -12,11 +12,11 @@
                     </v-card-actions>
                 </v-card>
             </v-flex> -->
-            <v-flex xs1 lg12>
+            <v-flex xs12 lg12>
                 <v-card>
                     <v-card-text>
                         <v-layout row wrap>
-                            <v-flex xs1 md3 xl2 v-for="(item, index) in productosFiltrados" :key="index">
+                            <v-flex xs6 md3 xl2 v-for="(item, index) in productosFiltrados" :key="index">
                                 <producto-component :titulo="item.titulo" 
                                 :precio="item.precio" :imagen="item.imagenes[0].src" 
                                 :descripcion="item.descripcion" :imagenes="item.imagenes"

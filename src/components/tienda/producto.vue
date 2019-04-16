@@ -7,11 +7,11 @@
         >
         <template v-slot:activator="{ on }">
             <v-hover>
-                <v-card v-on="on" slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 0}`" class="mx-2 px-2 my-2" height="450">
+                <v-card v-on="on" slot-scope="{ hover }" :class="`elevation-${hover ? 12 : 0}`" class="mx-2 px-2 my-2" :height="450 + xsResPenalty">
                     <v-layout column style="cursor: pointer;" class="mt-2" fill-height>
                         
                         <v-flex xs12>
-                            <v-img height="299" max-height="300" contain class="mt-2"
+                            <v-img :height="299 + xsResPenalty" :max-height="300 + xsResPenalty" contain class="mt-2"
                             :src="imagen"/>
                             <v-divider class="mt-2"></v-divider>
                         </v-flex>
@@ -212,6 +212,12 @@ export default {
         }
     },
     computed: {
+        xsResPenalty () {
+            if (this.$vuetify.breakpoint.smAndDown)
+                return -100
+            else
+                return 0
+        },
         disponibilidad () {
             return (this.stock > 0)
         },

@@ -189,7 +189,7 @@ export default({
             //     commit('setStatus', "Not Uploaded")
             // }
           
-          axios.post('http://localhost/Odr/connections/productos/crearProducto.php', formData).then(response => {
+          axios.post(urlBase + 'connections/productos/crearProducto.php', formData).then(response => {
               commit('setLoading', false)
               let data = response.data
               console.log("data", data)
@@ -200,7 +200,7 @@ export default({
                   let auxUrls = []
                   for(let i = 1; i <= newProducto.imagenes.length; i++) {
                       auxUrls.push({
-                          src: 'http://localhost/Odr/productos/' + id + '/' + i + '.jpg'
+                          src: urlBase + 'productos/' + id + '/' + i + '.jpg'
                           })
                    }
 
@@ -241,9 +241,11 @@ export default({
       cargarProductos ({commit, getters}) {
           let urlBase = getters.urlBase
           console.log("cargando productos")
-          axios.post('http://localhost/Odr/connections/productos/getAllProductos.php').then(response => {
-              let data = response.data
-              if (data.status.includes('OK')) {
+          fetch(urlBase + 'connections/productos/getAllProductos.php')
+            .then(res => res.json())
+            .then(data => {
+                console.log("El fetch", data)
+                if (data.status.includes('OK')) {
                   let newProductos = []
                   data.productos.forEach(producto => {
                       // Generar la url de las imagenes
@@ -255,7 +257,7 @@ export default({
                       let auxUrls = []
                       for(let i = 1; i <= producto.numeroElemento; i++) {
                            auxUrls.push({
-                               src: 'http://localhost/Odr/productos/' + producto.idProducto + '/' + i + '.jpg'
+                               src: urlBase + 'productos/' + producto.idProducto + '/' + i + '.jpg'
                            })
                       }
 
@@ -285,9 +287,55 @@ export default({
                   console.log("Nuevos", newProductos)
                   commit('setProductos', newProductos)
               }
-          }).catch(error => {
-              console.log("error", error)
-          })
+            });
+
+        //   axios.post(urlBase + 'connections/productos/getAllProductos.php').then(response => {
+        //       let data = response.data
+        //       if (data.status.includes('OK')) {
+        //           let newProductos = []
+        //           data.productos.forEach(producto => {
+        //               // Generar la url de las imagenes
+        //               /*La base almacena la cantidad de imagenes que tiene un objeto por lo que
+        //               en la carpeta productos/idDelProducto/ hay n imagenes asi que se obtiene
+        //               la url de la siguiente forma: */
+
+        //               // Auxiliar para guardar las url generadas
+        //               let auxUrls = []
+        //               for(let i = 1; i <= producto.numeroElemento; i++) {
+        //                    auxUrls.push({
+        //                        src: urlBase + 'productos/' + producto.idProducto + '/' + i + '.jpg'
+        //                    })
+        //               }
+
+        //               let type = ''
+        //               if (producto.cuenta == 'Consumidor') {
+        //                   type = 'user'
+        //               } else {
+        //                   type = 'system'
+        //               }
+
+        //               let aux = {
+        //                id: producto.idProducto,
+        //                titulo: producto.nombreProducto,
+        //                stock: producto.cantidad,
+        //                precio: producto.precio,
+        //                descripcion: producto.descripcion,
+        //                categoria: producto.categoria,
+        //                imagenes: auxUrls,
+        //                idUsuario: producto.idUsuario,
+        //                nickname: producto.Nickname,
+        //                type: type,
+        //                profilePic: urlBase + 'Profiles/' + producto.idUsuario + "/profile.jpg"
+        //            }
+        //               commit('addCategoria', producto.categoria)
+        //               newProductos.push(aux)
+        //           });
+        //           console.log("Nuevos", newProductos)
+        //           commit('setProductos', newProductos)
+        //       }
+        //   }).catch(error => {
+        //       console.log("error", error)
+        //   })
       },
       editarProducto ({commit, getters}, newProducto) {
           let urlBase = getters.urlBase
@@ -304,7 +352,7 @@ export default({
           formData.set('nFotos', newProducto.imagenes.length)
           formData.set('imagenes', JSON.stringify(newProducto.imagenes))
           
-          axios.post('http://localhost/Odr/connections/productos/editarProducto.php', formData).then(response => {
+          axios.post(urlBase + 'connections/productos/editarProducto.php', formData).then(response => {
               let data = response.data
               console.log("data", data, )
               if (data.status.includes('OK')) {
@@ -314,7 +362,7 @@ export default({
                   let auxUrls = []
                   for(let i = 1; i <= newProducto.imagenes.length; i++) {
                       auxUrls.push({
-                          src: 'http://localhost/cocoshop/productos/' + id + '/' + i + '.jpg'
+                          src: urlBase + 'cocoshop/productos/' + id + '/' + i + '.jpg'
                           })
                    }
                    
@@ -347,7 +395,7 @@ export default({
           formData.set('id', id)
         //   commit('deleteProducto', id)
           
-          axios.post('http://localhost/Odr/connections/productos/eliminarProducto.php', formData).then(response => {
+          axios.post(urlBase + 'connections/productos/eliminarProducto.php', formData).then(response => {
               let data = response.data
               if (data.status.includes('OK')) {
                   commit('setStatus', "Deleted")

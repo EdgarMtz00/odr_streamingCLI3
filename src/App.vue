@@ -1,6 +1,6 @@
 <template>
-  <v-app style='background-color: #f2d5d0;'>
-    <v-navigation-drawer v-model="drawer" app fixed temporary class='clothing'>
+  <v-app class='secondary'>
+    <v-navigation-drawer v-model="drawer" app fixed temporary class='secondary'>
       <v-list subheader>
         <v-subheader>Descubrir</v-subheader>
 
@@ -40,10 +40,10 @@
       <v-toolbar-side-icon class='white--text' @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-avatar
           size='40px'>
-          <img src='../static/logo.svg' alt='logo'>
+          <img src='../static/unnamed.png' alt='logo'>
         </v-avatar>
         <v-toolbar-title class='text-sm-right white--text font-weight-thin headline' v-if="!xsOnly">
-          HomuApp!
+          Mershe!
         </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
