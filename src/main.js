@@ -27,6 +27,14 @@ import Comments from './components/common/comments.vue'
 import Buscador from './components/common/buscador.vue'
 import RowContent from './components/streaming main page/rowContent.vue'
 
+import Producto from "./components/tienda/producto.vue";
+import MainCarrito from "./components/tienda/carrito/mainCarrito.vue";
+import CrearProducto from "./components/tienda/crearProducto.vue";
+import EditarProducto from './components/tienda/editarProducto.vue'
+import ContactarUsuario from './components/tienda/contactarUsuario.vue'
+import ShopImagesSelector from './components/tienda/imagesSelector.vue'
+
+
 //Implementar componentes
 Vue.component('content-tab-item', contentTabItem)
 Vue.component('create-holder-dialog', CreateHolderDialog)
@@ -40,6 +48,13 @@ Vue.component('comments', Comments)
 Vue.component('buscador', Buscador)
 Vue.component('row-content', RowContent)
 Vue.component('unity', Unity)
+
+Vue.component("producto-component", Producto);
+Vue.component("carrito-component", MainCarrito);
+Vue.component("crear-producto-component", CrearProducto);
+Vue.component('editar-producto-component', EditarProducto)
+Vue.component('contactar-usuario-component', ContactarUsuario)
+Vue.component('shop-images-selector-carousel', ShopImagesSelector)
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)

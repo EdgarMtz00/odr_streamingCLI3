@@ -9,6 +9,8 @@ import Shared from './shared'
 import Buscador from './buscador'
 import Amigos from './amigos'
 import Foro from './foro'
+import Tienda from './tienda'
+import Carrito from './Carrito'
 
 Vue.use(Vuex)
 
@@ -20,5 +22,7 @@ export const store = new Vuex.Store({
         buscador: Buscador,
         amigos: Amigos,
         foro: Foro,
+        tienda: Tienda,
+        carrito: Carrito,
     }
 })

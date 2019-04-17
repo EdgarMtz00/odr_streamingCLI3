@@ -110,47 +110,20 @@ export default {
     },
     methods: {
         addFriend () {
-            let user = this.$store.getters.getUserData
-            let urlBase = this.$store.getters.urlBase
-            let formData = new FormData()
-            formData.set('idUser', user.id)
-            formData.set('idFriend', this.idProfile)
-            this.axios.post(urlBase + 'connections/socialNetwork/addFriend.php', formData).then(response => {
-                console.log("Response:", response.data)
-                if (response.data.status == "OK") {
-                    alert("Amigo añadido")
-                }
-                else
-                    alert("Error al añadir amigo")
-            }).catch(error => {
-                console.log(error)
-            })
+            let friend = {
+                idProfile: this.idProfile,
+                idUsuario: this.user.id
+            }
+            this.$store.dispatch('addFriend', friend)
         },
         removeFriend () {
             let user = this.$store.getters.getUserData
-            let urlBase = this.$store.getters.urlBase
-            let idOtro = this.profileData.IdUsuario
-            let formData = new FormData()
-            formData.set('idUser', user.id)
-            formData.set('idFriend', this.idProfile)
-
-            this.axios.post(urlBase + 'connections/socialNetwork/removeFriend.php', formData).then(response => {
-                console.log("Response:", response.data)
-                if (response.data.status == "OK") {
-                    alert("Amigo removido")
-                    let friend = this.amigos.find(auxFind => {
-                        return auxFind.IdAmigo == idOtro
-                    })
-                    if (friend) {
-                        this.$store.dispatch('removeFriend', friend)
-                    }
-
-                }
-                else
-                    alert("Error al removido amigo")
-            }).catch(error => {
-                console.log(error)
-            })
+            
+            let friend = {
+                idUsuario: user.id,
+                idProfile: this.idProfile
+            }
+            this.$store.dispatch('removeFriend', friend)
         }
     },
     created () {
