@@ -67,6 +67,8 @@ export default {
   name: 'App',
   created () {
     let auxNav = sessionStorage.getItem("bottomNav")
+    if (auxNav == "login")
+      auxNav = ""
     console.log("[App.vue] auxNav", auxNav)
     if (auxNav) {
       this.bottomNav = auxNav
@@ -115,12 +117,24 @@ export default {
           case 'shop': return 'cyan lighten-4'
           case 'hub': return 'orange lighten-3'
         }
-      }
+    },
+    
   },
   watch: { 
-     '$route.name': {
+     '$route.fullPath': {
         handler: function(search) {
-           console.log("El watch", search)
+           console.log("[App.vue] Watch", search)
+           if (search.includes('sagas')) {
+             this.bottomNav = 'content'
+           } else {
+             switch (search) {
+              case '/chat': {this.bottomNav = 'chat'; break}
+              case '/': {this.bottomNav = 'content'; break}
+              case '/forums': {this.bottomNav = 'forums'; break}
+              case '/shop': {this.bottomNav = 'shop'; break}
+              case '/hub': {this.bottomNav = 'hub'; break}
+            }
+           }
         },
         deep: true,
         immediate: true

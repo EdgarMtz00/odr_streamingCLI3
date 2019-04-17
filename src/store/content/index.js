@@ -41,7 +41,6 @@ export default({
             fetch(urlBase + "connections/streamingContent/getSaga.php")
             .then(res => res.json())
             .then(data => {
-                console.log("[WARD]", data)
                 commit('setSagas', data)
             });
         },
@@ -54,7 +53,6 @@ export default({
             fetch(urlBase + "connections/streamingContent/getCategorys.php")
             .then(res => res.json())
             .then(data => {
-                console.log("[WARD]", data)
                 commit('setCategorys', data)
             });
         },
@@ -75,7 +73,7 @@ export default({
                 let data = response.data
                 // La base de datos guarda la url de las imagenes com http://locahost y ps hay que corregir
                 saga.name = data.TituloSaga
-                console.log('Ps hay que cambiarle ptm', data)
+                // console.log('Ps hay que cambiarle ptm', data)
                 saga.photoInfo = {
                     thumbnail: urlBase + 'resources/' + data.ThumbnailSaga,
                     background: urlBase + 'resources/' + data.BackgroundSaga,
@@ -89,7 +87,7 @@ export default({
                     });
                 }
                 saga.categorys = categs
-                console.log("categs", categs)
+                // console.log("categs", categs)
 
                 if (Array.isArray(data.holders)) {
                     data.holders.forEach(element => {
@@ -139,7 +137,7 @@ export default({
                     });
                 }
 
-                console.log("Contenido:", saga)
+                // console.log("Contenido:", saga)
                 commit('setSagaData', saga)
             })
         },loadTags ({commit, getters}) {

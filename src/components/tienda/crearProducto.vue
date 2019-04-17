@@ -2,8 +2,8 @@
     <div>
         <v-dialog v-model="dialog" fullscreen hide-overlay transition="dialog-bottom-transition">
       <template v-slot:activator="{ on }">
-        <v-btn icon flat v-on="on">
-            <v-icon color="white">add</v-icon>
+        <v-btn icon flat v-on="on" ref="btnAddProduct">
+            <v-icon color="white" >add</v-icon>
         </v-btn>
       </template>
       <v-card>
@@ -15,7 +15,7 @@
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-layout row wrap>
-            <v-flex xs6>
+            <v-flex xs12 md6>
                 <v-layout row wrap justify-center>
                     <shop-images-selector-carousel :preview="true" loadText="Create Product"
                     v-on:passImages="crearProducto ($event)"
@@ -23,7 +23,7 @@
                     </shop-images-selector-carousel>
                 </v-layout>
             </v-flex>
-            <v-flex xs6 class="pa-3">
+            <v-flex xs12 md6 class="pa-3">
                 <v-text-field
                     label="Title"
                     :rules="[rules.required]"

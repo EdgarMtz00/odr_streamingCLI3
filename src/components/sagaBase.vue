@@ -1,68 +1,66 @@
 <template>
-    <v-container grid-list-xs>
-        <v-layout row wrap justify-center>
-            <v-flex xs12 md10>
-                <v-card>
-                    <v-layout row wrap class justify-center>
-                        <v-flex xs12>
-                            <v-img
-                            :src="photoInfo.background"
-                            max-height="450" style="min-height: 240px;" ref="imagen">
-                            <!--  -->
-                            <v-layout row wrap justify-center fill-height align-end>
-                                <v-flex xs12>
-                                    <v-layout row wrap>
-                                        <v-flex xs12>
-                                            <v-layout row wrap justify-center fill-height align-end>
-                                                <v-flex xs4 sm4 md3 xl2>
-                                                    <v-card class="pa-2">
-                                                        <v-layout row wrap>
-                                                            <v-flex xs12>
-                                                                <v-img contain
-                                                                    :src="photoInfo.thumbnail">
-                                                                </v-img>
-                                                            </v-flex>
-                                                        </v-layout>
-                                                    </v-card>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-flex>
-                                        <v-flex xs12 style="margin-bottom: -5px; margin-top: -5px;">
-                                            <v-layout row wrap justify-center fill-height align-end text-xs-center>
-                                                <v-flex xs12 md4>
-                                                    <v-card>
-                                                        <div :class="{'display-1': !$vuetify.breakpoint.xsOnly, 'subheading': $vuetify.breakpoint.xsOnly}">
-                                                            {{name}}
-                                                        </div>
-                                                    </v-card>
-                                                </v-flex>
-                                            </v-layout>
-                                        </v-flex>
-                                    </v-layout>
-                                </v-flex>
-                            </v-layout>
-                            </v-img>
-                        </v-flex>
-                    </v-layout>
-                </v-card>
-                <div>
-                    <v-tabs color="primary" slider-color="blush" grow>
-                        <v-tab class="white--text" v-for="(n, index) in categorys" :key="index">{{ n }}</v-tab>
-                        <v-tab-item v-for="(n, index) in categorys" :key="index">
-                            <v-layout row wrap justify-center>
-                                <v-flex xs12>
-                                    <content-tab-item :type="n" :content="content"></content-tab-item>
-                                </v-flex>
-                            </v-layout>
-                        </v-tab-item>
-                    </v-tabs>
-                </div>
-            </v-flex>
-            <v-flex xs12>
-                
-            </v-flex>
-        </v-layout>
-    </v-container>
+    <v-layout row wrap justify-center>
+        <v-flex xs12 md12>
+            <v-card>
+                <v-layout row wrap class justify-center>
+                    <v-flex xs12>
+                        <v-img
+                        :src="photoInfo.background"
+                        :max-height="backgroundHeight" style="min-height: 240px;" ref="imagen">
+                        <!--  -->
+                        <v-layout row wrap justify-center fill-height align-end>
+                            <v-flex xs12>
+                                <v-layout row wrap>
+                                    <v-flex xs12>
+                                        <v-layout row wrap justify-center fill-height align-end>
+                                            <v-flex xs4 sm4 md3 xl2>
+                                                <v-card class="pa-2">
+                                                    <v-layout row wrap>
+                                                        <v-flex xs12>
+                                                            <v-img contain :max-height="thumbnailHeight"
+                                                                :src="photoInfo.thumbnail">
+                                                            </v-img>
+                                                        </v-flex>
+                                                    </v-layout>
+                                                </v-card>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-flex>
+                                    <v-flex xs12 style="margin-bottom: -5px; margin-top: -5px;">
+                                        <v-layout row wrap justify-center fill-height align-end text-xs-center>
+                                            <v-flex xs12 md4>
+                                                <v-card>
+                                                    <div :class="{'display-1': !$vuetify.breakpoint.xsOnly, 'subheading': $vuetify.breakpoint.xsOnly}">
+                                                        {{name}}
+                                                    </div>
+                                                </v-card>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-flex>
+                                </v-layout>
+                            </v-flex>
+                        </v-layout>
+                        </v-img>
+                    </v-flex>
+                </v-layout>
+            </v-card>
+            <div>
+                <v-tabs color="primary" slider-color="blush" grow>
+                    <v-tab class="white--text" v-for="(n, index) in categorys" :key="index">{{ n }}</v-tab>
+                    <v-tab-item v-for="(n, index) in categorys" :key="index">
+                        <v-layout row wrap justify-center>
+                            <v-flex xs12>
+                                <content-tab-item :type="n" :content="content"></content-tab-item>
+                            </v-flex>
+                        </v-layout>
+                    </v-tab-item>
+                </v-tabs>
+            </div>
+        </v-flex>
+        <v-flex xs12>
+            
+        </v-flex>
+    </v-layout>
 </template>
 
 <script>
@@ -102,6 +100,24 @@ export default {
                 return aux
             else
                 return {thumbnail: '', background: ''}
+        },
+        thumbnailHeight () {
+            switch (this.$vuetify.breakpoint.name) {
+                case 'xs': return '220px'
+                case 'sm': return '350px'
+                case 'md': return '350px'
+                case 'lg': return '370px'
+                case 'xl': return '450px'
+            }
+        },
+        backgroundHeight () {
+            switch (this.$vuetify.breakpoint.name) {
+                case 'xs': return '250px'
+                case 'sm': return '350px'
+                case 'md': return '350px'
+                case 'lg': return '370px'
+                case 'xl': return '450px'
+            }
         },
         name () {
             return this.$store.getters.getSagaData.name

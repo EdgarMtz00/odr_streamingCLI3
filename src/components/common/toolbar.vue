@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div ref="XD">
         <v-navigation-drawer v-model="drawer" app fixed temporary class='secondary'>
             <v-list subheader>
                 <div v-for="(item, index) in navDrawerItems" :key="index">
@@ -8,6 +8,16 @@
                     </v-subheader>
 
                     <v-list-tile avatar @click="gotoToPage(item.url)" v-else-if="item.type === 'tile'">
+                    <v-list-tile-avatar>
+                        <v-icon>{{item.icon}}</v-icon>
+                    </v-list-tile-avatar>
+
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{item.name[prefLanguaje]}}</v-list-tile-title>
+                    </v-list-tile-content>
+                    </v-list-tile>
+
+                    <v-list-tile avatar @click="item.method" v-else-if="item.type === 'shortcut'">
                     <v-list-tile-avatar>
                         <v-icon>{{item.icon}}</v-icon>
                     </v-list-tile-avatar>
@@ -40,7 +50,7 @@
             <v-spacer></v-spacer>
             <v-toolbar-items>
 
-                <buscador v-if="!xsOnly" class="mt-1"></buscador>
+                <buscador v-show="!xsOnly && streamingActive" class="mt-1"></buscador>
 
                 <v-btn flat class="white--text" @click="gotoToPage('profileConfiguration')" v-if="isUserLogged"
                 :icon="xsOnly"> 
@@ -51,23 +61,23 @@
                     <img :src="userData.imagen" alt="alt">
                     </v-avatar>
                 </v-layout>
-                <div v-if="!xsOnly">{{userData.nickname}}</div>
+                <div v-show="!xsOnly">{{userData.nickname}}</div>
                 </v-btn>
 
-                <carrito-component class="mt-2 ml-3" v-if="isUserLogged"></carrito-component>
+                <carrito-component class="mt-2 ml-3" v-show="isUserLogged && tiendaActive"></carrito-component>
 
-                <crear-producto-component class="mt-2" v-if="isUserLogged"></crear-producto-component>
+                <crear-producto-component ref="AddProduct" class="mt-2" v-show="isUserLogged && tiendaActive"></crear-producto-component>
 
-                <v-btn color="primary" v-if="xsOnly" icon fab @click="buscar = !buscar">
-                <v-icon v-if="!buscar">search</v-icon>
-                <v-icon v-if="buscar">close</v-icon>
+                <v-btn color="primary" v-show="xsOnly && streamingActive" icon fab @click="buscar = !buscar">
+                <v-icon v-show="!buscar">search</v-icon>
+                <v-icon v-show="buscar">close</v-icon>
                 </v-btn>
                 
-                <v-btn :icon="xsOnly" flat class="white--text" @click="logout" v-if="isUserLogged"> 
-                <v-icon>exit_to_app</v-icon><div v-if="!xsOnly">Logout</div>
+                <v-btn :icon="xsOnly" flat class="white--text" @click="logout" v-show="isUserLogged"> 
+                <v-icon>exit_to_app</v-icon><div v-show="!xsOnly">Logout</div>
                 </v-btn>
 
-                <v-btn flat class="white--text" @click="gotoToPage('login')" v-if="!isUserLogged">
+                <v-btn flat class="white--text" @click="gotoToPage('login')" v-show="!isUserLogged">
                 Sign in <v-icon>input</v-icon>
                 </v-btn>
             </v-toolbar-items>
@@ -83,6 +93,7 @@ export default {
             drawer: false,
             buscar: false,
             prefLanguaje: 0,
+            // Hay tres tipos de objetos aqui, header, tile, dividr y shortcut
             navDrawerItems: [
                 {
                     type: 'header',
@@ -105,6 +116,12 @@ export default {
                     name: ['Nuevo medio', 'New stream media'],
                     url: "uploadContent",
                 },
+                {
+                    type: 'shortcut',
+                    icon: 'create',
+                    name: ['Nuevo producto', 'New producto'],
+                    method: this.addProductShortcut,
+                },
                 {type: 'divider',},
             ]
         }
@@ -120,6 +137,10 @@ export default {
         },
         logout () {
             this.$store.dispatch('logout')
+        },
+        addProductShortcut () {
+            console.log("[Toolbar] Action by ref", this.$refs.AddProduct.$refs.btnAddProduct)
+            this.$refs.AddProduct.$refs.btnAddProduct.$el.click()
         }
     },
     computed: {
@@ -141,6 +162,12 @@ export default {
         xsOnly () {
             return this.$vuetify.breakpoint.xsOnly
         },
+        tiendaActive () {
+            return (this.$route.name == 'Tienda')
+        },
+        streamingActive () {
+            return (this.$route.name == 'Main page' || this.$route.fullPath.includes('sagas'))
+        }
     }
 }
 </script>
