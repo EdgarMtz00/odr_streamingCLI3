@@ -288,54 +288,6 @@ export default({
                   commit('setProductos', newProductos)
               }
             });
-
-        //   axios.post(urlBase + 'connections/productos/getAllProductos.php').then(response => {
-        //       let data = response.data
-        //       if (data.status.includes('OK')) {
-        //           let newProductos = []
-        //           data.productos.forEach(producto => {
-        //               // Generar la url de las imagenes
-        //               /*La base almacena la cantidad de imagenes que tiene un objeto por lo que
-        //               en la carpeta productos/idDelProducto/ hay n imagenes asi que se obtiene
-        //               la url de la siguiente forma: */
-
-        //               // Auxiliar para guardar las url generadas
-        //               let auxUrls = []
-        //               for(let i = 1; i <= producto.numeroElemento; i++) {
-        //                    auxUrls.push({
-        //                        src: urlBase + 'productos/' + producto.idProducto + '/' + i + '.jpg'
-        //                    })
-        //               }
-
-        //               let type = ''
-        //               if (producto.cuenta == 'Consumidor') {
-        //                   type = 'user'
-        //               } else {
-        //                   type = 'system'
-        //               }
-
-        //               let aux = {
-        //                id: producto.idProducto,
-        //                titulo: producto.nombreProducto,
-        //                stock: producto.cantidad,
-        //                precio: producto.precio,
-        //                descripcion: producto.descripcion,
-        //                categoria: producto.categoria,
-        //                imagenes: auxUrls,
-        //                idUsuario: producto.idUsuario,
-        //                nickname: producto.Nickname,
-        //                type: type,
-        //                profilePic: urlBase + 'Profiles/' + producto.idUsuario + "/profile.jpg"
-        //            }
-        //               commit('addCategoria', producto.categoria)
-        //               newProductos.push(aux)
-        //           });
-        //           console.log("Nuevos", newProductos)
-        //           commit('setProductos', newProductos)
-        //       }
-        //   }).catch(error => {
-        //       console.log("error", error)
-        //   })
       },
       editarProducto ({commit, getters}, newProducto) {
           let urlBase = getters.urlBase

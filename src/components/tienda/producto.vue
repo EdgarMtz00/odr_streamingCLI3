@@ -79,7 +79,7 @@
                     </v-flex>
                     <v-flex xs12 class="mt-2" v-if="!isFromUser">
                         <div class="body-2">
-                            Stock: {{stock}}
+                            Stock: {{stock}} {{isUserLogged}}
                         </div>
                     </v-flex>
                 </v-layout>
@@ -161,22 +161,26 @@ export default {
     },
     methods: {
         añadirCarrito () {
-            let newProducto = {
-                titulo: this.titulo,
-                precio: this.precio,
-                url: this.url,
-                imagen: this.imagen,
-                descripcion: this.descripcion,
-                imagenes: this.imagenes,
-                stock: this.stock,
-                id: this.id,
-                nickname: this.nickname
-            }
-            this.$store.commit('addCarrito', newProducto)
-            this.$store.commit('subStock', newProducto)
+            if (!this.isUserLogged) {
+                this.$router.push('/')
+                this.$router.push('/login')
+            } else {
+                let newProducto = {
+                    titulo: this.titulo,
+                    precio: this.precio,
+                    url: this.url,
+                    imagen: this.imagen,
+                    descripcion: this.descripcion,
+                    imagenes: this.imagenes,
+                    stock: this.stock,
+                    id: this.id,
+                    nickname: this.nickname
+                }
+                this.$store.commit('addCarrito', newProducto)
+                this.$store.commit('subStock', newProducto)
 
-            this.changeStatus()
-            
+                this.changeStatus()
+            }
         },
         changeStatus: function(){
             this.productoStatus = 'Added to Cart'
@@ -239,7 +243,15 @@ export default {
             } else {
                 return false
             }
-        }
+        },
+        isUserLogged () {
+            let id = this.$store.getters.getUserData.id
+            if (id !== '' && id !== undefined) {
+                return true
+            } else {
+                return false
+            }
+        },
     }
 }
 </script>

@@ -26,6 +26,7 @@ import VideoUploader from './components/uploadContent/components/videoUploader.v
 import Comments from './components/common/comments.vue'
 import Buscador from './components/common/buscador.vue'
 import RowContent from './components/streaming main page/rowContent.vue'
+import Toolbar from './components/common/toolbar.vue'
 
 import Producto from "./components/tienda/producto.vue";
 import MainCarrito from "./components/tienda/carrito/mainCarrito.vue";
@@ -48,6 +49,7 @@ Vue.component('comments', Comments)
 Vue.component('buscador', Buscador)
 Vue.component('row-content', RowContent)
 Vue.component('unity', Unity)
+Vue.component('toolbar-component', Toolbar)
 
 Vue.component("producto-component", Producto);
 Vue.component("carrito-component", MainCarrito);

@@ -34,15 +34,29 @@ export default({
         loadSagasInfo ({commit, getters}) {
             let urlBase = getters.urlBase
             commit('clearSagas')
-            axios.post(urlBase + "connections/streamingContent/getSaga.php").then(response => {
-                commit('setSagas', response.data)
-            })
+            // axios.post(urlBase + "connections/streamingContent/getSaga.php").then(response => {
+            //     commit('setSagas', response.data)
+            // })
+
+            fetch(urlBase + "connections/streamingContent/getSaga.php")
+            .then(res => res.json())
+            .then(data => {
+                console.log("[WARD]", data)
+                commit('setSagas', data)
+            });
         },
         loadCategorys ({commit, getters}) {
             let urlBase = getters.urlBase
-            axios.post(urlBase + "connections/streamingContent/getCategorys.php").then(response => {
-                commit('setCategorys', response.data)
-            })
+            // axios.post(urlBase + "connections/streamingContent/getCategorys.php").then(response => {
+            //     commit('setCategorys', response.data)
+            // })
+
+            fetch(urlBase + "connections/streamingContent/getCategorys.php")
+            .then(res => res.json())
+            .then(data => {
+                console.log("[WARD]", data)
+                commit('setCategorys', data)
+            });
         },
         loadSagaData ({commit, getters}, urlSaga) {
             commit('clearSagas')
