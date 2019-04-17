@@ -44,9 +44,9 @@ export default {
         {
           name: ['Foro','Forum'],
           icon: 'vertical_split',
-          value: 'forum',
+          value: 'forums',
           color: 'teal',
-          url: 'forum'
+          url: 'forums'
         },
         {
           name: ['Tienda','Shop'],
@@ -111,7 +111,7 @@ export default {
         switch (this.bottomNav) {
           case 'chat': return 'green lighten-1'
           case 'content': return 'light-green lighten-1'
-          case 'forum': return 'lime lighten-1'
+          case 'forums': return 'lime lighten-1'
           case 'shop': return 'cyan lighten-4'
           case 'hub': return 'orange lighten-3'
         }

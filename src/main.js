@@ -35,7 +35,6 @@ import EditarProducto from './components/tienda/editarProducto.vue'
 import ContactarUsuario from './components/tienda/contactarUsuario.vue'
 import ShopImagesSelector from './components/tienda/imagesSelector.vue'
 
-
 //Implementar componentes
 Vue.component('content-tab-item', contentTabItem)
 Vue.component('create-holder-dialog', CreateHolderDialog)
