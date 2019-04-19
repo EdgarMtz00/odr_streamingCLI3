@@ -1,7 +1,7 @@
 <template>
     <v-layout row wrap justify-center>
         <v-flex>
-            <v-btn @click="back"> Return </v-btn>
+            <v-btn @click="back()"> Return </v-btn>
             <v-text-field v-model="newTopic.title" label="Title">
             </v-text-field>
             <v-text-field v-model="newTopic.post" label="Post">

@@ -16,6 +16,9 @@ import Forums from '@/components/foro/foroBase.vue'
 import ForumCategories from '@/components/foro/foroCategorias.vue'
 import ShowTopics from '@/components/foro/mostrarTopics.vue'
 import ShowPosts from '@/components/foro/mostrarPosts.vue'
+import SocialNetwork from '@/components/red social/mostrarSagas.vue'
+import Hubs from '@/components/red social/mostrarHubs.vue'
+import CreateHub from '@/components/red social/crearHub.vue'
 import { store } from '../store'
 // Profile
 import Configuration from '@/components/profile/configuration.vue'
@@ -125,6 +128,22 @@ const router = new Router({
       path: '/forums/:urlSaga/:urlCategory/:urlThread',
       name: 'Topic Posts',
       component: ShowPosts
+    },
+    {
+      path: '/social',
+      name: 'Social',
+      component: SocialNetwork
+    },
+    {
+      path: '/social/:urlSaga',
+      name: 'Hubs',
+      component: Hubs
+    },
+    {
+      path: '/createHub',
+      name: 'Create Hub',
+      component: CreateHub,
+      beforeEnter: AuthGuard
     }
   ],
   mode: 'history'

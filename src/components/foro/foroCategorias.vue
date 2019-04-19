@@ -2,7 +2,7 @@
     <v-layout row wrap justify-center>
         <v-flex>
             <v-layout justify-center>
-                <v-btn @click="back"> Return </v-btn>
+                <v-btn @click="back()"> Return </v-btn>
                 <v-data-table :items="categoriaData" rows-per-page-text="Categorías por página">
                     <template slot="items" slot-scope="data">
                         <v-layout @click="goToRoute(data.item.type, data.item.url, data.item.id)">

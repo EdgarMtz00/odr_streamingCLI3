@@ -138,7 +138,8 @@ export default {
           name: ['Hub','Hub'],
           icon: 'art_track',
           value: 'hub',
-          color: 'teal'
+          color: 'teal',
+          url: 'social'
         }
       ]
     }
