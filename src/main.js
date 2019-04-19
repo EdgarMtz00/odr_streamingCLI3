@@ -27,6 +27,7 @@ import Comments from './components/common/comments.vue'
 import Buscador from './components/common/buscador.vue'
 import RowContent from './components/streaming main page/rowContent.vue'
 import Toolbar from './components/common/toolbar.vue'
+import NotificationsDrawer from './components/common/notificaciones.vue'
 
 import Producto from "./components/tienda/producto.vue";
 import MainCarrito from "./components/tienda/carrito/mainCarrito.vue";
@@ -49,6 +50,7 @@ Vue.component('buscador', Buscador)
 Vue.component('row-content', RowContent)
 Vue.component('unity', Unity)
 Vue.component('toolbar-component', Toolbar)
+Vue.component('notifications-drawer-component', NotificationsDrawer)
 
 Vue.component("producto-component", Producto);
 Vue.component("carrito-component", MainCarrito);

@@ -5,12 +5,23 @@
                 <v-layout row wrap :justify-center="smAndDown" text-xs-center>
                     <v-flex xs10 sm10 md4>
                         <v-img contain max-height="500" :class="{'mx-5' : !xsOnly}"
-                        :src="currentContent.thumbnail"></v-img>
+                        :src="currentContent.thumbnail">
+                        </v-img>
                     </v-flex>
                     <v-flex xs10 md7 >
                         <v-layout row wrap :justify-center="smAndDown" :class="{'mt-4' : xsOnly}">
                             <div :class="{'display-1': !xsOnly, 'title': xsOnly}">
-                                {{currentContent.name}}</div>
+                                {{currentContent.name}}
+                            </div>
+                            <v-spacer v-if="!xsOnly"></v-spacer>
+                            <div v-if="isUserLogged">
+                                <v-btn color="primary" @click="seguirHolder" v-if="!isHolderSuscrito">
+                                    Seguir
+                                </v-btn>
+                                <v-btn color="red" @click="dejarDeSeguirHolder" v-else>
+                                    Dejar de seguir
+                                </v-btn>
+                            </div>
                         </v-layout>
                         <v-divider class="mt-2 mb-1" style="background: #000"></v-divider>
                         <v-layout row wrap align-center>
@@ -113,7 +124,7 @@
 </template>
 
 <script>
-
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -141,11 +152,22 @@ export default {
         }
     },
     mounted () {
-        console.log("LOL?")
     },
     computed: {
+        ...mapGetters({
+            holdersSuscritos: 'getHoldersSuscrito',
+        }),
+        isHolderSuscrito () {
+            let aux = this.holdersSuscritos.find(auxFind => {
+                return auxFind.idHolder == this.currentContent.IdHolder
+            })
+            if (aux){
+                return true
+            } else {
+                return false
+            }
+        },
         saga () {
-            
             return this.$store.getters.getSagaData
         },
         currentContent () {
@@ -185,7 +207,15 @@ export default {
         },
         isVideo () {
             return (this.currentContent.type === 'Anime')
-        }
+        },
+        isUserLogged () {
+            let id = this.$store.getters.getUserData.id
+            if (id !== '' && id !== undefined) {
+                return true
+            } else {
+                return false
+            }
+        },
     },
     methods: {
         goToScan (urlScan) {
@@ -193,6 +223,15 @@ export default {
         },
         goToCharacter (urlChar) {
             this.$router.push("/characters/" + urlChar)
+        },
+        seguirHolder () {
+            this.$store.dispatch('suscribirHolder', this.currentContent.IdHolder)
+        },
+        dejarDeSeguirHolder () {
+            let aux = this.holdersSuscritos.find(auxFind => {
+                return auxFind.idHolder == this.currentContent.IdHolder
+            })
+            this.$store.dispatch('quitarHolderSubs', aux)
         }
     }
 }

@@ -150,7 +150,8 @@
                             </v-card-text>
                             <v-card-actions>
                                 <v-btn color="info" @click="stepper = 3">Atras</v-btn>
-                                <v-btn color="success" :disabled="!uploadBtnEnabled" @click="uploadContent">{{btnText}}</v-btn>
+                                <!-- <v-btn color="success" :disabled="!uploadBtnEnabled" @click="uploadContent">{{btnText}}</v-btn> -->
+                                <v-btn color="success" @click="uploadContent">{{btnText}}</v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-stepper-content>
@@ -191,18 +192,20 @@ export default {
         uploadContent () {
             this.btnText = "Subiendo"
             this.uploadBtnEnabled = false
-            //console.log(this.newContent)
+            alert('Subir contenido')
+            console.log("Nuevo contenido", this.newContent)
+            this.crearNotificacion()
             switch (this.contentType) {
                 // Caso de imagenes
-                case '1': {
-                    this.uploadImages()
-                    break;
-                }
-                // Caso de video
-                case '2': {
-                    this.uploadVideo()
-                    break;
-                }
+                // case '1': {
+                //     this.uploadImages()
+                //     break;
+                // }
+                // // Caso de video
+                // case '2': {
+                //     this.uploadVideo()
+                //     break;
+                // }
             }
             
         },
@@ -273,6 +276,27 @@ export default {
                 console.log('FAILURE!!');
                 this.btnText = "ERROR!!!"
             });
+        },
+        //?idHolder=1&titulo=Fanmades%20Bonitos%20xd&urlHolder=fanmades-bonitos-xd&urlSaga=puella-magi-madoka-magica
+        crearNotificacion () {
+            let params = {
+                idHolder: this.newContent.holder.idHolder,
+                titulo: this.newContent.titulo,
+                urlHolder: this.generarUrl(this.newContent.holder.tituloHolder),
+                urlSaga: this.generarUrl(this.newContent.saga.tituloSaga),
+                urlMedia: this.generarUrl(this.newContent.titulo)
+            }
+            console.log('Crear notificacion', params, {"Access-Control-Allow-Origin": "*"})
+            // Llamar a la cloud function para notificar a los usuarios sucritos a ese holder
+            this.axios.get("http://localhost:5000/odr-streaming/us-central1/checkHolderSuscriptions", {params: params}).then(response => {
+                console.log("Wey, checa a ver si ya salio", response)
+            })
+        },
+        // Es solo hacer minusculas todos y reemplazar espacios por guiones
+        generarUrl (sauce) {
+            let auxMin = sauce.toLowerCase ()
+            let espacios = auxMin.split(' ').join('-');
+            return espacios
         }
     },
     computed: {

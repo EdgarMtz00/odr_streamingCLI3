@@ -19,6 +19,14 @@
                                                         <v-flex xs12>
                                                             <v-img contain :max-height="thumbnailHeight"
                                                                 :src="photoInfo.thumbnail">
+                                                                <v-layout row wrap fill-height align-end>
+                                                                        <v-btn color="primary" block @click="suscribirSaga" v-if="!isSagaSuscrito">
+                                                                            {{follow[lang]}}
+                                                                        </v-btn>
+                                                                        <v-btn color="red" block @click="desuscribirSaga" v-else>
+                                                                            {{unfollow[lang]}}
+                                                                        </v-btn>
+                                                                </v-layout>
                                                             </v-img>
                                                         </v-flex>
                                                     </v-layout>
@@ -64,10 +72,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            idSaga: ''
+            idSaga: '',
+            follow: ['Seguir', 'Follow'],
+            unfollow: ['Dejar de seguir', 'Unfollow'],
         }
     },
     mounted () {
@@ -86,6 +97,18 @@ export default {
         }
     },
     created () {
+        this.$store.dispatch('loadSagasSubs')
+    },
+    methods: {
+        suscribirSaga () {
+            this.$store.dispatch('suscribirSaga', this.saga.idSaga)
+        },
+        desuscribirSaga () {
+            let aux = this.sagasSuscritos.find(auxFind => {
+                return auxFind.idSaga == this.saga.idSaga
+            })
+            this.$store.dispatch('quitarSagaSubs', aux)
+        }
     },
     computed: {
         categorys () {
@@ -104,10 +127,10 @@ export default {
         thumbnailHeight () {
             switch (this.$vuetify.breakpoint.name) {
                 case 'xs': return '220px'
-                case 'sm': return '350px'
-                case 'md': return '350px'
-                case 'lg': return '370px'
-                case 'xl': return '450px'
+                case 'sm': return '240px'
+                case 'md': return '240px'
+                case 'lg': return '250px'
+                case 'xl': return '400px'
             }
         },
         backgroundHeight () {
@@ -116,7 +139,7 @@ export default {
                 case 'sm': return '350px'
                 case 'md': return '350px'
                 case 'lg': return '370px'
-                case 'xl': return '450px'
+                case 'xl': return '460px'
             }
         },
         name () {
@@ -125,7 +148,22 @@ export default {
         content () {
             console.log("CONTENT: ", this.$store.getters.getSagaData.content)
             return this.$store.getters.getSagaData.content
-        }
+        },
+        ...mapGetters({
+            sagasSuscritos: 'getSagassSuscrito',
+            saga: 'getSagaData',
+            lang: 'getUserLang',
+        }),
+        isSagaSuscrito () {
+            let aux = this.sagasSuscritos.find(auxFind => {
+                return auxFind.idSaga == this.saga.idSaga
+            })
+            if (aux){
+                return true
+            } else {
+                return false
+            }
+        },
     },
 }
 </script>

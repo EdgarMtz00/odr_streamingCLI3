@@ -56,7 +56,7 @@ export default({
                 commit('setCategorys', data)
             });
         },
-        loadSagaData ({commit, getters}, urlSaga) {
+        loadSagaData ({commit, getters, dispatch}, urlSaga) {
             commit('clearSagas')
             let bodyFormData = new FormData()
             let urlBase = getters.urlBase
@@ -68,11 +68,12 @@ export default({
                 content: []
             }
             bodyFormData.set('urlSaga', urlSaga)
-            console.log('idSaga', urlSaga)
             axios.post(urlBase + 'connections/streamingContent/getSagaContent.php', bodyFormData).then(response => {
+                console.log('Sagas response', response)
                 let data = response.data
                 // La base de datos guarda la url de las imagenes com http://locahost y ps hay que corregir
                 saga.name = data.TituloSaga
+                saga.idSaga = data.IdSaga
                 // console.log('Ps hay que cambiarle ptm', data)
                 saga.photoInfo = {
                     thumbnail: urlBase + 'resources/' + data.ThumbnailSaga,
@@ -137,10 +138,12 @@ export default({
                     });
                 }
 
-                // console.log("Contenido:", saga)
+                console.log("Final saga:", saga)
                 commit('setSagaData', saga)
+                // Cargar los holders a las que el usuario este suscrito
             })
-        },loadTags ({commit, getters}) {
+        },
+        loadTags ({commit, getters}) {
             let urlBase = getters.urlBase
             axios.post(urlBase + 'connections/streamingContent/creating/getAllTags.php').then(response => {
                 let data = response.data

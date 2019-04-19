@@ -45,7 +45,7 @@
                                     <v-card-text>
                                         <v-layout row wrap fill-height align-end="">
                                             <v-flex xs12>
-                                                <v-layout row wrap class="chatContent">
+                                                <v-layout row wrap class="chatContent" id="chatContainer">
                                                     <v-flex xs12>
                                                         <v-layout row wrap v-for="(aux, index) in mensajes" :key="index" class="pa-2 my-2"
                                                         :justify-start="aux.type == 0" :justify-end="aux.type == 1" align-center>
@@ -186,7 +186,20 @@ export default {
         chats () {
             return this.$store.getters.getChats
         }
-    }
+    },
+    watch: {
+        mensajes: {
+            handler: function (val, oldVal) {
+                setTimeout(() => {
+                     // Mandar al fondo el scroll
+                    var container = this.$el.querySelector("#chatContainer");
+                    container.scrollTop = container.scrollHeight;
+                    // Le tuve que poner 200ms porque no lo mandaba hasta abajo sin el, solo hasta el penultimo mensaje
+                }, 200);
+            },
+        deep: true
+        }
+  },
 }
 </script>
 

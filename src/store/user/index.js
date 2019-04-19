@@ -44,6 +44,7 @@ export default({
                     configInicial: false,
                 }
             }
+
         },
         setManualLogin (state, payload) {
           state.manualLogin = payload
@@ -140,7 +141,7 @@ export default({
             }
         },
         // Llena el objeto configuration de user
-        fetchUserConfiguration ({getters, commit}) {
+        fetchUserConfiguration ({getters, commit, dispatch}) {
             console.log("SI PUSE USER, MIERDA")
             let bodyFormData = new FormData ()
             let urlBase = getters.urlBase
@@ -152,6 +153,7 @@ export default({
                 data.Imagen = urlBase + 'Profiles/' + user.id + "/profile.jpg"
                 commit('setUserConfig', data)
                 console.log("DATA USER", data)
+                dispatch('loadHoldersSubs')
                 if (data.response == "error" || data.ConfiguracionInicial == '0') {
                     router.push("/profileConfiguration")
                 } else if (data.response != "error" && data.ConfiguracionInicial != '0' && getters.getManualLogin){
@@ -192,6 +194,8 @@ export default({
             firebase.auth().signOut().then(response => {
                 router.replace('login')
                 commit ('clearCurrUser')
+                // Quitar la informacion de sus sucripciones
+                commit ('clearSubsData')
                 commit ('setLoading', false)
             })
         }
@@ -211,6 +215,9 @@ export default({
         },
         getUserData (state) {
             return state.user
+        },
+        getUserLang (state) {
+            return Number(state.user.configuration.idioma)
         }
     }
 })

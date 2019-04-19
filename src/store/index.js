@@ -11,6 +11,8 @@ import Amigos from './amigos'
 import Foro from './foro'
 import Tienda from './tienda'
 import Carrito from './Carrito'
+import Notificaciones from './Notificaciones'
+import Suscripciones from './Suscripciones'
 
 Vue.use(Vuex)
 
@@ -24,5 +26,7 @@ export const store = new Vuex.Store({
         foro: Foro,
         tienda: Tienda,
         carrito: Carrito,
+        notificaciones: Notificaciones,
+        suscripciones: Suscripciones,
     }
 })
