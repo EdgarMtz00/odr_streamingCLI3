@@ -16,7 +16,7 @@ self.addEventListener('notificationclick', function(e) {
   if (action === 'close') {
     notification.close();
   } else {
-    clients.openWindow('http://www.example.com/' + url);
+    clients.openWindow(url);
     notification.close();
   }
 });

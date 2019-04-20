@@ -66,16 +66,16 @@ export default {
   },
   name: 'App',
   created () {
-    let auxNav = sessionStorage.getItem("bottomNav")
-    if (auxNav == "login")
-      auxNav = ""
-    console.log("[App.vue] auxNav", auxNav)
-    if (auxNav) {
-      this.bottomNav = auxNav
-      this.gotoToPage (auxNav)
-    } else {
-      this.gotoToPage ('')
-    }
+    // let auxNav = sessionStorage.getItem("bottomNav")
+    // if (auxNav == "login")
+    //   auxNav = ""
+    // console.log("[App.vue] auxNav", auxNav)
+    // if (auxNav) {
+    //   this.bottomNav = auxNav
+    //   this.gotoToPage (auxNav)
+    // } else {
+    //   this.gotoToPage ('')
+    // }
   },
   methods: {
     setFontLoaded () {

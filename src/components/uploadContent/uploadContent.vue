@@ -197,15 +197,15 @@ export default {
             this.crearNotificacion()
             switch (this.contentType) {
                 // Caso de imagenes
-                // case '1': {
-                //     this.uploadImages()
-                //     break;
-                // }
-                // // Caso de video
-                // case '2': {
-                //     this.uploadVideo()
-                //     break;
-                // }
+                case '1': {
+                    this.uploadImages()
+                    break;
+                }
+                // Caso de video
+                case '2': {
+                    this.uploadVideo()
+                    break;
+                }
             }
             
         },

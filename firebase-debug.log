@@ -1,34 +1,34 @@
-[debug] [2019-04-19T07:07:07.243Z] ----------------------------------------------------------------------
-[debug] [2019-04-19T07:07:07.246Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\esaue\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only functions
-[debug] [2019-04-19T07:07:07.246Z] CLI Version:   6.6.0
-[debug] [2019-04-19T07:07:07.246Z] Platform:      win32
-[debug] [2019-04-19T07:07:07.246Z] Node Version:  v11.3.0
-[debug] [2019-04-19T07:07:07.273Z] Time:          Fri Apr 19 2019 02:07:07 GMT-0500 (GMT-05:00)
-[debug] [2019-04-19T07:07:07.273Z] ----------------------------------------------------------------------
+[debug] [2019-04-20T01:01:25.869Z] ----------------------------------------------------------------------
+[debug] [2019-04-20T01:01:25.871Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\esaue\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only functions
+[debug] [2019-04-20T01:01:25.871Z] CLI Version:   6.6.0
+[debug] [2019-04-20T01:01:25.871Z] Platform:      win32
+[debug] [2019-04-20T01:01:25.871Z] Node Version:  v11.3.0
+[debug] [2019-04-20T01:01:25.886Z] Time:          Fri Apr 19 2019 20:01:25 GMT-0500 (GMT-05:00)
+[debug] [2019-04-20T01:01:25.886Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2019-04-19T07:07:07.344Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2019-04-19T07:07:07.345Z] > authorizing via signed-in user
-[debug] [2019-04-19T07:07:07.345Z] [iam] checking project odr-streaming for permissions ["firebase.projects.get"]
-[debug] [2019-04-19T07:07:07.347Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2019-04-19T07:07:07.347Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+[debug] [2019-04-20T01:01:25.935Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-04-20T01:01:25.936Z] > authorizing via signed-in user
+[debug] [2019-04-20T01:01:25.936Z] [iam] checking project odr-streaming for permissions ["firebase.projects.get"]
+[debug] [2019-04-20T01:01:25.938Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-04-20T01:01:25.938Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
  <request body omitted>
-[debug] [2019-04-19T07:07:07.794Z] <<< HTTP RESPONSE 200
-[debug] [2019-04-19T07:07:07.831Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/odr-streaming:testIamPermissions  
+[debug] [2019-04-20T01:01:26.312Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-20T01:01:26.338Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/odr-streaming:testIamPermissions  
 
-[debug] [2019-04-19T07:07:08.264Z] <<< HTTP RESPONSE 200
-[debug] [2019-04-19T07:07:08.265Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/odr-streaming  
+[debug] [2019-04-20T01:01:26.733Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-20T01:01:26.733Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/odr-streaming  
  
-[debug] [2019-04-19T07:07:08.631Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-20T01:01:27.059Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from 'C:\Users\esaue\Desktop\Odr\Odr'...
 [info] 
 [info] i  functions: Preparing to emulate functions.
-[debug] [2019-04-19T07:07:22.529Z] Fetching environment
-[debug] [2019-04-19T07:07:22.556Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/50680997374:getServerAppConfig  
+[debug] [2019-04-20T01:01:39.116Z] Fetching environment
+[debug] [2019-04-20T01:01:39.119Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/50680997374:getServerAppConfig  
  
-[debug] [2019-04-19T07:07:22.994Z] <<< HTTP RESPONSE 200
-[debug] [2019-04-19T07:07:22.994Z] Starting @google-cloud/functions-emulator
-[debug] [2019-04-19T07:07:29.115Z] Parsing function triggers
+[debug] [2019-04-20T01:01:39.517Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-20T01:01:39.517Z] Starting @google-cloud/functions-emulator
+[debug] [2019-04-20T01:01:44.648Z] Parsing function triggers
 [info] +  functions: checkHolderSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkHolderSuscriptions
-[info] +  functions: checkSagasSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkSagasSuscriptions
 [info] +  functions: checkPersonajesSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkPersonajesSuscriptions
+[info] +  functions: checkSagasSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkSagasSuscriptions

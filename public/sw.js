@@ -6,17 +6,17 @@ self.addEventListener('notificationclose', function(e) {
 
   console.log('Closed notification: ' + primaryKey);
 });
-
+// Esto se llama cuando se da click a la notificacion, especificamente, no entra swipe
 self.addEventListener('notificationclick', function(e) {
   var notification = e.notification;
   var primaryKey = notification.data.primaryKey;
   var url = notification.data.url;
   var action = e.action;
-  // Esto se llama cuando se da click a la notificacion, especificamente, no entra swipe
+  
   if (action === 'close') {
     notification.close();
   } else {
-    clients.openWindow('http://www.example.com/' + url);
+    clients.openWindow(url);
     notification.close();
   }
 });

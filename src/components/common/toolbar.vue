@@ -147,7 +147,7 @@ export default {
     methods: {
         gotoToPage (page) {
             this.$nextTick(() => {
-                sessionStorage.setItem("bottomNav", page)
+                
                 console.log("[App.vue] Push")
                 this.$router.push('/')
                 this.$router.push('/' + page)
@@ -167,6 +167,13 @@ export default {
             console.log("[Toolbar] Action by ref", this.$refs.AddProduct.$refs.btnAddProduct)
             this.$refs.AddProduct.$refs.btnAddProduct.$el.click()
         },
+        displayNotification(title, options) {
+            if (Notification.permission == 'granted') {
+                navigator.serviceWorker.getRegistration().then(function(reg) {
+                reg.showNotification(title, options);
+                });
+            }
+        }
     },
     computed: {
         ...mapGetters({
@@ -267,8 +274,34 @@ export default {
                 }
             });
             return aux
+        },
+    },
+    watch: {
+        notificaciones: {
+            handler: function (val, oldVal) {
+                console.log("val", val, "oldval", oldVal)
+                if (val.length > 1 && (val.length > oldVal.length && oldVal.length > 1)) {
+                    var options = {
+                        body: val[0].cuerpo,
+                        icon: 'images/icons/icon-72x72.png',
+                        vibrate: [100, 50, 100],
+                        data: {
+                        dateOfArrival: Date.now(),
+                        primaryKey: 1,
+                        url: val[0].url
+                        },
+                        actions: [
+                        {action: 'explore', title: 'Ver ahora'},
+                        {action: 'close', title: 'Cerrar'},
+                        ]
+                    }
+                    let title = "Buenas noticias!"
+                    this.displayNotification(title, options)
+                }
+            },
+            deep: true
         }
-    }
+    },
 }
 </script>
 
