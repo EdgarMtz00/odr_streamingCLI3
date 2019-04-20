@@ -3,8 +3,7 @@
     <v-layout row wrap justify-center>
       <v-flex xs12 md12>
         <v-layout column>
-          <v-btn outline color="primary" dark @click="requestPermision">Request permision</v-btn>
-          <button type="button" @click="notify">Show notification</button>
+          <v-btn color="success" @click="displayNotification">Prueba notificacion</v-btn>
           <!-- Linea de sagas -->
           <!--------------------------------------------------------  -------------------------->
           <v-flex xs12>
@@ -127,38 +126,26 @@ export default {
     onResize () {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight }
     },
-    notify () {
-      console.log("NOTIFICATION")
-      alert('GENERADA')
-      let context = this
-      const notification = {
-          title: 'Buenas noticias!',
-          options: {
-              body: "Mames"
-          },
-          events: {
-              // onerror: function () {
-              //     console.log('Custom error event was called');
-              // },
-              onclick: function () {
-                  console.log('CLICK NOTIFICATION', this)
-                  context.$router.push('/chat')
-              },
-              // onclose: function () {
-              //     console.log('Custom close event was called');
-              // },
-              // onshow: function () {
-              //     console.log('Custom show event was called');
-              // }
-          }
+    displayNotification() {
+      if (Notification.permission == 'granted') {
+        navigator.serviceWorker.getRegistration().then(function(reg) {
+          var options = {
+            body: 'Here is a notification body!',
+            icon: 'images/icons/icon-72x72.png',
+            vibrate: [100, 50, 100],
+            data: {
+              dateOfArrival: Date.now(),
+              primaryKey: 1,
+              url: 'equisde.com'
+            },
+            actions: [
+              {action: 'explore', title: 'Explore this new world'},
+              {action: 'close', title: 'Close notification'},
+            ]
+          };
+          reg.showNotification('Hello world!', options);
+        });
       }
-
-      this.$notification.show(notification.title, notification.options, notification.events)
-    },
-    requestPermision () {
-      // Component
-      this.$notification.requestPermission()
-        .then(console.log)
     }
     },
   computed: {

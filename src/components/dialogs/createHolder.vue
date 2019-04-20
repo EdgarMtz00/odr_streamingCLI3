@@ -312,7 +312,7 @@
 
         console.log("newHolder", this.newHolder)
         this.axios.post(urlBase + 'connections/streamingContent/creating/createHolder.php', bodyFormData).then(response => {
-            console.log(response)
+            console.log("response newHolder",response)
             this.loading = false
             if (response.data.status == "OK") {
               alert('Se ha insertado el holder correctamente')

@@ -1,4 +1,27 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.0/workbox-sw.js");
+
+self.addEventListener('notificationclose', function(e) {
+  var notification = e.notification;
+  var primaryKey = notification.data.primaryKey;
+
+  console.log('Closed notification: ' + primaryKey);
+});
+// Esto se llama cuando se da click a la notificacion, especificamente, no entra swipe
+self.addEventListener('notificationclick', function(e) {
+  var notification = e.notification;
+  var primaryKey = notification.data.primaryKey;
+  var url = notification.data.url;
+  var action = e.action;
+  
+  if (action === 'close') {
+    notification.close();
+  } else {
+    clients.openWindow(url);
+    notification.close();
+  }
+});
+// -------------------- CACHEO -------------------------- //
+
 // BORRAR
 // workbox.routing.registerRoute(
 //   new RegExp('http://192.168.0.85/Odr/connections'),
@@ -171,7 +194,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "manifest.json",
-    "revision": "41c60194717057f5b29c0e19779b8496"
+    "revision": "fcb32029170ae41e03063b1cf5f50611"
   },
   {
     "url": "robots.txt",

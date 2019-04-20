@@ -112,6 +112,10 @@ firebase.auth().onAuthStateChanged(user => {
     components: { App },
     template: '<App/>',
     mounted () {
+      // Solicitar permiso para notificaciones
+      Notification.requestPermission(function(status) {
+          console.log('Notification permission status:', status);
+      });
       // Registrar el SW
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').then(res => {
