@@ -268,7 +268,41 @@ export default {
             });
             return aux
         }
-    }
+    },
+    watch: {
+        notificaciones: {
+            handler: function (val, oldVal) {
+                let context = this
+                const notification = {
+                    title: 'Buenas noticias!',
+                    options: {
+                        body: val[0].cuerpo
+                    },
+                    events: {
+                        // onerror: function () {
+                        //     console.log('Custom error event was called');
+                        // },
+                        onclick: function () {
+                            console.log('CLICK NOTIFICATION', this)
+                            context.$router.push('/')
+                            context.$router.push(val[0].url)
+                        },
+                        // onclose: function () {
+                        //     console.log('Custom close event was called');
+                        // },
+                        // onshow: function () {
+                        //     console.log('Custom show event was called');
+                        // }
+                    }
+                }
+                // Para asegurarnos que no envie notificaciones al cargarlas a menos que sea nueva
+                if (val.length > 1 && (oldVal.length < val.length && oldVal.length > 1)) {
+                    this.$notification.show(notification.title, notification.options, notification.events)
+                }
+            },
+            deep: true
+        }
+  },
 }
 </script>
 

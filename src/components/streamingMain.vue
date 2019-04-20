@@ -3,6 +3,8 @@
     <v-layout row wrap justify-center>
       <v-flex xs12 md12>
         <v-layout column>
+          <v-btn outline color="primary" dark @click="requestPermision">Request permision</v-btn>
+          <button type="button" @click="notify">Show notification</button>
           <!-- Linea de sagas -->
           <!--------------------------------------------------------  -------------------------->
           <v-flex xs12>
@@ -124,6 +126,39 @@ export default {
     //Para obtener las medidas de la ventana
     onResize () {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight }
+    },
+    notify () {
+      console.log("NOTIFICATION")
+      alert('GENERADA')
+      let context = this
+      const notification = {
+          title: 'Buenas noticias!',
+          options: {
+              body: "Mames"
+          },
+          events: {
+              // onerror: function () {
+              //     console.log('Custom error event was called');
+              // },
+              onclick: function () {
+                  console.log('CLICK NOTIFICATION', this)
+                  context.$router.push('/chat')
+              },
+              // onclose: function () {
+              //     console.log('Custom close event was called');
+              // },
+              // onshow: function () {
+              //     console.log('Custom show event was called');
+              // }
+          }
+      }
+
+      this.$notification.show(notification.title, notification.options, notification.events)
+    },
+    requestPermision () {
+      // Component
+      this.$notification.requestPermission()
+        .then(console.log)
     }
     },
   computed: {

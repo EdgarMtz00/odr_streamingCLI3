@@ -32,3 +32,37 @@
 [info] +  functions: checkHolderSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkHolderSuscriptions
 [info] +  functions: checkSagasSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkSagasSuscriptions
 [info] +  functions: checkPersonajesSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkPersonajesSuscriptions
+[debug] [2019-04-19T23:06:58.103Z] ----------------------------------------------------------------------
+[debug] [2019-04-19T23:06:58.106Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\esaue\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only functions
+[debug] [2019-04-19T23:06:58.106Z] CLI Version:   6.6.0
+[debug] [2019-04-19T23:06:58.106Z] Platform:      win32
+[debug] [2019-04-19T23:06:58.106Z] Node Version:  v11.3.0
+[debug] [2019-04-19T23:06:58.138Z] Time:          Fri Apr 19 2019 18:06:58 GMT-0500 (GMT-05:00)
+[debug] [2019-04-19T23:06:58.138Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-04-19T23:06:58.226Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-04-19T23:06:58.232Z] > authorizing via signed-in user
+[debug] [2019-04-19T23:06:58.233Z] [iam] checking project odr-streaming for permissions ["firebase.projects.get"]
+[debug] [2019-04-19T23:06:58.236Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2019-04-19T23:06:58.237Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2019-04-19T23:06:58.637Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-19T23:06:58.664Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/odr-streaming:testIamPermissions  
+
+[debug] [2019-04-19T23:06:59.090Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-19T23:06:59.091Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/odr-streaming  
+ 
+[debug] [2019-04-19T23:06:59.408Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\esaue\Desktop\Odr\Odr'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2019-04-19T23:07:11.305Z] Fetching environment
+[debug] [2019-04-19T23:07:11.313Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/50680997374:getServerAppConfig  
+ 
+[debug] [2019-04-19T23:07:11.758Z] <<< HTTP RESPONSE 200
+[debug] [2019-04-19T23:07:11.758Z] Starting @google-cloud/functions-emulator
+[debug] [2019-04-19T23:07:18.398Z] Parsing function triggers
+[info] +  functions: checkHolderSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkHolderSuscriptions
+[info] +  functions: checkPersonajesSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkPersonajesSuscriptions
+[info] +  functions: checkSagasSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkSagasSuscriptions

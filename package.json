@@ -17,6 +17,7 @@
     "vue": "^2.6.6",
     "vue-axios": "^2.1.4",
     "vue-moment": "^4.0.0",
+    "vue-native-notification": "^1.0.5",
     "vue-router": "^3.0.1",
     "vue-unity-webgl": "^1.2.0",
     "vuetify": "^1.5.6",

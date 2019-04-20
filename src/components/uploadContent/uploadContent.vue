@@ -288,7 +288,7 @@ export default {
             }
             console.log('Crear notificacion', params, {"Access-Control-Allow-Origin": "*"})
             // Llamar a la cloud function para notificar a los usuarios sucritos a ese holder
-            this.axios.get("http://localhost:5000/odr-streaming/us-central1/checkHolderSuscriptions", {params: params}).then(response => {
+            this.axios.get("http://localhost:5000/odr-streaming/us-central1/checkHolderSuscriptions", {params: params}, {"Access-Control-Allow-Origin": "*"}).then(response => {
                 console.log("Wey, checa a ver si ya salio", response)
             })
         },
