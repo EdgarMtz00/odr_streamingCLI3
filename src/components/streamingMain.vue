@@ -3,6 +3,7 @@
     <v-layout row wrap justify-center>
       <v-flex xs12 md12>
         <v-layout column>
+          <v-btn color="success" @click="displayNotification">Prueba notificacion</v-btn>
           <!-- Linea de sagas -->
           <!--------------------------------------------------------  -------------------------->
           <v-flex xs12>
@@ -124,6 +125,27 @@ export default {
     //Para obtener las medidas de la ventana
     onResize () {
       this.windowSize = { x: window.innerWidth, y: window.innerHeight }
+    },
+    displayNotification() {
+      if (Notification.permission == 'granted') {
+        navigator.serviceWorker.getRegistration().then(function(reg) {
+          var options = {
+            body: 'Here is a notification body!',
+            icon: 'images/icons/icon-72x72.png',
+            vibrate: [100, 50, 100],
+            data: {
+              dateOfArrival: Date.now(),
+              primaryKey: 1,
+              url: 'equisde.com'
+            },
+            actions: [
+              {action: 'explore', title: 'Explore this new world'},
+              {action: 'close', title: 'Close notification'},
+            ]
+          };
+          reg.showNotification('Hello world!', options);
+        });
+      }
     }
     },
   computed: {
