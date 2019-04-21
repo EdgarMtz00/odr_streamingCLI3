@@ -45,6 +45,10 @@
             <template slot="extension" v-if="buscar">
                 <v-layout row wrap justify-center>
                 <buscador></buscador>
+                <v-btn color="primary" v-show="xsOnly" icon fab @click="buscar = !buscar">
+                    <v-icon v-if="!buscar">search</v-icon>
+                    <v-icon v-if="buscar">close</v-icon>
+                </v-btn>
                 </v-layout>
             </template>
             <v-toolbar-side-icon class='white--text' @click.stop="drawer = !drawer"></v-toolbar-side-icon>
@@ -90,11 +94,11 @@
                 </v-btn>
                 
                 <v-btn :icon="xsOnly" flat class="white--text" @click="logout" v-show="isUserLogged && !xsOnly"> 
-                    <v-icon>exit_to_app</v-icon><div>Logout</div>
+                    <v-icon>exit_to_app</v-icon><div>{{shortLogoutLabel[prefLanguaje]}}</div>
                 </v-btn>
 
                 <v-btn flat class="white--text" @click="gotoToPage('login')" v-show="!isUserLogged">
-                    Sign in <v-icon>input</v-icon>
+                    {{shortSignInLabel[prefLanguaje]}} <v-icon>input</v-icon>
                 </v-btn>
             </v-toolbar-items>
         </v-toolbar>
@@ -102,7 +106,7 @@
         <v-navigation-drawer right v-model="notifications" fixed :temporary="false" class='secondary' disable-resize-watcher>
             <v-toolbar class="primary">
                 <v-toolbar-title class='text-sm-right white--text font-weight-thin title'>
-                    Notificaciones
+                    {{notifLabel[prefLanguaje]}}
                 </v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-toolbar-items class="">
@@ -130,7 +134,6 @@ export default {
             drawer: false,
             notifications: false,
             buscar: false,
-            prefLanguaje: 0,
             descubrirSub: ["Descubrir", "Discover"],
             todosLosMedios: ['Todos los medios', 'All stream media'],
             crearSub: ["Crear", "Create"],
@@ -139,6 +142,10 @@ export default {
             cuentaSub: ["Cuenta", "Account"],
             cerrarSesion: ['Cerrar sesion', 'Logout'],
             iniciarSesion: ['Iniciar sesion', 'Sign in'],
+            notifLabel: ['Notificaciones', 'Notifications'],
+            shortLogoutLabel: ['Salir', 'Logout'],
+            shortSignInLabel: ['Entrar', 'Sign in']
+
         }
     },
     created () {
@@ -178,6 +185,7 @@ export default {
     computed: {
         ...mapGetters({
             systemMensajes: 'getNotificacionesMensajes',
+            prefLanguaje: 'getUserLang',
         }),
         isUserLogged () {
             let id = this.$store.getters.getUserData.id
@@ -218,7 +226,7 @@ export default {
                         if (notificacion.tipoNotificacion == 'contenido') {
                             if (notificacion.tipoContenido == 'holder') {
                                 // Reemplazar los --- por el titulo
-                                let auxCuerpo = this.systemMensajes.contenido[0].split('---').join(notificacion.titulo);
+                                let auxCuerpo = this.systemMensajes.contenido[this.prefLanguaje].split('---').join(notificacion.titulo);
                                 auxNotif = {
                                     // Ward de idioma
                                     idNotificacion: notificacion.idNotificacion,
@@ -228,7 +236,7 @@ export default {
                                     visto: notificacion.visto
                                 }
                             } else if (notificacion.tipoContenido == 'saga') {
-                                let auxCuerpo = this.systemMensajes.contenido[0].split('---').join(notificacion.titulo);
+                                let auxCuerpo = this.systemMensajes.contenido[this.prefLanguaje].split('---').join(notificacion.titulo);
                                 auxNotif = {
                                     // Ward de idioma
                                     idNotificacion: notificacion.idNotificacion,
@@ -239,7 +247,7 @@ export default {
                                 }
                             } else if (notificacion.tipoContenido == 'personaje') {
                                 // Generar el nombre del personaje en el mensaje // Ward de idioma
-                                let auxCuerpoPers = this.systemMensajes.personaje[0].split('***').join(notificacion.personaje);
+                                let auxCuerpoPers = this.systemMensajes.personaje[this.prefLanguaje].split('***').join(notificacion.personaje);
                                 // Ya que esta el personaje ahora sigue el titulo del holder
                                 let auxCuerpo = auxCuerpoPers.split('---').join(notificacion.tituloHolder);
                                 auxNotif = {

@@ -14,12 +14,21 @@
                                 {{currentContent.name}}
                             </div>
                             <v-spacer v-if="!xsOnly"></v-spacer>
+                            
                             <div v-if="isUserLogged">
-                                <v-btn color="primary" @click="seguirHolder" v-if="!isHolderSuscrito">
-                                    Seguir
+                                <v-btn color="primary" flat outline @click="seguirHolder" v-if="!isHolderSuscrito">
+                                    {{follow[lang]}}
                                 </v-btn>
-                                <v-btn color="red" @click="dejarDeSeguirHolder" v-else>
-                                    Dejar de seguir
+                                <v-btn color="red" @click="dejarDeSeguirHolder" flat outline v-else>
+                                    {{unfollow[lang]}}
+                                </v-btn>
+                            </div>
+                            <div>
+                                <v-btn color="primary" flat outline @click="addToWatchlist" v-if="!isInWatchlist">
+                                    Watchlist +
+                                </v-btn>
+                                <v-btn color="primary" flat outline @click="removeToWatchlist" v-else>
+                                    Watchlist -
                                 </v-btn>
                             </div>
                         </v-layout>
@@ -27,7 +36,7 @@
                         <v-layout row wrap align-center>
                                 <v-flex xs12 class="mt-1">
                                     <v-layout row wrap align-center>
-                                        <div class="body-1 font-weight-medium" >Type: </div>
+                                        <div class="body-1 font-weight-medium" >{{typePH[lang]}}: </div>
                                         <v-chip class="ml-1" :small="xsOnly">{{currentContent.type}}</v-chip>
                                     </v-layout>
                                 </v-flex>
@@ -43,7 +52,7 @@
                                 <v-flex xs12 class="mt-1">
                                     <v-divider class="mb-1"></v-divider>
                                     <v-layout row wrap align-center>
-                                        <div class="body-1 font-weight-medium mr-1">Description: </div>
+                                        <div class="body-1 font-weight-medium mr-1">{{descriptionPH[lang]}}: </div>
                                         <div class="body-1"> {{currentContent.Descripcion}} </div>
                                     </v-layout>
                                 </v-flex>
@@ -52,7 +61,7 @@
                                         <v-flex xs12>
                                             <v-divider class="mb-1"></v-divider>
                                             <v-layout row wrap>
-                                                <div class="body-1 font-weight-medium mr-1">Characters: </div>
+                                                <div class="body-1 font-weight-medium mr-1">{{personajesPH[lang]}}: </div>
                                             </v-layout>
                                         </v-flex>
                                         <v-flex xs12 class="mt-2 ml-2">
@@ -132,7 +141,13 @@ export default {
             smAndDown: this.$vuetify.breakpoint.smAndDown,
             urlSaga: '',
             urlHolder: '',
-            videos: ['Anime']
+            videos: ['Anime'],
+            // Placeholders
+            typePH: ['Tipo', 'Type'],
+            descriptionPH: ['Descripcion', 'Description'],
+            personajesPH: ['Personajes', 'Characters'],
+            follow: ['Seguir', 'Follow'],
+            unfollow: ['Dejar de seguir', 'Unfollow'],
         }
     },
     created () {
@@ -152,13 +167,27 @@ export default {
         }
     },
     mounted () {
+        this.$store.dispatch('loadWatchlist', this.user.id)
     },
     computed: {
         ...mapGetters({
             holdersSuscritos: 'getHoldersSuscrito',
+            watchlist: 'getWatchlist',
+            lang: 'getUserLang',
+            user: 'getUserData',
         }),
         isHolderSuscrito () {
             let aux = this.holdersSuscritos.find(auxFind => {
+                return auxFind.idHolder == this.currentContent.IdHolder
+            })
+            if (aux){
+                return true
+            } else {
+                return false
+            }
+        },
+        isInWatchlist () {
+            let aux = this.watchlist.find(auxFind => {
                 return auxFind.idHolder == this.currentContent.IdHolder
             })
             if (aux){
@@ -232,6 +261,20 @@ export default {
                 return auxFind.idHolder == this.currentContent.IdHolder
             })
             this.$store.dispatch('quitarHolderSubs', aux)
+        },
+        addToWatchlist () {
+            let aux = {...this.currentContent}
+            aux.urlSaga = this.urlSaga
+            aux.idUsuario = this.user.id
+            console.log("El watchlist", aux)
+            this.$store.dispatch('addToWatchlist', aux)
+        },
+        removeToWatchlist () {
+            let aux = this.watchlist.find(auxFind => {
+                return auxFind.idHolder == this.currentContent.IdHolder
+            })
+            aux.idUsuario = this.user.id
+            this.$store.dispatch('removeToWatchlist', aux)
         }
     }
 }

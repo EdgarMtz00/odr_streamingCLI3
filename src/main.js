@@ -27,8 +27,7 @@ import Comments from './components/common/comments.vue'
 import Buscador from './components/common/buscador.vue'
 import RowContent from './components/streaming main page/rowContent.vue'
 import Toolbar from './components/common/toolbar.vue'
-import NotificationsDrawer from './components/common/notificaciones.vue'
-import VueNativeNotification from 'vue-native-notification'
+import TabsPerfil from './components/profile/tabsPerfil.vue'
 
 import Producto from "./components/tienda/producto.vue";
 import MainCarrito from "./components/tienda/carrito/mainCarrito.vue";
@@ -51,7 +50,7 @@ Vue.component('buscador', Buscador)
 Vue.component('row-content', RowContent)
 Vue.component('unity', Unity)
 Vue.component('toolbar-component', Toolbar)
-Vue.component('notifications-drawer-component', NotificationsDrawer)
+Vue.component('tabs-perfil-component', TabsPerfil)
 
 Vue.component("producto-component", Producto);
 Vue.component("carrito-component", MainCarrito);
@@ -62,13 +61,6 @@ Vue.component('shop-images-selector-carousel', ShopImagesSelector)
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
-
-Vue.use(VueNativeNotification, {
-  // Automatic permission request before
-  // showing notification (default: true)
-  requestOnNotify: true
-})
-
 
 Vue.prototype.moment = moment
 

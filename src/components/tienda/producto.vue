@@ -94,7 +94,7 @@
                     </contactar-usuario-component>
                     <v-btn v-else-if="!isFromUser"
                     :color="colorStatus" @click="añadirCarrito ()" :disabled="!disponibilidad">
-                        <v-icon class="mr-1">{{iconStatus}}</v-icon>{{productoStatus}}
+                        <v-icon class="mr-1">{{iconStatus}}</v-icon>{{productoStatus[lang]}}
                     </v-btn>
                     <editar-producto-component v-if="puedeEditar"
                     v-on:setEditProduct="setEditarProducto">
@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     props: {
         titulo: {
@@ -153,10 +154,10 @@ export default {
     data () {
         return {
             showMenu: false,
-            productoStatus: 'Add to Cart',
+            productoStatus: ['Añadir a carrito', 'Add to Cart'],
             iconStatus: 'add',
             colorStatus: 'success',
-            contanctUser: 'Contact user'
+            contanctUser: ['Contactar usuario', 'Contact user']
         }
     },
     methods: {
@@ -216,6 +217,9 @@ export default {
         }
     },
     computed: {
+        ...mapGetters({
+            lang: 'getUserLang',
+        }),
         xsResPenalty () {
             if (this.$vuetify.breakpoint.smAndDown)
                 return -100

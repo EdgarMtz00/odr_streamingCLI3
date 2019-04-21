@@ -18,7 +18,7 @@
                 <v-card-title primary-title>
                     <v-layout row wrap>
                         <v-flex xs12>
-                            <h3 class="headline mb-0">Carrito</h3>
+                            <h3 class="headline mb-0">{{carrito[currLanguaje]}}</h3>
                             <v-divider></v-divider>
                         </v-flex>
                     </v-layout>
@@ -26,7 +26,7 @@
 
                 <v-card-text>
                     <div class="title" v-if="!hayProductos">
-                        <v-icon>sentiment_very_dissatisfied</v-icon> Carrito Vacio
+                        <v-icon>sentiment_very_dissatisfied</v-icon> {{carritoVacio[currLanguaje]}}
                     </div>
                     <v-layout row wrap v-else>
                         <v-flex xs12>
@@ -55,7 +55,7 @@
 
                 <v-card-actions v-if="hayProductos">
                     <v-btn color="success">
-                        <v-icon class="mr-2">shop</v-icon> Comprar
+                        <v-icon class="mr-2">shop</v-icon> {{comprar[currLanguaje]}}
                     </v-btn>
                     <!-- <v-btn color="danger" class="mr-2" @click="removeAll ()">
                         <v-icon>remove</v-icon> Limpiar Carrito
@@ -67,13 +67,20 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-
+            //Labels
+            carrito: ['Carrito', 'Shopping Cart'],
+            carritoVacio: ['Carrito vacio', 'Empty cart'],
+            comprar: ['Comprar', 'Buy']
         }
     },
     computed: {
+        ...mapGetters({
+            currLanguaje: 'getUserLang',
+        }),
         productos () {
             let aux = this.$store.getters.getCarrito
             if (aux.length > 0) {

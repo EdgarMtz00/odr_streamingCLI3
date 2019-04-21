@@ -123,7 +123,6 @@ export default {
             rules: {
                 required: value => !!value || 'Required.',
             },
-            currLanguaje: 0,
             information: ['Contactaras al usuario para acordar la compra', 'You will contact the user who posted this to arrange the purchase'],
             title: ['Contactar usuario', 'Contacting user'],
             button: ['Contactar usuario', 'Contact user'],
@@ -136,6 +135,7 @@ export default {
             publicadorData: 'getComprarProducto',
             amigos: 'getAmigos',
             user: 'getUserData',
+            currLanguaje: 'getUserLang',
         }),
     },
     methods: {

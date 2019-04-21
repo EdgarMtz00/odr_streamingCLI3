@@ -3,7 +3,7 @@
         <v-flex xs12>
             <v-card>
                 <v-card-title primary-title>
-                    <div class="headline">Configuracion</div>
+                    <div class="headline">{{placeholders.configuracion[currConfig.idioma]}}</div>
                 </v-card-title>
                 <v-card-text>
                     <v-layout row wrap>
@@ -92,7 +92,11 @@
                         </v-flex>
                         <v-flex xs12>
                             <v-btn color="success" :loading="loading"
-                                @click="saveConfiguration">Guardar configuracion</v-btn>
+                                @click="saveConfiguration">{{placeholders.guardarInfo[currConfig.idioma]}}
+                            </v-btn>
+                            <v-btn color="primary" flat outline @click="gotoToPage('profileView/' + user.id)">
+                                {{placeholders.vistaPrevia[currConfig.idioma]}}
+                            </v-btn>
                         </v-flex>
                     </v-layout>
                 </v-card-text>
@@ -102,6 +106,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -120,6 +125,9 @@ export default {
                     español: ['Español', 'Spanish']
                 },
                 editorAvatar: ['EDITOR DE AVATAR','AVATAR EDITOR'],
+                guardarInfo: ['Guardar configuracion', 'Save configuration'],
+                vistaPrevia: ['Ver perfil', 'View profile'],
+                configuracion: ['Configuracion', 'Configuration'],
             },
 
         }
@@ -136,6 +144,9 @@ export default {
         },
     },
     computed: {
+        ...mapGetters({
+            user: 'getUserData',
+        }),
         currConfig () {
             let data = this.$store.getters.getUserData.configuration
             if (data)

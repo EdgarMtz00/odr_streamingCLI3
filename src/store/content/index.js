@@ -28,7 +28,7 @@ export default({
         },
         clearSagas (state) {
             state.sagas = []
-        }
+        },
     },
     actions: {
         loadSagasInfo ({commit, getters}) {
@@ -155,7 +155,7 @@ export default({
             }).catch(error => {
                 console.log(error)
             })
-        }
+        },
     },
     getters: {
         getSagaData (state) {

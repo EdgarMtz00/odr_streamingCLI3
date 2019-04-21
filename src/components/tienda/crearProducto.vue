@@ -11,7 +11,7 @@
           <v-btn icon dark @click="dialog = false">
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>Add a new product</v-toolbar-title>
+          <v-toolbar-title>{{añadir[currLanguaje]}}</v-toolbar-title>
           <v-spacer></v-spacer>
         </v-toolbar>
         <v-layout row wrap>
@@ -25,32 +25,32 @@
             </v-flex>
             <v-flex xs12 md6 class="pa-3">
                 <v-text-field
-                    label="Title"
+                    :label="titlePH[currLanguaje]"
                     :rules="[rules.required]"
                     box solo clearable
                     v-model="title"
                 ></v-text-field>
                 <v-textarea
-                    label="Description"
+                    :label="descripcionPH[currLanguaje]"
                     :rules="[rules.required]"
                     box solo rows="4"
                     resizable clearable
                     v-model="description"
                 ></v-textarea>
                 <v-text-field
-                    label="Initial stock" clearable
+                    :label="stockPH[currLanguaje]" clearable
                     :rules="[rules.required]"
                     box solo type="number"
                     v-model="stock" 
                 ></v-text-field>
                 <v-text-field
-                    label="Category"
+                    :label="categoriaPH[currLanguaje]"
                     :rules="[rules.required]"
                     box solo clearable
                     v-model="category"
                 ></v-text-field>
                 <v-text-field
-                    label="Price"
+                    :label="precioPH[currLanguaje]"
                     :rules="[rules.required]"
                     box solo number clearable
                     v-model="precio"
@@ -58,7 +58,7 @@
             </v-flex>
             <v-flex xs12>
                 <v-layout row wrap justify-center>
-                    <v-subheader><v-icon>info</v-icon> You need to select at least an image to create a product</v-subheader>
+                    <v-subheader><v-icon>info</v-icon> {{uploadInfo[currLanguaje]}}</v-subheader>
                 </v-layout>
                 <v-layout row wrap justify-center v-if="upload">
                     <v-btn color="success" :disabled="true" :loading="cargando">
@@ -86,7 +86,16 @@ export default {
             upload: false,
             rules: {
                 required: value => !!value || 'Required.',
-            }
+            },
+            // Labels
+            // PH = PlaceHolder
+            añadir: ['Añadir nuevo producto', 'Add a new item'],
+            titlePH: ['Titulo', 'Title'],
+            descripcionPH: ['Descripcion', 'Description'],
+            stockPH: ['Existencias iniciales', 'Initial stock'],
+            categoriaPH: ['Categoria', 'Category'],
+            precioPH: ['Precio', 'Price'],
+            uploadInfo: ['Debes seleccionar al menos una imagen para crear tu producto', 'You need to select at least an image to create a product']
         }
     },
     methods: {
@@ -130,6 +139,7 @@ export default {
         },
         ...mapGetters({
             user: 'getUserData',
+            currLanguaje: 'getUserLang',
         }),
     }
 }

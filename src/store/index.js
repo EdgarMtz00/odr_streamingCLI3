@@ -13,6 +13,7 @@ import Tienda from './tienda'
 import Carrito from './Carrito'
 import Notificaciones from './Notificaciones'
 import Suscripciones from './Suscripciones'
+import Watchlist from './Watchlist'
 
 Vue.use(Vuex)
 
@@ -28,5 +29,6 @@ export const store = new Vuex.Store({
         carrito: Carrito,
         notificaciones: Notificaciones,
         suscripciones: Suscripciones,
+        watchlist: Watchlist,
     }
 })

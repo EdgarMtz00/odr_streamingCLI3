@@ -80,10 +80,13 @@
                 </v-layout>
             </v-card-text>
         </v-card>
+        
+        <tabs-perfil-component :idProfile="idProfile"></tabs-perfil-component>
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -145,6 +148,9 @@ export default {
         })
     },
     computed: {
+        ...mapGetters({
+            lang: 'getUserLang',
+        }),
         profilePicHeight () {
             switch (this.$vuetify.breakpoint.name) {
             case 'xs': return 300

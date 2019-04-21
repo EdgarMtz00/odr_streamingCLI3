@@ -48,7 +48,7 @@ export default({
         },
         setManualLogin (state, payload) {
           state.manualLogin = payload
-        }
+        },
     },
     actions: {
         googleSignIn ({commit, getters}) {
@@ -198,7 +198,7 @@ export default({
                 commit ('clearSubsData')
                 commit ('setLoading', false)
             })
-        }
+        },
     },
     getters: {
         getUrlBase (state) {
@@ -218,6 +218,6 @@ export default({
         },
         getUserLang (state) {
             return Number(state.user.configuration.idioma)
-        }
+        },
     }
 })

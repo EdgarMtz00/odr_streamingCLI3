@@ -31,7 +31,7 @@
                                             <v-layout row wrap align-end style="height: 100%;">
                                                 <v-flex xs12>
                                                     <v-btn color="primary" block flat 
-                                                    outline @click="goToHolder (n.url)">VER</v-btn>
+                                                    outline @click="goToHolder (n.url)">{{ver[lang]}}</v-btn>
                                                 </v-flex>
                                             </v-layout>
                                         </v-flex>
@@ -40,17 +40,19 @@
                             </v-layout>
                         </v-flex>
                     </v-layout>
-            </v-card align-center justify-center class="px-3">
+            </v-card>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     props: ['type', 'content'],
     data () {
         return {
-            
+            // Placeholders
+            ver: ['Ver', 'Explore']
         }
     },
     computed: {
@@ -64,7 +66,10 @@ export default {
             });
             console.log("RES ",res)
             return res
-        }
+        },
+        ...mapGetters({
+            lang: 'getUserLang',
+        }),
     },
     methods: {
         goToHolder (URLHolder) {
