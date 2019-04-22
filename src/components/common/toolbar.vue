@@ -169,6 +169,17 @@ export default {
         },
         logout () {
             this.$store.dispatch('logout')
+            this.actualizarEstado('Offline')
+        },
+        actualizarEstado (newEstado) {
+            let auxFind = this.estados.find(iterator => {
+                return this.user.id == iterator.idUsuario
+            })
+            let payload = {
+                key: auxFind.key, // key del firebase
+                newEstado: newEstado
+            }
+            this.$store.dispatch('actualizarEstado', payload)
         },
         addProductShortcut () {
             console.log("[Toolbar] Action by ref", this.$refs.AddProduct.$refs.btnAddProduct)
@@ -186,6 +197,8 @@ export default {
         ...mapGetters({
             systemMensajes: 'getNotificacionesMensajes',
             prefLanguaje: 'getUserLang',
+            estados: 'getEstados',
+            user: 'getUserData',
         }),
         isUserLogged () {
             let id = this.$store.getters.getUserData.id

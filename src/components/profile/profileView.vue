@@ -101,9 +101,9 @@ export default {
                 fechaReg: ['Fecha de registro', 'Registration date'],
                 idioma: ['Idioma', 'Languaje'],
                 edad: ['Edad','Age'],
-                agregarAmigo: ['Añadir a amigos', 'Add as friend'],
+                agregarAmigo: ['Añadir a contactos', 'Add as contact'],
                 agregarAmigoCorto: ['Añadir', 'Add'],
-                removerAmigo: ['Quitar amigo', 'Remove friend'],
+                removerAmigo: ['Quitar contacto', 'Remove contact'],
                 removerAmigoCorto: ['Quitar', 'Remove'],
             },
             profileData: {

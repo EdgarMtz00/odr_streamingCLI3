@@ -129,6 +129,9 @@
                 </v-layout>
             </v-card>
         </v-flex>
+        <v-flex xs12 mt-2>
+            <comments :enDialog="false"></comments>
+        </v-flex>
     </v-layout>
 </template>
 
@@ -167,6 +170,10 @@ export default {
         }
     },
     mounted () {
+        // Que cargue los comentarios
+        let url = this.$route.fullPath
+        this.$store.dispatch('loadComentarios', url)
+        
         this.$store.dispatch('loadWatchlist', this.user.id)
     },
     computed: {

@@ -31,31 +31,33 @@ export default({
     actions: {
         loadNotificaciones ({commit, getters}) {
             let user = getters.getUserData
+            // Si esta logeado
+            if (user.id) {
+                firebase.database().ref('notificaciones/').orderByChild("idUsuario").equalTo(user.id).on("value", (snapshot) => {
+                    
+                    let returnArr = [];
+                    snapshot.forEach(childSnapshot => {
+                        let item = childSnapshot.val();
+                        item.key = childSnapshot.key;
+                        returnArr.push(item);
+                    });
 
-            firebase.database().ref('notificaciones/').orderByChild("idUsuario").equalTo(user.id).on("value", (snapshot) => {
-                
-                let returnArr = [];
-                snapshot.forEach(childSnapshot => {
-                    let item = childSnapshot.val();
-                    item.key = childSnapshot.key;
-                    returnArr.push(item);
-                });
+                    returnArr.sort((a, b) => {
+                        var key1 = a.timestamp;
+                        var key2 = b.timestamp;
 
-                returnArr.sort((a, b) => {
-                    var key1 = a.timestamp;
-                    var key2 = b.timestamp;
+                        if (key1 > key2) {
+                            return -1;
+                        } else if (key1 == key2) {
+                            return 0;
+                        } else {
+                            return 1;
+                        }
+                    })
 
-                    if (key1 > key2) {
-                        return -1;
-                    } else if (key1 == key2) {
-                        return 0;
-                    } else {
-                        return 1;
-                    }
+                    commit('setNotificaciones', returnArr)
                 })
-
-                commit('setNotificaciones', returnArr)
-            })
+            }
         }
     },
     getters: {

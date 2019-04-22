@@ -13,6 +13,7 @@ import moment from 'moment'
 import Unity from 'vue-unity-webgl'
 
 import 'vuetify/dist/vuetify.min.css'
+import { mapGetters } from 'vuex'
 
 //Importar componentes
 import contentTabItem from './components/contentTabItem.vue'
@@ -23,11 +24,12 @@ import ImagesInformation from './components/uploadContent/components/imagesInfo.
 import ImagesSelector from './components/uploadContent/components/imagesSelector.vue'
 import SelectImage from './components/common/selectImage.vue'
 import VideoUploader from './components/uploadContent/components/videoUploader.vue'
-import Comments from './components/common/comments.vue'
+import CommentsBox from './components/comentarios/comments.vue'
 import Buscador from './components/common/buscador.vue'
 import RowContent from './components/streaming main page/rowContent.vue'
 import Toolbar from './components/common/toolbar.vue'
 import TabsPerfil from './components/profile/tabsPerfil.vue'
+import Comment from './components/comentarios/comentario.vue'
 
 import Producto from "./components/tienda/producto.vue";
 import MainCarrito from "./components/tienda/carrito/mainCarrito.vue";
@@ -45,12 +47,13 @@ Vue.component('select-image', SelectImage)
 Vue.component('images-selector-carousel', ImagesSelector)
 Vue.component('images-information', ImagesInformation)
 Vue.component('video-uploader', VideoUploader)
-Vue.component('comments', Comments)
+Vue.component('comments', CommentsBox)
 Vue.component('buscador', Buscador)
 Vue.component('row-content', RowContent)
 Vue.component('unity', Unity)
 Vue.component('toolbar-component', Toolbar)
 Vue.component('tabs-perfil-component', TabsPerfil)
+Vue.component('comentario-component', Comment)
 
 Vue.component("producto-component", Producto);
 Vue.component("carrito-component", MainCarrito);
@@ -103,6 +106,9 @@ firebase.auth().onAuthStateChanged(user => {
     store,
     components: { App },
     template: '<App/>',
+    created () {
+      // store.dispatch('loadAmigos', this.user.id)
+    },
     mounted () {
       // Solicitar permiso para notificaciones
       Notification.requestPermission(function(status) {
@@ -137,7 +143,40 @@ firebase.auth().onAuthStateChanged(user => {
       //   console.log("[AXIOS] Data", res)
       // })
       
-    }
+    },
+    computed: {
+      ...mapGetters({
+            estados: 'getEstados',
+            user: 'getUserData',
+        }),
+    },
+    watch: {
+      // Watch a estados, que contiene el estado del usuario
+      estados: {
+        handler: function (val, oldVal) {
+          if (val.length > 0 && this.user.id) {
+            // Cuando carguen se obtiene la referencia dle estado del usuario
+            let auxFind = val.find(iterator => {
+                return this.user.id == iterator.idUsuario
+            })
+            let payload = {
+                key: auxFind.key, // key del firebase
+                newEstado: 'Online' // Se pone como online
+            }
+            store.dispatch('actualizarEstado', payload)
+          }
+        },
+        deep: true
+      },
+      user: {
+        handler: function (val, oldVal) {
+          if (val.id) {
+            store.dispatch('loadAmigos', val.id)
+          }
+        },
+        deep: true
+      }
+    },
   })
 });
 

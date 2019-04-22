@@ -12,8 +12,10 @@
                 </v-flex>
             </v-layout>
         </v-flex>
-        <v-flex xs12 md10>
-            <comments></comments>
+        <v-flex xs12 md12>
+            <v-layout row wrap justify-center>
+                <comments :enDialog="true"></comments>
+            </v-layout>
         </v-flex>
     </v-layout>
 </template>
@@ -52,7 +54,9 @@ export default {
         }
     },
     mounted () {
-
+        // Que cargue los comentarios
+        let url = this.$route.fullPath
+        this.$store.dispatch('loadComentarios', url)
     },
     computed: {
         saga () {

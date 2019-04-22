@@ -34,10 +34,10 @@ export default({
         },
         addFriend (state, payload) {
             state.amigos.push(payload)
-        }
+        },
     },
     actions: {
-        loadAmigos ({commit, getters}, idUsuario) {
+        loadAmigos ({commit, getters, dispatch}, idUsuario) {
             commit('clearAmigos')
             let url = getters.urlBase
             let formData = new FormData()
@@ -48,6 +48,10 @@ export default({
                     elementAmigo.imagen = url + 'Profiles/' + elementAmigo.IdAmigo + '/profile.jpg';
                 });
                 commit('setAmigos', amigos)
+                setTimeout(() => {
+                    // Cuando cargue los amigos ps tambien cargamos sus estados
+                    dispatch('loadEstados')
+                }, 500);
             }).catch(error => {
                 console.log(error)
             })

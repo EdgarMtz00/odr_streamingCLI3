@@ -67,7 +67,7 @@
                 </v-layout>
                 <!-- // Si no tiene ninguna wea en watchlist -->
                 <v-layout row wrap justify-center v-else>
-                    <div class="headline"><v-icon>cancel</v-icon> Sin elementos para mostrar</div>
+                    <div class="headline"><v-icon>cancel</v-icon> {{tabsLabels.emptyWatchlist[lang]}}</div>
                 </v-layout>
             </v-tab-item>
             <!-- TAB DE ESTADISTICAS -->
@@ -93,6 +93,7 @@ export default {
             tabsLabels: {
                 watchlist: ['Watchlist', 'Watchlist'],
                 estadisticas: ['Estadisticas', 'Statistics'],
+                emptyWatchlist: ['Watchlist vacia', 'Empty watchlist'],
             },
         }
     },

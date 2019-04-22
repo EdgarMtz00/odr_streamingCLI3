@@ -1,3 +1,4 @@
+// Aqui solo se manejan cosas relacionadas con el login y la configuracion del usuario
 import axios from 'axios'
 import router from '../../router'
 import * as firebase from 'firebase'
@@ -143,8 +144,10 @@ export default({
         // Llena el objeto configuration de user
         fetchUserConfiguration ({getters, commit, dispatch}) {
             console.log("SI PUSE USER, MIERDA")
+            
             let bodyFormData = new FormData ()
             let urlBase = getters.urlBase
+            let estados = getters.getEstados
 
             let user = getters.getUserData
             bodyFormData.set('userId', user.id)
@@ -161,8 +164,8 @@ export default({
                 }
                 commit ('setManualLogin', false)
             }).catch(error => {
-
-                console.log(error)
+                alert('Nel no sirve')
+                console.log("Error", error)
             })
         },
         saveUserConfiguration ({commit, getters}) {
@@ -192,7 +195,8 @@ export default({
             commit ('setLoading', true)
             console.log('logout')
             firebase.auth().signOut().then(response => {
-                router.replace('login')
+                router.push('/')
+                router.push('login')
                 commit ('clearCurrUser')
                 // Quitar la informacion de sus sucripciones
                 commit ('clearSubsData')
@@ -217,7 +221,10 @@ export default({
             return state.user
         },
         getUserLang (state) {
-            return Number(state.user.configuration.idioma)
+            if (state.user.configuration)
+                return Number(state.user.configuration.idioma)
+            else
+                return 0
         },
     }
 })

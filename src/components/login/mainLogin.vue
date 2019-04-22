@@ -18,7 +18,7 @@ export default {
         },
         facebookLogIn () {
             this.$store.dispatch('facebookSignIn')
-        }
+        },
     },
     created () {
     }

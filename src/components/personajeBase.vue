@@ -1,6 +1,6 @@
 <template>
     <v-layout row wrap justify-center>
-        <v-flex xs12 md10 xl7>
+        <v-flex xs12 md12 xl7>
             <v-card>
                 <v-card-text>
                     <v-layout row wrap fill-height align-center>
@@ -62,7 +62,7 @@
                 </v-card-text>
             </v-card>
         </v-flex>
-        <v-flex xs12 md10 lg10 xl3>
+        <v-flex xs12 md10 lg12 xl5>
             <v-card>
                 <v-card-text>
                     <v-layout row wrap>
@@ -89,6 +89,7 @@
                     </v-layout>
                 </v-card-text>
             </v-card>
+            <comments :enDialog="false"></comments>
         </v-flex>
     </v-layout>
 </template>
@@ -111,6 +112,10 @@ export default {
         }
     },
     created () {
+        // Que cargue los comentarios
+        let url = this.$route.fullPath
+        this.$store.dispatch('loadComentarios', url)
+        
         this.$store.dispatch('loadPersonajesSubs')
     },
     mounted () {
