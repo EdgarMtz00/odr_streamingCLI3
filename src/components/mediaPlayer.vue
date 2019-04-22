@@ -111,12 +111,12 @@ export default {
             if (dir === 'left') {
                 console.log("Izquieda")
                 if (this.nPagina < this.totalPages){
-                    this.$router.replace(++this.nPagina + '')
+                    this.$router.push(++this.nPagina + '')
                 }
             } else if (dir === 'right') {
                 console.log("Derecha")
                 if (this.nPagina > 1) {
-                    this.$router.replace(--this.nPagina + '')
+                    this.$router.push(--this.nPagina + '')
                 }
             }
         }
@@ -129,12 +129,12 @@ export default {
                     window.addEventListener('keydown', function(event) {
                         if(event.keyCode === 37){
                             if (context.nPagina > 1) {
-                                context.$router.replace(--context.nPagina + '')
+                                context.$router.push(--context.nPagina + '')
                             }
                         }else if(event.keyCode === 39) {
                             console.log("derecha", context.nPagina, context.totalPages, context.currentScan)
                             if (context.nPagina < context.totalPages){
-                                context.$router.replace(++context.nPagina + '')
+                                context.$router.push(++context.nPagina + '')
                             }
                         }
                         context.eventAdded

@@ -23,7 +23,7 @@
                                     {{unfollow[lang]}}
                                 </v-btn>
                             </div>
-                            <div>
+                            <div v-if="isUserLogged">
                                 <v-btn color="primary" flat outline @click="addToWatchlist" v-if="!isInWatchlist">
                                     Watchlist +
                                 </v-btn>

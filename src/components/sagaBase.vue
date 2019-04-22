@@ -19,7 +19,7 @@
                                                         <v-flex xs12>
                                                             <v-img contain :max-height="thumbnailHeight"
                                                                 :src="photoInfo.thumbnail">
-                                                                <v-layout row wrap fill-height align-end>
+                                                                <v-layout row wrap fill-height align-end v-if="isSagaSuscrito">
                                                                         <v-btn color="primary" block @click="suscribirSaga" v-if="!isSagaSuscrito">
                                                                             {{follow[lang]}}
                                                                         </v-btn>
@@ -159,6 +159,14 @@ export default {
                 return auxFind.idSaga == this.saga.idSaga
             })
             if (aux){
+                return true
+            } else {
+                return false
+            }
+        },
+        isUserLogged () {
+            let id = this.$store.getters.getUserData.id
+            if (id !== '' && id !== undefined) {
                 return true
             } else {
                 return false

@@ -43,7 +43,7 @@
                     <v-layout row wrap fill-height align-center justify-center v-if="comentarios <= 0">
                         <v-flex xs4>
                             <v-img contain
-                            src="https://i.pinimg.com/originals/84/26/6d/84266d79b541f8221b5c8cb230083fd4.png"></v-img>
+                            src="../static/noComments.png"></v-img>
                         </v-flex>
                         <v-flex xs8>
                             <div class="headline">{{noComments[currLanguaje]}}</div>
@@ -141,6 +141,7 @@ export default {
                     urlImagen: this.user.configuration.imagen
                 }
             }
+            this.comentarioModel = ''
             this.$store.dispatch('comentar', payload)
         }
     },

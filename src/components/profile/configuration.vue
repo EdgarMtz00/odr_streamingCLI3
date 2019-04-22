@@ -140,7 +140,8 @@ export default {
             this.$store.dispatch('saveUserConfiguration')
         },
         gotoToPage (page) {
-            this.$router.replace('/' + page)
+            this.$router.push('/')
+            this.$router.push('/' + page)
         },
     },
     computed: {

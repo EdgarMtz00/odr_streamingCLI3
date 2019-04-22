@@ -14,7 +14,7 @@
                                         <span class="ml-2">(El webos)</span>
                                         <v-spacer></v-spacer>
                                         <!-- Si es el perfil del usuario no se muestra el agregar -->
-                                        <div v-if="!sameAsUser">
+                                        <div v-if="!sameAsUser && isUserLogged">
                                             <!-- Si ya lo tiene de amigo se muestra eliminar -->
                                             <div v-if="!alreadyAFriend">
                                                 <v-btn color="primary" outline flat small v-if="this.$vuetify.breakpoint.xsOnly"
@@ -194,6 +194,14 @@ export default {
         },
         user () {
             return this.$store.getters.getUserData
+        },
+        isUserLogged () {
+            let id = this.$store.getters.getUserData.id
+            if (id !== '' && id !== undefined) {
+                return true
+            } else {
+                return false
+            }
         },
     }
 }

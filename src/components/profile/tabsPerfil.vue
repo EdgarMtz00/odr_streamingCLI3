@@ -25,7 +25,7 @@
                                                     @click="gotoToPage('sagas/' + item.urlHolder)">
                                                         #{{item.orden+1}} {{item.titulo}}
                                                     </v-list-tile-title>
-                                                    <v-list-tile-sub-title v-html="">{{item.categoria}}</v-list-tile-sub-title>
+                                                    <v-list-tile-sub-title>{{item.categoria}}</v-list-tile-sub-title>
                                                 </v-list-tile-content>
                                                 <v-list-tile-action>
                                                     <v-layout row wrap v-if="sameAsUser">
@@ -151,18 +151,20 @@ export default {
         }),
         watchlist () {
             let aux = this.$store.getters.getWatchlist
-            aux.sort((a, b) => {
-                var key1 = a.orden;
-                var key2 = b.orden;
+            if (aux.length > 0) {
+                aux.sort((a, b) => {
+                    var key1 = a.orden;
+                    var key2 = b.orden;
 
-                if (key1 < key2) {
-                    return -1;
-                } else if (key1 == key2) {
-                    return 0;
-                } else {
-                    return 1;
-                }
-            })
+                    if (key1 < key2) {
+                        return -1;
+                    } else if (key1 == key2) {
+                        return 0;
+                    } else {
+                        return 1;
+                    }
+                })
+            }
             return aux
         },
         sameAsUser () {

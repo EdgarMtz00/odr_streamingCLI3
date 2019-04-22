@@ -11,7 +11,7 @@
                         <v-btn color="red" icon slot="activator"><v-icon>report</v-icon></v-btn>
                         <span>{{reportar[currLanguaje]}}</span>
                     </v-tooltip>
-                    <v-tooltip bottom>
+                    <v-tooltip bottom v-if="isOwner">
                         <v-btn color="primary" icon slot="activator" @click="eliminarComentario">
                             <v-icon>remove</v-icon>
                         </v-btn>
@@ -21,7 +21,9 @@
             </v-flex>
 
             <v-flex xs10 md11 class="pl-2 pa-2 mb-2" style="background-color: rgba(0,0,0,0.3); border-radius: 10px;">
-                <div class="title">{{comentario.nickname}}: </div>
+                <div class="title" style="cursor: pointer;" @click="gotoToPage('profileView/' + comentario.idUsuario)">
+                    {{comentario.nickname}}: 
+                </div>
                 <div :class="{'thinComment': thinComment, 'fullComent': !thinComment}">
                     {{comentario.comentario}}
                     <v-btn color="white" flat small block style="margin-bottom: 0px;" v-if="!thinComment"
@@ -68,14 +70,22 @@ export default {
                 comentario: this.comentario
             }
             this.$store.dispatch('eliminarComentario', payload)
-        }
+        },
+        gotoToPage (page) {
+            this.$router.push('/' + page)
+        },
     },
     computed: {
         ...mapGetters({
             currLanguaje: 'getUserLang',
         }),
-        isOverflown(element) {
-            return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+        isOwner () {
+            let id = this.$store.getters.getUserData.id
+            if (id == this.comentario.idUsuario) {
+                return true
+            } else {
+                return false
+            }
         },
     }
 }
