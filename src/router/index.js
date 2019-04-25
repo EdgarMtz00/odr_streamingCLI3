@@ -19,6 +19,8 @@ import ShowPosts from '@/components/foro/mostrarPosts.vue'
 import SocialNetwork from '@/components/red social/mostrarSagas.vue'
 import Hubs from '@/components/red social/mostrarHubs.vue'
 import CreateHub from '@/components/red social/crearHub.vue'
+import HubImages from '@/components/red social/mostrarImagenes.vue'
+import CreateImage from '@/components/red social/crearImagen.vue'
 import { store } from '../store'
 // Profile
 import Configuration from '@/components/profile/configuration.vue'
@@ -143,6 +145,17 @@ const router = new Router({
       path: '/createHub',
       name: 'Create Hub',
       component: CreateHub,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/social/:urlSaga/:urlHub',
+      name: 'Hub Images',
+      component: HubImages,
+    },
+    {
+      path: '/social/:urlSaga/:urlHub/createImage',
+      name: 'Create Image',
+      component: CreateImage,
       beforeEnter: AuthGuard
     }
   ],

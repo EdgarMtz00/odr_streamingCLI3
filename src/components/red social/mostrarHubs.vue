@@ -2,10 +2,9 @@
     <v-layout row wrap justify-center>
         <v-flex>
             <v-layout justify-center>
-                <v-btn @click="back()"> Return </v-btn>
-                <v-data-table :items="redData" rows-per-page-text="Foros por página">
+                <v-data-table :items="redData" rows-per-page-text="Hubs por página">
                     <template slot="items" slot-scope="data">
-                        <v-layout @click="goToRoute(data.item.type, data.item.url)">
+                        <v-layout @click="goToRoute(data.item.type, data.item.url)" ma-2>
                             <td class="text-xs-right">{{ data.item.url }}</td>
                             <td class="text-xs-right">{{ data.item.titulo }}</td>
                             <td class="text-xs-right">{{ data.item.creador }}</td>
@@ -13,6 +12,9 @@
                         </v-layout>
                     </template>
                 </v-data-table>
+            </v-layout>
+            <v-layout justify-center>
+                <v-btn @click="back()"> Return </v-btn>
             </v-layout>
         </v-flex>
     </v-layout>

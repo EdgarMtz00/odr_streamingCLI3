@@ -1,0 +1,102 @@
+<template>
+    <v-card>
+        <v-card>
+            <v-card-title primary-title text-xs-center>
+                <div class="headline">Informacion del contenido</div>
+            </v-card-title>
+            <v-card-text>
+                <v-text-field v-model="newContent.description" label="Descripcion de la imagen"></v-text-field>
+            </v-card-text>
+        </v-card>
+        <v-card-title primary-title text-xs-center>
+            <div class="headline">Elegir archivo</div>
+        </v-card-title>
+        <v-card-text>
+            <images-selector-carousel :preview="true" v-on:passImages="getImages($event)">
+            </images-selector-carousel>
+        </v-card-text>
+        <v-card-actions>
+            <v-btn color="success" :disabled="!uploadBtnEnabled" @click="uploadContent">{{btnText}}</v-btn>
+        </v-card-actions>
+    </v-card>
+</template>
+
+<script>
+import { mapGetters } from 'vuex'
+export default {
+    data () {
+        return {
+            newContent: {
+                description: '',
+                images: [],
+                imagesNoHeader: [],
+            },
+            uploadBtnEnabled: true,
+            btnText: 'Subir contenido',
+            urlHub: ''
+        }
+    },
+    methods: {
+        getImages ($event) {
+            this.newContent.images = $event
+        },
+        uploadContent () {
+            this.btnText = "Subiendo"
+            this.uploadBtnEnabled = false
+            this.uploadImages()
+        },
+        uploadImages () {
+            var bodyFormData = new FormData();
+            let urlBase = this.$store.getters.urlBase
+            let today = new Date();
+            let date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+            //Reset array
+            this.newContent.imagesNoHeader = []
+            //Quitar header del base64
+            this.newContent.images.forEach(element => {
+                this.newContent.imagesNoHeader.push(this.removeBase64Headers(element.src))
+            });
+            let thumbnail = this.newContent.images.find((element) => {
+                return (element.thumbnail === true)
+            })
+            bodyFormData.set('Scans', JSON.stringify(this.newContent.imagesNoHeader))
+            bodyFormData.set('fechaDeCreacion', date)
+            bodyFormData.set('idHub', this.urlHub)
+            bodyFormData.set('idUsuario', this.user.id)
+            bodyFormData.set('pieImagen', this.newContent.description)
+            bodyFormData.set('thumbnailScans', this.removeBase64Headers(thumbnail.src))
+            console.log("Lo del bodyForm del Hub")
+            for (var pair of bodyFormData.entries()) {
+                console.log(pair[0], pair[1]);
+            }
+
+            this.axios.post(urlBase + 'connections/socialNetwork/createImage.php', bodyFormData).then(response => {
+                console.log(response.data)
+                alert(response.data)
+                this.btnText = "Subido"
+            }).catch(error => {
+                console.log("Hubo un error en el POST a /socialNetwork/createImage", error)
+                this.btnText = "ERROR!!!"
+            })
+        },
+        removeBase64Headers (base64) {
+            return base64.substr(base64.indexOf(',') + 1)
+        },
+    },
+    computed: {
+        ...mapGetters({
+            user: 'getUserData',
+        }),
+    },
+    watch: {
+
+    },
+    mounted () {
+        this.urlHub = this.$route.params.urlHub
+    }
+}
+</script>
+
+<style>
+
+</style>

@@ -2,9 +2,9 @@
     <v-layout row wrap justify-center>
         <v-flex>
             <v-layout justify-center>
-                <v-data-table :items="sagaData" rows-per-page-text="Foros por página">
+                <v-data-table :items="sagaData" rows-per-page-text="Sagas por página">
                     <template slot="items" slot-scope="data">
-                        <v-layout @click="goToRoute(data.item.type, data.item.url, data.item.id)">
+                        <v-layout @click="goToRoute(data.item.type, data.item.url, data.item.id)" ma-2>
                             <td><v-img :src="data.item.thumbnail"></v-img></td>
                             <td class="text-xs-right">{{ data.item.id }}</td>
                             <td class="text-xs-right">{{ data.item.titulo }}</td>
