@@ -42,8 +42,8 @@
                     <v-divider class="mt-2 mb-3"></v-divider>
                     <v-layout row wrap fill-height align-center justify-center v-if="comentarios <= 0">
                         <v-flex xs4>
-                            <v-img contain
-                            src="../static/noComments.png"></v-img>
+                            <!-- <v-img contain src='../../../public/images/noComments.png'></v-img> -->
+                            <img style="width: 100%;" src='../../../static/noComments.png'>
                         </v-flex>
                         <v-flex xs8>
                             <div class="headline">{{noComments[currLanguaje]}}</div>
@@ -142,6 +142,7 @@ export default {
                 }
             }
             this.comentarioModel = ''
+            console.log("Payload", payload)
             this.$store.dispatch('comentar', payload)
         }
     },

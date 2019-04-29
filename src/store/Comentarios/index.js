@@ -36,7 +36,7 @@ export default({
         },
         comentar ({commit}, payload) {
             let codedUrl = payload.url.split('/').join('***')
-            firebase.database().ref('comentarios/' + codedUrl).push(payload.comentario).then(res => {
+            firebase.database().ref("comentarios/" + codedUrl).push(payload.comentario).then(res => {
                 firebase.database().ref('comentarios/' + codedUrl + "/" + res.key)
                 .child('idComentario').set(res.key)
             })
@@ -50,7 +50,7 @@ export default({
     },
     getters: {
         getComentarios (state) {
-            return state.comentarios
+            return state.comentarios.reverse()
         }
     }
 })

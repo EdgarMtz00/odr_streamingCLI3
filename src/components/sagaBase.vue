@@ -19,11 +19,11 @@
                                                         <v-flex xs12>
                                                             <v-img contain :max-height="thumbnailHeight"
                                                                 :src="photoInfo.thumbnail">
-                                                                <v-layout row wrap fill-height align-end v-if="isSagaSuscrito">
+                                                                <v-layout row wrap fill-height justify-center align-end v-if="isSagaSuscrito">
                                                                         <v-btn color="primary" block @click="suscribirSaga" v-if="!isSagaSuscrito">
                                                                             {{follow[lang]}}
                                                                         </v-btn>
-                                                                        <v-btn color="red" block @click="desuscribirSaga" v-else>
+                                                                        <v-btn color="red" small @click="desuscribirSaga" v-else>
                                                                             {{unfollow[lang]}}
                                                                         </v-btn>
                                                                 </v-layout>

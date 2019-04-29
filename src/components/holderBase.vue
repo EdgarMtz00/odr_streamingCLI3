@@ -9,28 +9,34 @@
                         </v-img>
                     </v-flex>
                     <v-flex xs10 md7 >
-                        <v-layout row wrap :justify-center="smAndDown" :class="{'mt-4' : xsOnly}">
-                            <div :class="{'display-1': !xsOnly, 'title': xsOnly}">
-                                {{currentContent.name}}
-                            </div>
+                        <v-layout row wrap :justify-center="smAndDown" :justify-space-between="!smAndDown" :class="{'mt-4' : xsOnly}">
+                            <v-flex xs12 md6>
+                                <v-layout row wrap :justify-center="smAndDown">
+                                    <div :class="{'display-1': !xsOnly, 'title': xsOnly}">
+                                        {{currentContent.name}}
+                                    </div>
+                                </v-layout>
+                            </v-flex>
                             <v-spacer v-if="!xsOnly"></v-spacer>
                             
-                            <div v-if="isUserLogged">
-                                <v-btn color="primary" flat outline @click="seguirHolder" v-if="!isHolderSuscrito">
-                                    {{follow[lang]}}
-                                </v-btn>
-                                <v-btn color="red" @click="dejarDeSeguirHolder" flat outline v-else>
-                                    {{unfollow[lang]}}
-                                </v-btn>
-                            </div>
-                            <div v-if="isUserLogged">
-                                <v-btn color="primary" flat outline @click="addToWatchlist" v-if="!isInWatchlist">
-                                    Watchlist +
-                                </v-btn>
-                                <v-btn color="primary" flat outline @click="removeToWatchlist" v-else>
-                                    Watchlist -
-                                </v-btn>
-                            </div>
+                            <v-flex xs12 md5 v-if="isUserLogged">
+
+                                    <v-btn color="primary" flat outline @click="seguirHolder" v-if="!isHolderSuscrito">
+                                        {{follow[lang]}}
+                                    </v-btn>
+                                    <v-btn color="red" @click="dejarDeSeguirHolder" flat outline v-else>
+                                        {{unfollow[lang]}}
+                                    </v-btn>
+
+
+                                    <v-btn color="primary" flat outline @click="addToWatchlist" v-if="!isInWatchlist">
+                                        Watchlist +
+                                    </v-btn>
+                                    <v-btn color="primary" flat outline @click="removeToWatchlist" v-else>
+                                        Watchlist -
+                                    </v-btn>
+
+                            </v-flex>
                         </v-layout>
                         <v-divider class="mt-2 mb-1" style="background: #000"></v-divider>
                         <v-layout row wrap align-center>
@@ -98,7 +104,7 @@
             <v-card class="vCardStyle mt-3 elevation-10">
                 <!-- Si son scans -->
                 <v-layout row wrap class="pa-3" justify-center v-if="isScan">
-                    <v-flex xs5 sm4 md3 xl2 v-for="(aux, index) in currentContent.content" :key="index">
+                    <v-flex xs12 sm4 md3 xl2 v-for="(aux, index) in currentContent.content" :key="index">
                         <v-layout row wrap align-center fill-height @click="goToScan (aux.URLContenido)">
                             <v-img :height="heightHolderItems" class="ma-1"  :src="aux.thumbnail">
                                 <v-layout row wrap fill-height align-end>

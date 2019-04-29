@@ -139,7 +139,7 @@ export default {
         },
         gotoToPage (page) {
             this.$nextTick(() => {
-                this.$router.push('/')
+                // this.$router.push('/')
                 this.$router.push('/' + page)
             })
         },

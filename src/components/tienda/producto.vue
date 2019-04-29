@@ -163,7 +163,7 @@ export default {
     methods: {
         añadirCarrito () {
             if (!this.isUserLogged) {
-                this.$router.push('/')
+                // this.$router.push('/')
                 this.$router.push('/login')
             } else {
                 let newProducto = {

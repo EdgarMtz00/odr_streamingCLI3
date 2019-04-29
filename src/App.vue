@@ -85,7 +85,7 @@ export default {
       this.$nextTick(() => {
         sessionStorage.setItem("bottomNav", page)
         console.log("[App.vue] Push")
-        this.$router.push('/')
+        // this.$router.push('/')
         this.$router.push('/' + page)
       })
     },

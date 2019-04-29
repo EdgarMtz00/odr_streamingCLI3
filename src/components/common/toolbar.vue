@@ -156,7 +156,7 @@ export default {
             this.$nextTick(() => {
                 
                 console.log("[App.vue] Push")
-                this.$router.push('/')
+                // this.$router.push('/')
                 this.$router.push('/' + page)
             })
         },
