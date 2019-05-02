@@ -15,10 +15,19 @@
                         <v-btn @click="formatearTexto('Underline')"> Underline </v-btn>
                         <v-btn @click="formatearTexto('Cross')"> Cross </v-btn>
                         <v-btn @click="formatearTexto('Bullet')"> Bullet </v-btn>
+                        <v-btn @click="formatearTexto('Break')"> Line break </v-btn>
                     </v-card>
                     <v-card>
                         <v-text-field v-model="newPost.post" label="Post" outline></v-text-field>
-                        <p v-html="newPost.post"></p>
+                        <div>
+                            <p>Preview post: </p>
+                            <p v-html="newPost.post"></p>
+                        </div>
+                        <div v-if="this.postElegido.status">
+                            <p>Mensaje citado: </p>
+                            <p v-html="this.postElegido.contenido"></p>
+                            <p>{{this.postElegido.nickname}}</p>
+                        </div>
                         <v-btn @click="createPost"> Create Post </v-btn>
                     </v-card>
                 </v-card>
@@ -42,6 +51,10 @@ export default {
             let formData = new FormData();
             let today = new Date();
             let date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+
+            if (this.postElegido.status) {
+                this.newPost.post = '<div>' + this.newPost.post + '</div>' + '<div>' + '<p>' + this.postElegido.contenido + '</p>' + '<p>' + this.postElegido.nickname + '</p>' + '</div>'
+            }
 
             formData.set('ContenidoPost', this.newPost.post)
             formData.set('IdUsuario', this.user.id)
@@ -85,6 +98,9 @@ export default {
                 case 'Bullet':
                     this.newPost.post = this.newPost.post + ' <ul><li> Message 1</li><li> Message 2</li><li> Message 3</li></ul>'
                     break;
+                case 'Break':
+                    this.newPost.post = this.newPost.post + ' <br> Message </br>'
+                    break;
             }
         }
     },
@@ -94,6 +110,9 @@ export default {
         }),
         topicElegido () {
             return this.$store.getters.getTopicElegido
+        },
+        postElegido () {
+            return this.$store.getters.getPostElegido
         }
     },
     watch: {
@@ -103,6 +122,9 @@ export default {
         this.urlSaga = this.$route.params.urlSaga
         this.urlCategory = this.$route.params.urlCategory
         this.urlThread = this.$route.params.urlThread
+    },
+    destroyed () {
+        this.postElegido.status = false
     }
 }
 </script>

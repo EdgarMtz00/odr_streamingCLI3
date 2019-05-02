@@ -3,7 +3,7 @@ import * as firebase from 'firebase'
 
 export default({
     state: {
-        urlBase: 'https://localhost/Odr/',
+        urlBase: 'http://localhost/Odr/',
         loading: false
     },
     mutations: {

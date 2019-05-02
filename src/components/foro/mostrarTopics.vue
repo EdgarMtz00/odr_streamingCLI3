@@ -7,7 +7,7 @@
                     <template slot="items" slot-scope="data">
                         <v-layout @click="goToRoute(data.item.type, data.item.url)">
                             <td class="text-xs-right">{{ data.item.titulo }}</td>
-                            <td class="text-xs-right">{{ data.item.contenidoThread }}</td>
+                            <td class="text-xs-right" v-html="data.item.contenidoThread"></td>
                             <td class="text-xs-right">{{ data.item.nickname }}</td>
                             <td class="text-xs-right">{{ data.item.fecha }}</td>
                         </v-layout>
