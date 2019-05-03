@@ -28,7 +28,7 @@ export default({
             let user = getters.getUserData
 
             axios.post(urlBase + 'connections/streamingContent/buscador/getAll.php').then(response => {
-                console.log("response buscador",response.data)
+                // console.log("response buscador",response.data)
                 let data = response.data
                 let sagas = []
                 let holders = []
@@ -84,7 +84,7 @@ export default({
                     });
                 }
 
-                console.log("Buscador data", sagas, holders, personajes, usuarios)
+                // console.log("Buscador data", sagas, holders, personajes, usuarios)
                 commit('setBuscadorSagas', sagas)
                 commit('setBuscadorHolders', holders)
                 commit('setBuscadorPersonajes', personajes)

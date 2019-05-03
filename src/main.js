@@ -13,6 +13,7 @@ import moment from 'moment'
 import Unity from 'vue-unity-webgl'
 
 import 'vuetify/dist/vuetify.min.css'
+import { mapGetters } from 'vuex'
 
 //Importar componentes
 import contentTabItem from './components/contentTabItem.vue'
@@ -23,9 +24,19 @@ import ImagesInformation from './components/uploadContent/components/imagesInfo.
 import ImagesSelector from './components/uploadContent/components/imagesSelector.vue'
 import SelectImage from './components/common/selectImage.vue'
 import VideoUploader from './components/uploadContent/components/videoUploader.vue'
-import Comments from './components/common/comments.vue'
+import CommentsBox from './components/comentarios/comments.vue'
 import Buscador from './components/common/buscador.vue'
 import RowContent from './components/streaming main page/rowContent.vue'
+import Toolbar from './components/common/toolbar.vue'
+import TabsPerfil from './components/profile/tabsPerfil.vue'
+import Comment from './components/comentarios/comentario.vue'
+
+import Producto from "./components/tienda/producto.vue";
+import MainCarrito from "./components/tienda/carrito/mainCarrito.vue";
+import CrearProducto from "./components/tienda/crearProducto.vue";
+import EditarProducto from './components/tienda/editarProducto.vue'
+import ContactarUsuario from './components/tienda/contactarUsuario.vue'
+import ShopImagesSelector from './components/tienda/imagesSelector.vue'
 
 //Implementar componentes
 Vue.component('content-tab-item', contentTabItem)
@@ -36,18 +47,29 @@ Vue.component('select-image', SelectImage)
 Vue.component('images-selector-carousel', ImagesSelector)
 Vue.component('images-information', ImagesInformation)
 Vue.component('video-uploader', VideoUploader)
-Vue.component('comments', Comments)
+Vue.component('comments', CommentsBox)
 Vue.component('buscador', Buscador)
 Vue.component('row-content', RowContent)
 Vue.component('unity', Unity)
+Vue.component('toolbar-component', Toolbar)
+Vue.component('tabs-perfil-component', TabsPerfil)
+Vue.component('comentario-component', Comment)
+
+Vue.component("producto-component", Producto);
+Vue.component("carrito-component", MainCarrito);
+Vue.component("crear-producto-component", CrearProducto);
+Vue.component('editar-producto-component', EditarProducto)
+Vue.component('contactar-usuario-component', ContactarUsuario)
+Vue.component('shop-images-selector-carousel', ShopImagesSelector)
 
 Vue.config.productionTip = false
 Vue.use(VueAxios, axios)
+
 Vue.prototype.moment = moment
 
 Vue.use(Vuetify, { theme: {
-  primary: '#53435c',
-  secondary: '#424242',
+  primary: '#9D7E69',
+  secondary: '#D5C0AF',
   accent: '#82B1FF',
   error: '#FF5252',
   info: '#2196F3',
@@ -55,9 +77,9 @@ Vue.use(Vuetify, { theme: {
   warning: '#FFC107',
   skin: '#f2d5c0',
   gem: '#482648',
-  darkergem: '#1a1325',
-  clothing: '#e3d0db',
-  blush: '#e5b1c1'
+  darkergem: '#9D7E69',
+  clothing: '#D5C0AF',
+  blush: '#9D7E69'
 }})
 
 firebase.initializeApp({
@@ -84,26 +106,92 @@ firebase.auth().onAuthStateChanged(user => {
     store,
     components: { App },
     template: '<App/>',
+    created () {
+      // store.dispatch('loadAmigos', this.user.id)
+    },
     mounted () {
+      // Solicitar permiso para notificaciones
+      Notification.requestPermission(function(status) {
+          console.log('Notification permission status:', status);
+      });
+      // Registrar el SW
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').then(res => {
+          console.log("JAJAJA")
+        }).catch(error => {
+          console.log("No sirve")
+        })
+      } else {
+        alert ('NO')
+      }
 
-    }
+      // fetch('https://jsonplaceholder.typicode.com/todos/')
+      // .then(response => console.log('api response', response))
+      // .then(data => {
+      //     let people = data;
+          
+      // })
+
+      // fetch('http://localhost/Odr/connections/streamingContent/getSagaContent.php')
+      // .then(response => response.json())
+      // .then(data => {
+      //     let people = data;
+      //     console.log("[FETCH] Data", data)
+      // })
+
+      // axios.post('http://localhost/Odr/connections/productos/getAllProductos.php').then(res => {
+      //   console.log("[AXIOS] Data", res)
+      // })
+      
+    },
+    computed: {
+      ...mapGetters({
+            estados: 'getEstados',
+            user: 'getUserData',
+        }),
+    },
+    watch: {
+      // Watch a estados, que contiene el estado del usuario
+      estados: {
+        handler: function (val, oldVal) {
+          if (val.length > 0 && this.user.id) {
+            // Cuando carguen se obtiene la referencia dle estado del usuario
+            let auxFind = val.find(iterator => {
+                return this.user.id == iterator.idUsuario
+            })
+            let payload = {
+                key: auxFind.key, // key del firebase
+                newEstado: 'Online' // Se pone como online
+            }
+            store.dispatch('actualizarEstado', payload)
+          }
+        },
+        deep: true
+      },
+      user: {
+        handler: function (val, oldVal) {
+          if (val.id) {
+            store.dispatch('loadAmigos', val.id)
+          }
+        },
+        deep: true
+      }
+    },
   })
-
-
 });
 
-const messaging = firebase.messaging();
+// const messaging = firebase.messaging(); npm run serve -s dist
 
-messaging.usePublicVapidKey('BMapW914m-WtfzTIMoe7h7qU8F9CRILOcV1dooCBQa4ldPzGRemC4a5Bmpoi8-vgI_Jm6SlOX1upo8M9OU48YN8');
+// messaging.usePublicVapidKey('BMapW914m-WtfzTIMoe7h7qU8F9CRILOcV1dooCBQa4ldPzGRemC4a5Bmpoi8-vgI_Jm6SlOX1upo8M9OU48YN8');
 
-messaging.requestPermission().then(function () {
-  console.log('Permiso de notificaciones concedido');
+// messaging.requestPermission().then(function () {
+//   console.log('Permiso de notificaciones concedido');
 
-  messaging.getToken().then(function (currentToken) {
-    console.log(currentToken);
-  }).catch(function (error) {
-    console.log('Ocurrio un error con el token', error);
-  });
-}).catch(function (error) {
-  console.log('No se concedio permiso para recibir notificaciones', error);
-});
+//   messaging.getToken().then(function (currentToken) {
+//     console.log(currentToken);
+//   }).catch(function (error) {
+//     console.log('Ocurrio un error con el token', error);
+//   });
+// }).catch(function (error) {
+//   console.log('No se concedio permiso para recibir notificaciones', error);
+// });

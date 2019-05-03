@@ -5,11 +5,9 @@
                 <v-btn @click="back()"> Return </v-btn>
                 <v-data-table :items="categoriaData" rows-per-page-text="Categorías por página">
                     <template slot="items" slot-scope="data">
-                        <v-layout @click="goToRoute(data.item.type, data.item.url, data.item.id)">
-                            <td class="text-xs-right">{{ data.item.id }}</td>
-                            <td class="text-xs-right">{{ data.item.nombre }}</td>
-                            <td class="text-xs-right">{{ data.item.descripcion }}</td>
-                        </v-layout>
+                            <td class="text-xs-right my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.id }}</td>
+                            <td class="text-xs-right my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.nombre }}</td>
+                            <td class="text-xs-right my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.descripcion }}</td>
                     </template>
                 </v-data-table>
             </v-layout>
@@ -65,5 +63,7 @@ export default {
 </script>
 
 <style>
-
+    .cursorChido {
+        cursor: pointer;
+    }
 </style>

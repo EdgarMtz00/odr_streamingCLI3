@@ -28,23 +28,35 @@ export default({
         },
         clearSagas (state) {
             state.sagas = []
-        }
+        },
     },
     actions: {
         loadSagasInfo ({commit, getters}) {
             let urlBase = getters.urlBase
             commit('clearSagas')
-            axios.post(urlBase + "connections/streamingContent/getSaga.php").then(response => {
-                commit('setSagas', response.data)
-            })
+            // axios.post(urlBase + "connections/streamingContent/getSaga.php").then(response => {
+            //     commit('setSagas', response.data)
+            // })
+
+            fetch(urlBase + "connections/streamingContent/getSaga.php")
+            .then(res => res.json())
+            .then(data => {
+                commit('setSagas', data)
+            });
         },
         loadCategorys ({commit, getters}) {
             let urlBase = getters.urlBase
-            axios.post(urlBase + "connections/streamingContent/getCategorys.php").then(response => {
-                commit('setCategorys', response.data)
-            })
+            // axios.post(urlBase + "connections/streamingContent/getCategorys.php").then(response => {
+            //     commit('setCategorys', response.data)
+            // })
+
+            fetch(urlBase + "connections/streamingContent/getCategorys.php")
+            .then(res => res.json())
+            .then(data => {
+                commit('setCategorys', data)
+            });
         },
-        loadSagaData ({commit, getters}, urlSaga) {
+        loadSagaData ({commit, getters, dispatch}, urlSaga) {
             commit('clearSagas')
             let bodyFormData = new FormData()
             let urlBase = getters.urlBase
@@ -56,12 +68,13 @@ export default({
                 content: []
             }
             bodyFormData.set('urlSaga', urlSaga)
-            console.log('idSaga', urlSaga)
             axios.post(urlBase + 'connections/streamingContent/getSagaContent.php', bodyFormData).then(response => {
+                console.log('Sagas response', response)
                 let data = response.data
                 // La base de datos guarda la url de las imagenes com http://locahost y ps hay que corregir
                 saga.name = data.TituloSaga
-                console.log('Ps hay que cambiarle ptm', data)
+                saga.idSaga = data.IdSaga
+                // console.log('Ps hay que cambiarle ptm', data)
                 saga.photoInfo = {
                     thumbnail: urlBase + 'resources/' + data.ThumbnailSaga,
                     background: urlBase + 'resources/' + data.BackgroundSaga,
@@ -75,7 +88,7 @@ export default({
                     });
                 }
                 saga.categorys = categs
-                console.log("categs", categs)
+                // console.log("categs", categs)
 
                 if (Array.isArray(data.holders)) {
                     data.holders.forEach(element => {
@@ -125,10 +138,12 @@ export default({
                     });
                 }
 
-                console.log("Contenido:", saga)
+                console.log("Final saga:", saga)
                 commit('setSagaData', saga)
+                // Cargar los holders a las que el usuario este suscrito
             })
-        },loadTags ({commit, getters}) {
+        },
+        loadTags ({commit, getters}) {
             let urlBase = getters.urlBase
             axios.post(urlBase + 'connections/streamingContent/creating/getAllTags.php').then(response => {
                 let data = response.data
@@ -140,7 +155,7 @@ export default({
             }).catch(error => {
                 console.log(error)
             })
-        }
+        },
     },
     getters: {
         getSagaData (state) {

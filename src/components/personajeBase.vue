@@ -1,6 +1,6 @@
 <template>
     <v-layout row wrap justify-center>
-        <v-flex xs12 md10 xl7>
+        <v-flex xs12 md12 xl7>
             <v-card>
                 <v-card-text>
                     <v-layout row wrap fill-height align-center>
@@ -12,7 +12,12 @@
                             <v-layout row wrap fill-height align-center style="height: 50px;">
                                 <div class="headline font-weight-bold">{{ character.name }}</div>
                                 <v-spacer></v-spacer>
-                                <v-btn color="gem" flat outline>Follow</v-btn>
+                                <v-btn color="primary" flat outline @click="suscribirPersonaje" v-if="!isPersonajeSuscrito">
+                                    Follow
+                                </v-btn>
+                                <v-btn color="red" flat outline @click="desuscribirPersonaje" v-else>
+                                    Unfollow
+                                </v-btn>
                             </v-layout>
                             <div class="body-1 charDescription" v-html="character.description">
                             </div>
@@ -57,7 +62,7 @@
                 </v-card-text>
             </v-card>
         </v-flex>
-        <v-flex xs12 md10 lg10 xl3>
+        <v-flex xs12 md10 lg12 xl5>
             <v-card>
                 <v-card-text>
                     <v-layout row wrap>
@@ -84,11 +89,13 @@
                     </v-layout>
                 </v-card-text>
             </v-card>
+            <comments :enDialog="false"></comments>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -104,6 +111,13 @@ export default {
             ]
         }
     },
+    created () {
+        // Que cargue los comentarios
+        let url = this.$route.fullPath
+        this.$store.dispatch('loadComentarios', url)
+        
+        this.$store.dispatch('loadPersonajesSubs')
+    },
     mounted () {
         let bodyFormData = new FormData ()
         let urlBase = this.$store.getters.urlBase
@@ -112,6 +126,7 @@ export default {
         this.axios.post(urlBase + 'connections/streamingContent/getCharacterData.php', bodyFormData).then(response => {
             console.log("Response:", response.data)
             this.character.IdPersonaje = response.data.data.IdPersonaje
+            this.character.idPersonaje = response.data.data.IdPersonaje
             this.character.urlChar = response.data.data.URLPersonaje
             this.character.name = response.data.data.NombrePersonaje
             this.character.description = response.data.data.DescripcionPersonaje
@@ -149,10 +164,31 @@ export default {
         goToHolder (holder) {
           console.log("HOLDER", holder)
             this.$router.push("/sagas/" + holder.urlSaga + "/" + holder.urlHolder)
+        },
+        suscribirPersonaje () {
+            this.$store.dispatch('suscribirPersonaje', this.character.IdPersonaje)
+        },
+        desuscribirPersonaje () {
+            let aux = this.personajesSuscritos.find(auxFind => {
+                return auxFind.idPersonaje == this.character.idPersonaje
+            })
+            this.$store.dispatch('quitarPersonajeSubs', aux)
         }
     },
     computed: {
-
+        ...mapGetters({
+            personajesSuscritos: 'getPersonajessSuscrito',
+        }),
+        isPersonajeSuscrito () {
+            let aux = this.personajesSuscritos.find(auxFind => {
+                return auxFind.idPersonaje == this.character.idPersonaje
+            })
+            if (aux){
+                return true
+            } else {
+                return false
+            }
+        },
     }
 }
 </script>

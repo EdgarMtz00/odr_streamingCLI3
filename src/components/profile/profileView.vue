@@ -14,7 +14,7 @@
                                         <span class="ml-2">(El webos)</span>
                                         <v-spacer></v-spacer>
                                         <!-- Si es el perfil del usuario no se muestra el agregar -->
-                                        <div v-if="!sameAsUser">
+                                        <div v-if="!sameAsUser && isUserLogged">
                                             <!-- Si ya lo tiene de amigo se muestra eliminar -->
                                             <div v-if="!alreadyAFriend">
                                                 <v-btn color="primary" outline flat small v-if="this.$vuetify.breakpoint.xsOnly"
@@ -80,10 +80,13 @@
                 </v-layout>
             </v-card-text>
         </v-card>
+        
+        <tabs-perfil-component :idProfile="idProfile"></tabs-perfil-component>
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -98,9 +101,9 @@ export default {
                 fechaReg: ['Fecha de registro', 'Registration date'],
                 idioma: ['Idioma', 'Languaje'],
                 edad: ['Edad','Age'],
-                agregarAmigo: ['Añadir a amigos', 'Add as friend'],
+                agregarAmigo: ['Añadir a contactos', 'Add as contact'],
                 agregarAmigoCorto: ['Añadir', 'Add'],
-                removerAmigo: ['Quitar amigo', 'Remove friend'],
+                removerAmigo: ['Quitar contacto', 'Remove contact'],
                 removerAmigoCorto: ['Quitar', 'Remove'],
             },
             profileData: {
@@ -110,47 +113,20 @@ export default {
     },
     methods: {
         addFriend () {
-            let user = this.$store.getters.getUserData
-            let urlBase = this.$store.getters.urlBase
-            let formData = new FormData()
-            formData.set('idUser', user.id)
-            formData.set('idFriend', this.idProfile)
-            this.axios.post(urlBase + 'connections/socialNetwork/addFriend.php', formData).then(response => {
-                console.log("Response:", response.data)
-                if (response.data.status == "OK") {
-                    alert("Amigo añadido")
-                }
-                else
-                    alert("Error al añadir amigo")
-            }).catch(error => {
-                console.log(error)
-            })
+            let friend = {
+                idProfile: this.idProfile,
+                idUsuario: this.user.id
+            }
+            this.$store.dispatch('addFriend', friend)
         },
         removeFriend () {
             let user = this.$store.getters.getUserData
-            let urlBase = this.$store.getters.urlBase
-            let idOtro = this.profileData.IdUsuario
-            let formData = new FormData()
-            formData.set('idUser', user.id)
-            formData.set('idFriend', this.idProfile)
-
-            this.axios.post(urlBase + 'connections/socialNetwork/removeFriend.php', formData).then(response => {
-                console.log("Response:", response.data)
-                if (response.data.status == "OK") {
-                    alert("Amigo removido")
-                    let friend = this.amigos.find(auxFind => {
-                        return auxFind.IdAmigo == idOtro
-                    })
-                    if (friend) {
-                        this.$store.dispatch('removeFriend', friend)
-                    }
-
-                }
-                else
-                    alert("Error al removido amigo")
-            }).catch(error => {
-                console.log(error)
-            })
+            
+            let friend = {
+                idUsuario: user.id,
+                idProfile: this.idProfile
+            }
+            this.$store.dispatch('removeFriend', friend)
         }
     },
     created () {
@@ -172,6 +148,9 @@ export default {
         })
     },
     computed: {
+        ...mapGetters({
+            lang: 'getUserLang',
+        }),
         profilePicHeight () {
             switch (this.$vuetify.breakpoint.name) {
             case 'xs': return 300
@@ -215,6 +194,14 @@ export default {
         },
         user () {
             return this.$store.getters.getUserData
+        },
+        isUserLogged () {
+            let id = this.$store.getters.getUserData.id
+            if (id !== '' && id !== undefined) {
+                return true
+            } else {
+                return false
+            }
         },
     }
 }
