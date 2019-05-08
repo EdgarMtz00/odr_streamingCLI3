@@ -4,11 +4,15 @@ import * as firebase from 'firebase'
 export default({
     state: {
         urlBase: 'http://localhost/Odr/',
-        loading: false
+        loading: false,
+        notificationsDrawer: false,
     },
     mutations: {
         setLoading (state, payload) {
             state.loading = payload
+        },
+        setNotificationsDrawer (state, payload) {
+            state.notificationsDrawer = payload
         }
     },
     actions: {
@@ -19,6 +23,9 @@ export default({
         },
         urlBase (state) {
             return state.urlBase
+        },
+        getNotificationsDrawer (state) {
+            return state.notificationsDrawer
         }
     }
 })

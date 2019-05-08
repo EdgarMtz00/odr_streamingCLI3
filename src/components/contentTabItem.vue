@@ -1,18 +1,15 @@
 <template>
     <v-layout row wrap>
         <v-flex xs12 xl6 v-for="(n, index) in contentFilter" :key="index">
-            <v-card style="margin: 0px;">
-                <v-container grid-list-xs>
-                    <v-layout row wrap>
+            <v-card style="margin: 0px;" class="pa-2">
+                    <v-layout row wrap fill-height align-center justify-center class="px-3 my-2">
                         <v-flex xs12>
                             <v-layout row wrap>
                                 <v-flex xs12 md2>
                                     <v-layout row wrap align-center fill-height>
-                                        <v-flex xs12>
-                                            <v-img max-height="200" contain
+                                            <v-img height="200" contain
                                             :src="n.thumbnail">
                                             </v-img>
-                                        </v-flex>
                                     </v-layout>
                                 </v-flex>
                                 <v-flex xs12 md10 class="pl-3">
@@ -24,7 +21,9 @@
                                                     <v-divider class="my-1"></v-divider>
                                                     <v-chip v-for="(tag, index) in n.Tags" :key="index">{{tag}}</v-chip>
                                                     <v-divider class="my-1" v-if="n.Tags"></v-divider>
-                                                    <div class="body-2">{{n.Descripcion}}</div>
+                                                    <div class="body-2">
+                                                        {{n.Descripcion}}
+                                                    </div>
                                                 </v-flex>                                
                                             </v-layout>
                                         </v-flex>
@@ -32,7 +31,7 @@
                                             <v-layout row wrap align-end style="height: 100%;">
                                                 <v-flex xs12>
                                                     <v-btn color="primary" block flat 
-                                                    outline @click="goToHolder (n.url)">VER</v-btn>
+                                                    outline @click="goToHolder (n.url)">{{ver[lang]}}</v-btn>
                                                 </v-flex>
                                             </v-layout>
                                         </v-flex>
@@ -41,18 +40,19 @@
                             </v-layout>
                         </v-flex>
                     </v-layout>
-                </v-container>
             </v-card>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     props: ['type', 'content'],
     data () {
         return {
-            
+            // Placeholders
+            ver: ['Ver', 'Explore']
         }
     },
     computed: {
@@ -66,7 +66,10 @@ export default {
             });
             console.log("RES ",res)
             return res
-        }
+        },
+        ...mapGetters({
+            lang: 'getUserLang',
+        }),
     },
     methods: {
         goToHolder (URLHolder) {

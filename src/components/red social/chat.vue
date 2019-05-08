@@ -3,16 +3,17 @@
         <v-layout row wrap>
             <v-flex xs12>
                 <v-card>
-                    <v-card-text>
+                    <v-card-text style="padding-bottom: 0px !important;">
                         <v-layout row wrap>
                             <v-flex xs12 md3 xl3 v-if="!xsOnly || (xsOnly && selectAmigo)">
-                                <v-list>
+                                <v-list two-line>
                                     <v-list-tile v-for="(aux, index) in amigos" :key="index" @click="selectChat(aux)">
                                         <v-list-tile-avatar>
                                             <img :src="aux.imagen">
                                         </v-list-tile-avatar>
                                         <v-list-tile-content>
                                             <v-list-tile-title v-html="aux.Nickname"></v-list-tile-title>
+                                            <v-list-tile-sub-title>{{aux.estado}}</v-list-tile-sub-title>
                                         </v-list-tile-content>
                                         <v-list-tile-action>
                                             <v-icon>chat_bubble</v-icon>
@@ -22,14 +23,14 @@
                             </v-flex>
                             <v-divider vertical v-if="!xsOnly"></v-divider>
                             <v-flex xs12 md8 xl8 style="height: 84.3vh;" class="mx-auto" v-if="!xsOnly || (xsOnly && !selectAmigo)">
-                                <v-card class="elevation-0">
+                                <v-card class="elevation-0 ">
                                     <v-card-title primary-title style="padding: 0px !important;">
                                         <v-btn color="primary" icon fab flat v-if="xsOnly" 
                                         @click="selectAmigo = true">
                                             <v-icon>arrow_back</v-icon>
                                         </v-btn>
                                         <v-list>
-                                            <v-list-tile @click="goToProfle (selectedChat.IdAmigo)">
+                                            <v-list-tile @click="goToProfle (selectedChat.IdAmigo)" two-line>
                                                 <v-list-tile-avatar>
                                                     <img :src="selectedChat.imagen">
                                                 </v-list-tile-avatar>
@@ -37,15 +38,16 @@
                                                     <v-list-tile-title class="headline">
                                                         {{selectedChat.Nickname}}
                                                     </v-list-tile-title>
+                                                    <v-list-tile-sub-title>{{selectedChat.estado}}</v-list-tile-sub-title>
                                                 </v-list-tile-content>
                                             </v-list-tile>
                                         </v-list>
                                     </v-card-title>
                                     <v-divider></v-divider>
-                                    <v-card-text>
+                                    <v-card-text style="padding: 0px !important;">
                                         <v-layout row wrap fill-height align-end="">
                                             <v-flex xs12>
-                                                <v-layout row wrap class="chatContent">
+                                                <v-layout row wrap class="chatContent" id="chatContainer">
                                                     <v-flex xs12>
                                                         <v-layout row wrap v-for="(aux, index) in mensajes" :key="index" class="pa-2 my-2"
                                                         :justify-start="aux.type == 0" :justify-end="aux.type == 1" align-center>
@@ -85,6 +87,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     // El tipo de mensaje 1 son mensajes de uno mismo
     data () {
@@ -95,7 +98,7 @@ export default {
         }
     },
     created () {
-        this.$store.dispatch('loadAmigos', this.user.id)
+        console.log('full route', this.$route.fullPath)
     },
     methods: {
         selectChat (chat) {
@@ -103,19 +106,22 @@ export default {
             this.selectedChat = chat
             this.selectAmigo = false
             this.$store.dispatch('loadChats', chat.idChat)
+            this.scrollAlFondo(0)
         },
         sendMessage () {
             let nickname = this.user.configuration.nickname
             let idChat = this.selectedChat.idChat
+            
             let aux = this.chats.find(auxFind => {
                 return auxFind.idChat == idChat
             })
-            // console.log('MENSJAES LENGTH XD', aux.mensajes.length)
             let cantidad;
+            console.log('MENSJAES XD', aux)
             if (aux)
                 cantidad = aux.mensajes.length
             else
                 cantidad = 0
+
             let chat = {
                 idChat: idChat,
                 idUser: this.user.id,
@@ -132,9 +138,20 @@ export default {
         },
         goToProfle (IdAmigo) {
             this.$router.push('/profileView/' + IdAmigo)
+        },
+        scrollAlFondo (timer) {
+            setTimeout(() => {
+                    // Mandar al fondo el scroll
+                var container = this.$el.querySelector("#chatContainer");
+                container.scrollTop = container.scrollHeight;
+                // Le tuve que poner 200ms porque no lo mandaba hasta abajo sin el, solo hasta el penultimo mensaje
+            }, timer);
         }
     },
     computed: {
+        ...mapGetters({
+            estados: 'getEstados',
+        }),
         user () {
             console.log('user data xd', this.$store.getters.getUserData)
             return this.$store.getters.getUserData
@@ -142,7 +159,17 @@ export default {
         amigos () {
             let aux = this.$store.getters.getAmigos
             if (aux[0]){
-                this.selectChat(aux[0])
+                // Aqui asigno los estados
+                aux.forEach(amigo => {
+                    // Iterar los amigos encontrados y asignarle un atributo de estado a cada uno
+                    let auxFind = this.estados.find(iterator => {
+                        return amigo.IdAmigo == iterator.idUsuario
+                    })
+                    if (auxFind) {
+                        amigo.estado = auxFind.estado
+                    }
+                })
+                this.selectChat(aux[0])             
                 return aux
             } else {
                 return {
@@ -155,6 +182,7 @@ export default {
             console.log("Current CHAT", aux)
             if (aux !== undefined){
                 if (aux.mensajes !== undefined) {
+                    if (Array.isArray(aux.mensajes))
                     aux.mensajes.forEach(elementMsg => {
                         if (elementMsg.nombre.toLowerCase() === this.user.configuration.nickname.toLowerCase()) {
                             elementMsg.type = 1
@@ -183,7 +211,25 @@ export default {
         chats () {
             return this.$store.getters.getChats
         }
-    }
+    },
+    watch: {
+        mensajes: {
+            handler: function (val, oldVal) {
+                this.scrollAlFondo (500)
+            },
+        deep: true
+        },
+        estados: {
+            handler: function (val, oldVal) {
+                let context = this
+                // Hice trampa con otro timeout porque version de celular no se actualizaba el pinche estado
+                setTimeout(() => {
+                    context.selectAmigo = true
+                }, 3000);
+            },
+        deep: true
+        },
+  },
 }
 </script>
 

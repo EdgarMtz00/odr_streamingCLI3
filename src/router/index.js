@@ -21,6 +21,7 @@ import Hubs from '@/components/red social/mostrarHubs.vue'
 import CreateHub from '@/components/red social/crearHub.vue'
 import HubImages from '@/components/red social/mostrarImagenes.vue'
 import CreateImage from '@/components/red social/crearImagen.vue'
+import MainProductos from "@/components/tienda/mainTienda.vue";
 import { store } from '../store'
 // Profile
 import Configuration from '@/components/profile/configuration.vue'
@@ -157,7 +158,12 @@ const router = new Router({
       name: 'Create Image',
       component: CreateImage,
       beforeEnter: AuthGuard
-    }
+    },
+    {
+      path: "/shop",
+      name: "Tienda",
+      component: MainProductos
+    },
   ],
   mode: 'history'
 })

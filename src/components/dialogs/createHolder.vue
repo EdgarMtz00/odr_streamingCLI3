@@ -290,36 +290,78 @@
         this.newHolder.coverPic = src
       },
       saveHolder () {
-        this.loading = true
+        // this.loading = true
         let allSelectedCharIds = []
         let urlBase = this.$store.getters.urlBase
+        console.log("allSelectedChar", this.allSelectedChar)
+        console.log("this.newHolder", this.newHolder)
+        
         this.allSelectedChar.forEach(element => {
           allSelectedCharIds.push(element.idCharacter)
         });
 
-          let bodyFormData = new FormData()
-          bodyFormData.set('idSaga', this.newHolder.saga.IdSaga)
-          bodyFormData.set('titleHolder', this.newHolder.title)
-          bodyFormData.set('descriptionHolder', this.newHolder.description)
-          bodyFormData.set('category', this.newHolder.category.IdCategoria)
-          bodyFormData.set('nomCategory', this.newHolder.category.NombreCategoria)
-          bodyFormData.set('thumbnail', this.removeBase64Headers(this.newHolder.coverPic))
-          bodyFormData.set('idChar', JSON.stringify(allSelectedCharIds))
-          bodyFormData.set('tags', JSON.stringify(this.newHolder.tags))
+        let bodyFormData = new FormData()
+        bodyFormData.set('idSaga', this.newHolder.saga.IdSaga)
+        bodyFormData.set('titleHolder', this.newHolder.title)
+        bodyFormData.set('descriptionHolder', this.newHolder.description)
+        bodyFormData.set('category', this.newHolder.category.IdCategoria)
+        bodyFormData.set('nomCategory', this.newHolder.category.NombreCategoria)
+        bodyFormData.set('thumbnail', this.removeBase64Headers(this.newHolder.coverPic))
+        bodyFormData.set('idChar', JSON.stringify(allSelectedCharIds))
+        bodyFormData.set('tags', JSON.stringify(this.newHolder.tags))
 
-          console.log("newHolder", this.newHolder)
-          this.axios.post(urlBase + 'connections/streamingContent/creating/createHolder.php', bodyFormData).then(response => {
-              console.log(response)
-              this.loading = false
-              if (response.data.status == "OK")
-                alert('Se ha insertado el holder correctamente')
-              else {
-                alert('Ha ocurrido un error insertando el holder')
-              }
-          }).catch(error => {
+        console.log("newHolder", this.newHolder)
+        this.axios.post(urlBase + 'connections/streamingContent/creating/createHolder.php', bodyFormData).then(response => {
+            console.log("response newHolder",response)
             this.loading = false
-            console.log(error)
-          })
+            if (response.data.status == "OK") {
+              alert('Se ha insertado el holder correctamente')
+              // Crear las notificaciones
+              this.allSelectedChar.forEach(element => {
+                this.crearNotificacionPersonajes(element) // Debido a que son varios personajes, esto se tiene que hacer por cada personaje
+              });
+              this.crearNotificacionSaga ()
+            }
+            else {
+              alert('Ha ocurrido un error insertando el holder')
+            }
+        }).catch(error => {
+          this.loading = false
+          console.log(error)
+        })
+      },
+      crearNotificacionPersonajes (personaje) {
+        let params = {
+            idPersonaje: personaje.idCharacter,
+            nombrePersonaje: personaje.name,
+            tituloHolder: this.newHolder.title,
+            urlHolder: this.generarUrl(this.newHolder.title),
+            urlSaga: this.generarUrl(this.newHolder.saga.TituloSaga),
+        }
+        console.log('Crear notificacion', params, {"Access-Control-Allow-Origin": "*"})
+        // Llamar a la cloud function para notificar a los usuarios sucritos a ese holder
+        this.axios.get("http://localhost:5000/odr-streaming/us-central1/checkPersonajesSuscriptions", {params: params}, {"Access-Control-Allow-Origin": "*"}).then(response => {
+            console.log("Wey, checa a ver si ya salio", response)
+        })
+      },
+      crearNotificacionSaga () {
+        let params = {
+            idSaga: this.newHolder.saga.IdSaga,
+            titulo: this.newHolder.title,
+            urlHolder: this.generarUrl(this.newHolder.title),
+            urlSaga: this.generarUrl(this.newHolder.saga.TituloSaga),
+        }
+        console.log('Crear notificacion', params, {"Access-Control-Allow-Origin": "*"})
+        // Llamar a la cloud function para notificar a los usuarios sucritos a ese holder
+        this.axios.get("http://localhost:5000/odr-streaming/us-central1/checkSagasSuscriptions", {params: params}, {"Access-Control-Allow-Origin": "*"}).then(response => {
+            console.log("Wey, checa a ver si ya salio", response)
+        })
+      },
+        // Es solo hacer minusculas todos y reemplazar espacios por guiones
+      generarUrl (sauce) {
+          let auxMin = sauce.toLowerCase ()
+          let espacios = auxMin.split(' ').join('-');
+          return espacios
       },
       removeBase64Headers (base64) {
           return base64.substr(base64.indexOf(',') + 1)
