@@ -6,9 +6,6 @@
                 <v-data-table :items="postData" rows-per-page-text="Posts por página">
                     <template slot="items" slot-scope="data">
                         <v-layout>
-                            <!-- <td class="text-xs-right" v-html="data.item.contenidoPost"></td>
-                            <td class="text-xs-right">{{ data.item.nickname }}</td>
-                            <td class="text-xs-right">{{ data.item.fecha }}</td> -->
                             <v-card>
                                 <v-card-title v-html="data.item.contenidoPost"></v-card-title>
                                 <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
