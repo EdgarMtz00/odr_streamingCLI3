@@ -10,7 +10,7 @@
                             <td class="text-xs-right">{{ data.item.nickname }}</td>
                             <td class="text-xs-right">{{ data.item.fecha }}</td> -->
                             <v-card>
-                                <v-card-title v-html="data.item.contenidoPost"></v-card-title>
+                                <v-card-text v-html="data.item.contenidoPost"></v-card-text>
                                 <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
                                 <v-btn @click="citarPost(data.item.contenidoPost, data.item.nickname, data.item.fecha)">Quote post</v-btn>
                             </v-card>

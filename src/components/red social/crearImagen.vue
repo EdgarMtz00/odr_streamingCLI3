@@ -50,6 +50,8 @@ export default {
             let urlBase = this.$store.getters.urlBase
             let today = new Date();
             let date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+            let time = new Date();
+            let currentTime = time.getHours() + '-' + time.getMinutes() + '-' + time.getSeconds();
             //Reset array
             this.newContent.imagesNoHeader = []
             //Quitar header del base64
@@ -61,6 +63,7 @@ export default {
             })
             bodyFormData.set('Scans', JSON.stringify(this.newContent.imagesNoHeader))
             bodyFormData.set('fechaDeCreacion', date)
+            bodyFormData.set('tiempo', currentTime)
             bodyFormData.set('idHub', this.urlHub)
             bodyFormData.set('idUsuario', this.user.id)
             bodyFormData.set('pieImagen', this.newContent.description)

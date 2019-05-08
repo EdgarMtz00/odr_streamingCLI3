@@ -4,9 +4,6 @@
             <v-layout justify-center>
                 <v-card>
                     <v-card>
-                        <v-btn @click="back()"> Return </v-btn>
-                    </v-card>
-                    <v-card>
                         <v-btn @click="formatearTexto('Italic')"><i>I</i></v-btn>
                         <v-btn @click="formatearTexto('Bold')"><b>B</b></v-btn>
                         <v-btn @click="formatearTexto('Link')"> Link </v-btn>
@@ -29,6 +26,7 @@
                             <p>{{this.postElegido.nickname}}</p>
                         </div>
                         <v-btn @click="createPost"> Create Post </v-btn>
+                        <v-btn @click="back()"> Return </v-btn>
                     </v-card>
                 </v-card>
             </v-layout>

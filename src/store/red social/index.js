@@ -24,7 +24,7 @@ export default ({
         }
     },
     actions: {
-        loadSagas ({commit, getters}){
+        loadSagas ({commit, getters}) {
             let urlBase = getters.urlBase
 
             axios.post("http://localhost/Odr/connections/forum/getSagas.php").then(function (response) {
@@ -49,7 +49,7 @@ export default ({
                 console.log("Hubo un error en el POST a /forum/getSagas", error)
             })
         },
-        loadRedes ({commit, getters}){
+        loadRedes ({commit, getters}) {
             let urlBase = getters.urlBase
 
             axios.post("http://localhost/Odr/connections/socialNetwork/getHubs.php").then(function (response) {
@@ -74,6 +74,13 @@ export default ({
             }).catch(function (error) {
                 console.log("Hubo un error en el POST a /socialNetwork/getHubs", error)
             })
+        },
+        loadProductos ({commit, getters}) {
+            let urlBase = getters.urlBase
+
+            let bodyFormData = new FormData()
+            bodyFormData.set('idHub', idHub)
+            axios.post(urlBase + '/connections/socialNetwork/')
         }
     },
     getters: {
