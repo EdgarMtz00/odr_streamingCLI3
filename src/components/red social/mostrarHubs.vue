@@ -4,7 +4,7 @@
             <v-layout justify-center>
                 <v-data-table :items="redData" rows-per-page-text="Hubs por página">
                     <template slot="items" slot-scope="data">
-                        <v-layout @click="goToRoute(data.item.type, data.item.url)" ma-2>
+                        <v-layout @click="goToRoute(data.item.type, data.item.url)" ma-2 style="cursor: pointer;">
                             <td class="text-xs-right">{{ data.item.url }}</td>
                             <td class="text-xs-right">{{ data.item.titulo }}</td>
                             <td class="text-xs-right">{{ data.item.creador }}</td>

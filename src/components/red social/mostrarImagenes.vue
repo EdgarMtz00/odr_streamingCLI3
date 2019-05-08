@@ -5,7 +5,7 @@
                 <v-data-table :items="imagenesHub" rows-per-page-text="Imagenes por página">
                     <template slot="items" slot-scope="data">
                         <v-layout>
-                            <v-card @click="goToRoute('Image', data.item.id)">
+                            <v-card @click="goToRoute('Image', data.item.id)" style="cursor: pointer;">
                                 <v-img :src="data.item.thumbnail"></v-img>
                                 <v-card-text v-html="data.item.titulo"></v-card-text>
                                 <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
