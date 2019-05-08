@@ -17,6 +17,7 @@
         </v-card-text>
         <v-card-actions>
             <v-btn color="success" :disabled="!uploadBtnEnabled" @click="uploadContent">{{btnText}}</v-btn>
+            <v-btn @click="goToRoute('Back', '')"> Return </v-btn>
         </v-card-actions>
     </v-card>
 </template>
@@ -33,7 +34,6 @@ export default {
             },
             uploadBtnEnabled: true,
             btnText: 'Subir contenido',
-            urlHub: ''
         }
     },
     methods: {
@@ -66,6 +66,7 @@ export default {
             bodyFormData.set('tiempo', currentTime)
             bodyFormData.set('idHub', this.urlHub)
             bodyFormData.set('idUsuario', this.user.id)
+            bodyFormData.set('nImagenes', this.newContent.imagesNoHeader.length)
             bodyFormData.set('pieImagen', this.newContent.description)
             bodyFormData.set('thumbnailScans', this.removeBase64Headers(thumbnail.src))
             console.log("Lo del bodyForm del Hub")
@@ -85,17 +86,29 @@ export default {
         removeBase64Headers (base64) {
             return base64.substr(base64.indexOf(',') + 1)
         },
+        goToRoute (type, route){
+            switch (type) { 
+                case 'Back': {
+                    this.$nextTick(() => {
+                        this.$router.push('/social/' + this.urlSaga + '/' + this.urlHub)
+                    })
+                    break;
+                }
+            }
+        }
     },
     computed: {
         ...mapGetters({
             user: 'getUserData',
+            urlHub: 'getIdHub',
+            urlSaga: 'getIdSaga'
         }),
     },
     watch: {
 
     },
     mounted () {
-        this.urlHub = this.$route.params.urlHub
+        
     }
 }
 </script>

@@ -15,12 +15,14 @@
             </v-layout>
             <v-layout justify-center>
                 <v-btn @click="back()"> Return </v-btn>
+                <v-btn @click="goToRoute('New', 'createHub', 0)"> New Hub </v-btn>
             </v-layout>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -34,10 +36,16 @@ export default {
                     this.$nextTick(() => {
                         this.$router.push('/social/' + this.urlSaga + '/' + route)
                     })
+                    this.$store.commit("guardarIdHub", route)
+                    break;
+                }
+                case 'New': {
+                    this.$nextTick(() => {
+                        this.$router.push('/' + route)
+                    })
                     break;
                 }
             }
-            this.$store.commit("guardarIdHub", route)
         },
         back () {
             this.$nextTick(() => {
@@ -46,6 +54,9 @@ export default {
         }
     },
     computed: {
+        ...mapGetters ({
+            urlSaga: 'getIdSaga'
+        }),
         redes () {
             return this.$store.getters.getRedes
         },
@@ -67,7 +78,6 @@ export default {
     },
     mounted () {
         this.$store.dispatch("loadRedes")
-        this.urlSaga = this.$route.params.urlSaga
     }
 }
 </script>

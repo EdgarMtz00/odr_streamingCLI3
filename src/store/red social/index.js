@@ -8,6 +8,8 @@ export default ({
         redes: [],
         idSaga: "",
         idHub: "",
+        imagenes: [],
+        idImage: ""
     },
     mutations: {
         setSagasRed (state, payload) {
@@ -16,11 +18,17 @@ export default ({
         setRedes (state, payload) {
             state.redes = payload
         },
+        setImagenes (state, imagen) {
+            state.imagenes = imagen
+        },
         guardarIdSaga (state, payload) {
             state.idSaga = payload
         },
         guardarIdHub (state, payload) {
             state.idHub = payload
+        },
+        guardarIdImage (state, payload) {
+            state.idImage = payload
         }
     },
     actions: {
@@ -75,12 +83,45 @@ export default ({
                 console.log("Hubo un error en el POST a /socialNetwork/getHubs", error)
             })
         },
-        loadProductos ({commit, getters}) {
+        loadImages ({commit, getters, state}) {
             let urlBase = getters.urlBase
 
-            let bodyFormData = new FormData()
-            bodyFormData.set('idHub', idHub)
-            axios.post(urlBase + '/connections/socialNetwork/')
+            fetch(urlBase + 'connections/socialNetwork/getImages.php')
+            .then(res => res.json())
+            .then(data => {
+                console.log("El fetch", data)
+                if (data.status.includes('OK')) {
+                    let newImagenes = []
+                    data.imagenes.forEach(imagen => {
+                    // Generar la url de las imagenes
+                    /*La base almacena la cantidad de imagenes que tiene un objeto por lo que
+                    en la carpeta idHub/idPost/ hay n imagenes asi que se obtiene
+                    la url de la siguiente forma: */
+                    // Auxiliar para guardar las url generadas
+                    let auxUrls = []
+                    for(let i = 1; i <= imagen.NumeroElemento; i++) {
+                        auxUrls.push({
+                            src: urlBase + 'Hub/' + state.idHub + '/' + imagen.URLImagen + '/' + i + '.jpg'
+                        })
+                    }
+
+                    let aux = {
+                        id: imagen.IdImagen,
+                        titulo: imagen.PieImagen,
+                        fecha: imagen.FechaDeCreacion,
+                        imagenes: auxUrls,
+                        idUsuario: imagen.IdUsuario,
+                        nickname: imagen.Nickname,
+                        idHub: imagen.IdHub,
+                        thumbnail: urlBase + 'Hub/' + state.idHub + '/' + imagen.URLImagen + '/' + 'thumbnail.jpg',
+                        url: imagen.URLImagen
+                    }
+                    newImagenes.push(aux)
+                    });
+                console.log("Imagenes", newImagenes)
+                commit('setImagenes', newImagenes)
+                }
+            });
         }
     },
     getters: {
@@ -95,6 +136,12 @@ export default ({
         },
         getIdHub (state) {
             return state.idHub
+        },
+        getImagenes (state) {
+            return state.imagenes
+        },
+        getIdImage (state) {
+            return state.idImage
         }
     }
 })

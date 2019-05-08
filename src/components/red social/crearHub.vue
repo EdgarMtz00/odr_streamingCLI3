@@ -44,13 +44,14 @@ export default {
         },
         back () {
             this.$nextTick(() => {
-                this.$router.push('/social/')
+                this.$router.push('/social/' + this.urlSaga)
             })
         }
     },
     computed: {
         ...mapGetters({
             user: 'getUserData',
+            urlSaga: 'getIdSaga'
         }),
     },
     watch: {
