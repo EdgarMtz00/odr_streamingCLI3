@@ -11,6 +11,9 @@
             <v-layout justify-center>
                 <v-btn @click="goToRoute('Back', '')"> Return </v-btn>
             </v-layout>
+            <v-layout justify-center>
+                <comments :enDialog="false"></comments>
+            </v-layout>
         </v-flex>
     </v-layout>
 </template>
@@ -60,7 +63,8 @@ export default {
         
     },
     mounted () {
-        
+        let url = this.$route.fullPath
+        this.$store.dispatch('loadComentarios', url)
     }
 }
 </script>
