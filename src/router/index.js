@@ -22,7 +22,8 @@ import CreateHub from '@/components/red social/crearHub.vue'
 import HubImages from '@/components/red social/mostrarImagenes.vue'
 import CreateImage from '@/components/red social/crearImagen.vue'
 import SingleImage from '@/components/red social/informacionImagen.vue'
-import MainProductos from "@/components/tienda/mainTienda.vue";
+import MainProductos from "@/components/tienda/mainTienda.vue"
+import Reportes from '@/components/reportes/reportesComentarios.vue'
 import { store } from '../store'
 // Profile
 import Configuration from '@/components/profile/configuration.vue'
@@ -170,6 +171,11 @@ const router = new Router({
       name: "Tienda",
       component: MainProductos
     },
+    {
+      path: '/report',
+      name: 'Reportes',
+      component: Reportes
+    }
   ],
   mode: 'history'
 })
