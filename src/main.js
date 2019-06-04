@@ -151,7 +151,7 @@ firebase.auth().onAuthStateChanged(user => {
         }),
     },
     watch: {
-      // Watch a estados, que contiene el estado del usuario
+      // Watch a estados cargados, que contiene el estado del usuario
       estados: {
         handler: function (val, oldVal) {
           if (val.length > 0 && this.user.id) {
@@ -159,6 +159,10 @@ firebase.auth().onAuthStateChanged(user => {
             let auxFind = val.find(iterator => {
                 return this.user.id == iterator.idUsuario
             })
+            console.log("debug auxfind", auxFind)
+            if(auxFind.estado.includes("Reproduciendo medios")) {
+              return
+            }
             let payload = {
                 key: auxFind.key, // key del firebase
                 newEstado: 'Online' // Se pone como online
@@ -175,6 +179,32 @@ firebase.auth().onAuthStateChanged(user => {
           }
         },
         deep: true
+      },
+      '$route.path': {
+        handler: function (val, oldVal) {
+          // Cuando carguen se obtiene la referencia dle estado del usuario
+          let auxFind = this.estados.find(iterator => {
+              return this.user.id == iterator.idUsuario
+          })
+
+          // Si entra a reproducir un medio...
+          if (val.includes("/sagas/")) {
+            let payload = {
+                key: auxFind.key, // key del firebase
+                newEstado: 'Reproduciendo medios' // Se pone como online
+            }
+            store.dispatch('actualizarEstado', payload)
+            alert("Acualizado el estado de medios")
+          } else if (oldVal.includes("/sagas/") && !val.includes("/sagas/")) {
+            let payload = {
+                key: auxFind.key, // key del firebase
+                newEstado: 'Online' // Se pone como online
+            }
+            store.dispatch('actualizarEstado', payload)
+            alert("Acualizado el estado a online")
+          }
+          // SI salio de reproducir un mdio
+        }
       }
     },
   })

@@ -2,13 +2,18 @@
     <v-layout row wrap justify-center>
         <v-flex>
             <v-layout justify-center>
-                <v-btn @click="back"> Return </v-btn>
+                <v-btn @click="back()"> Return </v-btn>
                 <v-data-table :items="postData" rows-per-page-text="Posts por página">
                     <template slot="items" slot-scope="data">
                         <v-layout>
-                            <td class="text-xs-right">{{ data.item.contenidoPost }}</td>
+                            <!-- <td class="text-xs-right" v-html="data.item.contenidoPost"></td>
                             <td class="text-xs-right">{{ data.item.nickname }}</td>
-                            <td class="text-xs-right">{{ data.item.fecha }}</td>
+                            <td class="text-xs-right">{{ data.item.fecha }}</td> -->
+                            <v-card>
+                                <v-card-title v-html="data.item.contenidoPost"></v-card-title>
+                                <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
+                                <v-btn @click="citarPost(data.item.contenidoPost, data.item.nickname, data.item.fecha)">Quote post</v-btn>
+                            </v-card>
                         </v-layout>
                     </template>
                 </v-data-table>
@@ -24,7 +29,12 @@
 export default {
     data () {
         return {
-            
+            quote: {
+                content: '',
+                nickname: '',
+                date: '',
+                status: false
+            }
         }
     },
     methods: {
@@ -42,6 +52,14 @@ export default {
             this.$nextTick(() => {
                     this.$router.push('/forums/' + this.urlSaga + '/' + this.urlCategory)
             })
+        },
+        citarPost (content, nickname, fecha) {
+            this.quote.content = content
+            this.quote.nickname = nickname
+            this.quote.date = fecha
+            this.quote.status = true
+            this.$store.commit('setPostElegido', this.quote)
+            this.goToRoute('New', 'createPost')
         }
     },
     computed: {
@@ -69,6 +87,7 @@ export default {
         this.urlSaga = this.$route.params.urlSaga
         this.urlCategory = this.$route.params.urlCategory
         this.urlThread = this.$route.params.urlThread
+        this.quote.status = false
     }
 }
 </script>

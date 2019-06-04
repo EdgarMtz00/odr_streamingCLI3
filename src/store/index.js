@@ -16,6 +16,7 @@ import Suscripciones from './Suscripciones'
 import Watchlist from './Watchlist'
 import Estado from './Estado'
 import Comentarios from './Comentarios'
+import RedSocial from './red social'
 
 Vue.use(Vuex)
 
@@ -34,5 +35,6 @@ export const store = new Vuex.Store({
         watchlist: Watchlist,
         estado: Estado,
         comentarios: Comentarios,
+        redSocial: RedSocial,
     }
 })

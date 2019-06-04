@@ -1,12 +1,34 @@
 <template>
     <v-layout row wrap justify-center>
         <v-flex>
-            <v-btn @click="back"> Return </v-btn>
-            <v-text-field v-model="newTopic.title" label="Title">
-            </v-text-field>
-            <v-text-field v-model="newTopic.post" label="Post">
-            </v-text-field>
-            <v-btn @click="createTopic()"> Create Thread </v-btn>
+            <v-layout justify-center>
+                <v-card>
+                    <v-card>
+                        <v-btn @click="back()"> Return </v-btn>
+                    </v-card>
+                    <v-card>
+                        <v-btn @click="formatearTexto('Italic')"><i>I</i></v-btn>
+                        <v-btn @click="formatearTexto('Bold')"><b>B</b></v-btn>
+                        <v-btn @click="formatearTexto('Link')"> Link </v-btn>
+                        <v-btn @click="formatearTexto('Align')"> Align </v-btn>
+                        <v-btn @click="formatearTexto('Font')"> Change font </v-btn>
+                        <v-btn @click="formatearTexto('Underline')"> Underline </v-btn>
+                        <v-btn @click="formatearTexto('Cross')"> Cross </v-btn>
+                        <v-btn @click="formatearTexto('Bullet')"> Bullet </v-btn>
+                        <v-btn @click="formatearTexto('Break')"> Line break </v-btn>
+                    </v-card>
+                    <v-card>
+                        <v-text-field v-model="newTopic.title" label="Title" outline></v-text-field>
+                        <v-text-field v-model="newTopic.post" label="Post" outline></v-text-field>
+                        <div>
+                            <p>Preview post: </p>
+                            <p>{{newTopic.title}}</p>
+                            <p v-html="newTopic.post"></p>
+                        </div>
+                        <v-btn @click="createTopic"> Create Post </v-btn>
+                    </v-card>
+                </v-card>
+            </v-layout>
         </v-flex>
     </v-layout>
 </template>
@@ -46,6 +68,37 @@ export default {
             this.$nextTick(() => {
                 this.$router.push('/forums/' + this.urlSaga + '/' + this.urlCategory)
             })
+        },
+        formatearTexto (type) {
+            switch (type) {
+                case 'Bold':
+                    this.newTopic.post = this.newTopic.post + ' <b> Message </b>'
+                    break;
+                case 'Italic':
+                    this.newTopic.post = this.newTopic.post + ' <i> Message </i>'
+                    break;
+                case 'Link':
+                    this.newTopic.post = this.newTopic.post + ' <a href="URL"> Message </a>'
+                    break;
+                case 'Align':
+                    this.newTopic.post = this.newTopic.post + ' <p align="ALIGNMENT"> Message </p>'
+                    break;
+                case 'Font':
+                    this.newTopic.post = this.newTopic.post + ' <font size="3" face="Arial"> Message </font>'
+                    break;
+                case 'Underline':
+                    this.newTopic.post = this.newTopic.post + ' <u> Message </u>'
+                    break;
+                case 'Cross':
+                    this.newTopic.post = this.newTopic.post + ' <strike> Message </strike>'
+                    break;
+                case 'Bullet':
+                    this.newTopic.post = this.newTopic.post + ' <ul><li> Message 1</li><li> Message 2</li><li> Message 3</li></ul>'
+                    break;
+                case 'Break':
+                    this.newTopic.post = this.newTopic.post + ' <br> Message </br>'
+                    break;
+            }
         }
     },
     computed: {

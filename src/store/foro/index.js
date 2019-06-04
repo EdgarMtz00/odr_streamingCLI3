@@ -10,7 +10,13 @@ export default ({
         postsTopic: [],
         sagaElegida: "",
         categoriaElegida: "",
-        topicElegido: ""
+        topicElegido: "",
+        postElegido: {
+            contenido: '',
+            nickname: '',
+            fecha: '',
+            status: false
+        }
     },
     mutations: {
         setSagasForo (state, payload) {
@@ -24,6 +30,13 @@ export default ({
         },
         setPostsTopic (state, payload) {
             state.postsTopic = payload
+        },
+        setPostElegido (state, payload){
+            console.log("Lo de postElegido ", payload)
+            state.postElegido.contenido = payload.content
+            state.postElegido.nickname = payload.nickname
+            state.postElegido.fecha = payload.date
+            state.postElegido.status = payload.status
         },
         guardarIdSaga (state, payload) {
             state.sagaElegida = payload
@@ -140,7 +153,7 @@ export default ({
             }).catch(function (error) {
                 console.log("Hubo un error en el POST a /forum/getPosts", error)
             })
-        }
+        },
     },
     getters: {
         getSagasForo (state) {
@@ -163,6 +176,9 @@ export default ({
         },
         getTopicElegido (state) {
             return state.topicElegido
+        },
+        getPostElegido (state) {
+            return state.postElegido
         }
     }
 })
