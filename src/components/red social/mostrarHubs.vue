@@ -20,7 +20,6 @@
             </v-layout>
             <v-layout justify-center>
                 <v-btn @click="back()"> Return </v-btn>
-                <v-btn @click="goToRoute('New', 'createHub', 0)"> New Hub </v-btn>
             </v-layout>
         </v-flex>
     </v-layout>
@@ -38,16 +37,16 @@ export default {
         goToRoute (type, route) {
             switch (type){
                 case 'Hub': {
-                    this.$nextTick(() => {
-                        this.$router.push('/social/' + this.urlSaga + '/' + route)
-                    })
+                    if (this.urlSaga) {
+                        this.$nextTick(() => {
+                            this.$router.push('/social/' + this.urlSaga + '/' + route)
+                        })
+                    } else {
+                        this.$nextTick(() => {
+                            this.$router.push('/social/' + this.idPersonaje + '/' + route)
+                        })
+                    }
                     this.$store.commit("guardarIdHub", route)
-                    break;
-                }
-                case 'New': {
-                    this.$nextTick(() => {
-                        this.$router.push('/' + route)
-                    })
                     break;
                 }
             }

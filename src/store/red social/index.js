@@ -19,6 +19,7 @@ export default ({
         },
         setRedes (state, payload) {
             state.redes = payload
+            console.log("Lo del setRedes ", state.redes)
         },
         setImagenes (state, imagen) {
             state.imagenes = imagen
@@ -153,6 +154,16 @@ export default ({
             }).catch(function (error) {
                 console.log("Hubo un error en el POST a /socialNetwork/getPersonajes", error)
             })
+        },
+        clear ({commit}) {
+            let arrVacio = []
+            let strVacio = ""
+            commit('setRedes', arrVacio)
+            commit('setImagenes', arrVacio)
+            commit('guardarIdPersonaje', strVacio)
+            commit('guardarIdHub', strVacio)
+            commit('guardarIdImage', strVacio)
+            commit('guardarIdSaga', strVacio)
         }
     },
     getters: {

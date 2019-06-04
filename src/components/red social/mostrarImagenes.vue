@@ -45,15 +45,27 @@ export default {
                     break;
                 }
                 case 'Back': {
-                    this.$nextTick(() => {
-                        this.$router.push('/social/' + this.urlSaga)
-                    })
+                    if (this.urlSaga) {
+                        this.$nextTick(() => {
+                            this.$router.push('/social/' + this.urlSaga)
+                        })
+                    } else {
+                        this.$nextTick(() => {
+                            this.$router.push('/social/' + this.urlPersonaje)
+                        })
+                    }
                     break;
                 }
                 case 'Image': {
-                    this.$nextTick(() => {
-                        this.$router.push('/social/' + this.urlSaga + '/' + this.urlHub + '/' + route)
-                    })
+                    if (this.urlSaga) {
+                        this.$nextTick(() => {
+                            this.$router.push('/social/' + this.urlSaga + '/' + this.urlHub + '/' + route)
+                        })
+                    } else {
+                        this.$nextTick(() => {
+                            this.$router.push('/social/' + this.urlPersonaje + '/' + this.urlHub + '/' + route)
+                        })
+                    }
                     this.$store.commit("guardarIdImage", route)
                     break;
                 }
@@ -64,7 +76,8 @@ export default {
         ...mapGetters ({
             imagenes: 'getImagenes',
             urlSaga: 'getIdSaga',
-            urlHub: 'getIdHub'
+            urlHub: 'getIdHub',
+            urlPersonaje: 'getIdPersonaje'
         }),
         imagenesHub () {
             let resultado = []

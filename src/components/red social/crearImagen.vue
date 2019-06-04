@@ -89,9 +89,15 @@ export default {
         goToRoute (type, route){
             switch (type) { 
                 case 'Back': {
-                    this.$nextTick(() => {
-                        this.$router.push('/social/' + this.urlSaga + '/' + this.urlHub)
-                    })
+                    if (this.urlSaga) {
+                        this.$nextTick(() => {
+                            this.$router.push('/social/' + this.urlSaga + '/' + this.urlHub)
+                        })
+                    } else {
+                        this.$nextTick(() => {
+                            this.$router.push('/social/' + this.urlPersonaje + '/' + this.urlHub)
+                        })
+                    }
                     break;
                 }
             }
@@ -101,7 +107,8 @@ export default {
         ...mapGetters({
             user: 'getUserData',
             urlHub: 'getIdHub',
-            urlSaga: 'getIdSaga'
+            urlSaga: 'getIdSaga',
+            urlPersonaje: 'getIdPersonaje'
         }),
     },
     watch: {

@@ -34,6 +34,9 @@
                     </template>
                 </v-data-table>
             </v-layout>
+            <v-layout row wrap justify-center>
+                <v-btn @click="goToRoute('New', 'createHub')">New Hub</v-btn>
+            </v-layout>
         </v-flex>
     </v-layout>
 </template>
@@ -63,7 +66,12 @@ export default {
                     this.$store.commit("guardarIdPersonaje", route)
                     break;
                 }
-                
+                case 'New': {
+                    this.$nextTick(() => {
+                        this.$router.push('/' + route)
+                    })
+                    break;
+                }
             }
         }
         
@@ -89,6 +97,7 @@ export default {
     mounted () {
         this.$store.dispatch("loadSagas")
         this.$store.dispatch("loadPersonajes")
+        this.$store.dispatch("clear")
     }
 }
 </script>

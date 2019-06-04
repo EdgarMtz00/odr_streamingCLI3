@@ -48,7 +48,7 @@ export default {
         },
         back () {
             this.$nextTick(() => {
-                this.$router.push('/social/' + this.urlSaga)
+                this.$router.push('/social/')
             })
         },
         print () {
