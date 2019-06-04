@@ -1,8 +1,8 @@
 <template>
     <v-layout row wrap justify-center>
         <v-flex>
-            <v-layout justify-center>
-                <v-card height="600" width="400" max-height="auto" max-width="auto">
+            <v-layout row wrap justify-center>
+                <v-card height="600" width="400" max-height="auto" max-width="auto" class="text-xs-left my-1">
                     <v-img :src="imagen[0].imagenes[0].src"></v-img>
                     <v-card-text>{{imagen[0].titulo}}</v-card-text>
                     <v-card-text>{{imagen[0].nickname}} {{imagen[0].fecha}}</v-card-text>

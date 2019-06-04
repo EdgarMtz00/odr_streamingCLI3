@@ -1,6 +1,7 @@
 
 import axios from 'axios'
 import * as firebase from 'firebase'
+import { stat } from 'fs';
 
 export default ({
     state: {
@@ -16,7 +17,8 @@ export default ({
             nickname: '',
             fecha: '',
             status: false
-        }
+        },
+        threadElegido: {}
     },
     mutations: {
         setSagasForo (state, payload) {
@@ -47,6 +49,9 @@ export default ({
         guardarIdThread (state, payload) {
             console.log("El id del thread: ", payload)
             state.topicElegido = payload
+        },
+        guardarThread (state, payload) {
+            state.threadElegido = payload
         }
     },
     actions: {
@@ -179,6 +184,9 @@ export default ({
         },
         getPostElegido (state) {
             return state.postElegido
+        },
+        getThread (state){
+            return state.threadElegido
         }
     }
 })

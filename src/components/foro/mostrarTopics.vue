@@ -1,16 +1,16 @@
 <template>
     <v-layout row wrap justify-center>
         <v-flex>
+            <v-layout row wrap justify-center>
+                <v-card class="text-xs-left my-1">
+                    <v-card-text>Topics</v-card-text>
+                </v-card>
+            </v-layout>
             <v-layout justify-center>
-                <v-btn @click="back()"> Return </v-btn>
-                <v-data-table :items="topicData" rows-per-page-text="Topics por página">
+                <v-data-table :items="topicData" hide-actions hide-headers no-data-text="No hay topics">
                     <template slot="items" slot-scope="data">
-                        <v-layout @click="goToRoute(data.item.type, data.item.url)">
-                            <!--<td class="text-xs-right">{{ data.item.titulo }}</td>
-                            <td class="text-xs-right" v-html="data.item.contenidoThread"></td>
-                            <td class="text-xs-right">{{ data.item.nickname }}</td>
-                            <td class="text-xs-right">{{ data.item.fecha }}</td>-->
-                            <v-card>
+                        <v-layout @click="goToRoute(data.item.type, data.item.url, data.item)">
+                            <v-card class="text-xs-left my-1 cursorChido">
                                 <v-card-title>{{ data.item.titulo }}</v-card-title>
                                 <v-card-text v-html="data.item.contenidoThread"></v-card-text>
                                 <v-card-text>{{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
@@ -20,6 +20,7 @@
                 </v-data-table>
             </v-layout>
             <v-layout justify-center>
+                <v-btn @click="back()"> Return </v-btn>
                 <v-btn @click="goToRoute('New', 'createTopic')"> New Thread </v-btn>
             </v-layout>
         </v-flex>
@@ -34,12 +35,13 @@ export default {
         }
     },
     methods: {
-        goToRoute (type, route) {
+        goToRoute (type, route, thread) {
             switch (type){
                 case 'Topic': {
                     this.$nextTick(() => {
                         this.$router.push('/forums/' + this.urlSaga + '/' + this.urlCategory + '/' + route)
                     })
+                    this.$store.commit("guardarThread", thread)
                     this.$store.commit("guardarIdThread", route)
                     break;
                 }

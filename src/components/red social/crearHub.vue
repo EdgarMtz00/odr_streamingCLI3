@@ -1,16 +1,20 @@
 <template>
     <v-layout row wrap justify-center>
-        <v-flex mx-1 my-1>
-            <v-card>
-                <v-btn @click="back()"> Return </v-btn>
-                <v-text-field v-model="newHub.title" label="Title">
-                </v-text-field>
-                <v-text-field v-model="newHub.idSaga" label="Id Saga">
-                </v-text-field>
-                <v-text-field v-model="newHub.idPersonaje" label="Id Personaje">
-                </v-text-field>
-                <v-btn @click="createHub()"> Create Hub </v-btn>
-            </v-card>
+        <v-flex>
+            <v-layout row wrap justify-center>
+                <v-card class="text-xs-left my-1">
+                    <v-card-text>Crear un Hub</v-card-text>
+                </v-card>
+            </v-layout>
+            <v-layout row wrap justify-center>
+                <v-card class="text-xs-left my-1">
+                    <v-text-field v-model="newHub.title" label="Title"></v-text-field>
+                    <v-select :items="this.sagas" item-text="titulo" item-value="id" v-model="newHub.idSaga" label="Saga"></v-select>
+                    <v-select :items="this.personajes" item-text="nombre" item-value="id" v-model="newHub.idPersonaje" label="Personaje"></v-select>
+                    <v-btn @click="back()"> Return </v-btn>
+                    <v-btn @click="createHub()"> Create Hub </v-btn>
+                </v-card>
+            </v-layout>
         </v-flex>
     </v-layout>
 </template>
@@ -46,19 +50,25 @@ export default {
             this.$nextTick(() => {
                 this.$router.push('/social/' + this.urlSaga)
             })
+        },
+        print () {
+            console.log ("Lo de las sagas y personajes", this.sagas, this.personajes)
         }
     },
     computed: {
         ...mapGetters({
             user: 'getUserData',
-            urlSaga: 'getIdSaga'
+            urlSaga: 'getIdSaga',
+            sagas: 'getSagasRed',
+            personajes: 'getPersonajesRed'
         }),
     },
     watch: {
 
     },
     mounted () {
-
+        this.$store.dispatch("loadSagas")
+        this.$store.dispatch("loadPersonajes")
     }
 }
 </script>

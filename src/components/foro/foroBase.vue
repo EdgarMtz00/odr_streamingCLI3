@@ -1,17 +1,26 @@
 <template>
     <v-layout row wrap justify-center>
         <v-flex>
-            <v-layout justify-center>
-                <v-data-table :items="foroData" rows-per-page-text="Foros por página">
-                    <template slot="items" slot-scope="data">
-                        <v-layout @click="goToRoute(data.item.type, data.item.url, data.item.id)">
-                            <td><v-img :src="data.item.thumbnail"></v-img></td>
-                            <td class="text-xs-right">{{ data.item.id }}</td>
-                            <td class="text-xs-right">{{ data.item.titulo }}</td>
-                            <td class="text-xs-right">{{ data.item.type }}</td>
-                        </v-layout>
-                    </template>
-                </v-data-table>
+            <v-layout>
+                <v-flex>
+                    <v-layout row wrap justify-center>
+                        <v-card class="text-xs-left my-1">
+                            <v-card-text>Foros</v-card-text>
+                        </v-card>
+                    </v-layout>
+                    <v-layout row wrap justify-center>
+                        <v-data-table :items="foroData" hide-actions hide-headers no-data-text="¡¿No hay sagas?!">
+                            <template slot="items" slot-scope="data">
+                                <v-layout @click="goToRoute(data.item.type, data.item.url, data.item.id)">
+                                    <td class="text-xs-left my-1 cursorChido"><v-img :src="data.item.thumbnail"></v-img></td>
+                                    <td class="text-xs-left my-1 cursorChido">{{ data.item.id }}</td>
+                                    <td class="text-xs-left my-1 cursorChido">{{ data.item.titulo }}</td>
+                                    <td class="text-xs-left my-1 cursorChido">{{ data.item.type }}</td>
+                                </v-layout>
+                            </template>
+                        </v-data-table>
+                    </v-layout>
+                </v-flex>
             </v-layout>
         </v-flex>
     </v-layout>

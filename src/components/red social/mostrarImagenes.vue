@@ -1,11 +1,16 @@
 <template>
     <v-layout row wrap justify-center>
         <v-flex>
+            <v-layout row wrap justify-center>
+                <v-card class="text-xs-left my-1">
+                    <v-card-text>Imágenes del hub</v-card-text>
+                </v-card>
+            </v-layout>
             <v-layout justify-center>
-                <v-data-table :items="imagenesHub" rows-per-page-text="Imagenes por página">
+                <v-data-table :items="imagenesHub" hide-actions hide-headers no-data-text="No hay imágenes">
                     <template slot="items" slot-scope="data">
                         <v-layout>
-                            <v-card @click="goToRoute('Image', data.item.id)" style="cursor: pointer;">
+                            <v-card @click="goToRoute('Image', data.item.id)" style="cursor: pointer;" class="text-xs-left my-1">
                                 <v-img :src="data.item.thumbnail"></v-img>
                                 <v-card-text v-html="data.item.titulo"></v-card-text>
                                 <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>

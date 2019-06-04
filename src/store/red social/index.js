@@ -9,7 +9,9 @@ export default ({
         idSaga: "",
         idHub: "",
         imagenes: [],
-        idImage: ""
+        idImage: "",
+        personajesRed: [],
+        idPersonajeElegido: ""
     },
     mutations: {
         setSagasRed (state, payload) {
@@ -21,8 +23,14 @@ export default ({
         setImagenes (state, imagen) {
             state.imagenes = imagen
         },
+        setPersonajesRed (state, payload) {
+            state.personajesRed = payload
+        },
         guardarIdSaga (state, payload) {
             state.idSaga = payload
+        },
+        guardarIdPersonaje (state, payload) {
+            state.idPersonajeElegido = payload
         },
         guardarIdHub (state, payload) {
             state.idHub = payload
@@ -122,17 +130,46 @@ export default ({
                 commit('setImagenes', newImagenes)
                 }
             });
+        },
+        loadPersonajes ({commit, getters}) {
+            let urlBase = getters.urlBase
+
+            axios.post(urlBase + "connections/socialNetwork/getPersonajes.php").then(function (response) {
+                console.log("Las sagas son: ", response.data)
+                let data = response.data
+                let personajes = []
+                personajes.push({header: 'Personajes'})
+                if (Array.isArray(data.personajes)) {
+                    data.personajes.forEach(elementPersonajes => {
+                        personajes.push({
+                            id: elementPersonajes.IdPersonaje,
+                            nombre: elementPersonajes.NombrePersonaje,
+                            type: 'Personaje',
+                        })
+                    });
+                }
+                console.log("Lo que se va al commit de personajes: ", personajes)
+                commit('setPersonajesRed', personajes)
+            }).catch(function (error) {
+                console.log("Hubo un error en el POST a /socialNetwork/getPersonajes", error)
+            })
         }
     },
     getters: {
         getSagasRed (state) {
             return state.sagasRed
         },
+        getPersonajesRed (state) {
+            return state.personajesRed
+        },
         getRedes (state) {
             return state.redes
         },
         getIdSaga (state) {
             return state.idSaga
+        },
+        getIdPersonaje (state) {
+            return state.idPersonajeElegido
         },
         getIdHub (state) {
             return state.idHub

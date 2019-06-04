@@ -3,7 +3,7 @@ import * as firebase from 'firebase'
 
 export default({
     state: {
-        urlBase: 'http://192.168.43.134/Odr/',
+        urlBase: 'http://localhost/Odr/',
         loading: false,
         notificationsDrawer: false,
     },
