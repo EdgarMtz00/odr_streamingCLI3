@@ -7,7 +7,14 @@ const admin = require('firebase-admin');
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
-admin.initializeApp(functions.config().firebase)
+admin.initializeApp({
+    apiKey: "AIzaSyCt8KOVPcyBES6-vVSBIZQgedl7fBPfR_w",
+    authDomain: "odr-streaming.firebaseapp.com",
+    databaseURL: "https://odr-streaming.firebaseio.com",
+    projectId: "odr-streaming",
+    storageBucket: "odr-streaming.appspot.com",
+    messagingSenderId: "50680997374"
+  })
 
 // Si se esta suscrito a un holder le llenan notifaicaiones por scans, videos, audio, etc
 exports.checkHolderSuscriptions = functions.https.onRequest((req, res) => {

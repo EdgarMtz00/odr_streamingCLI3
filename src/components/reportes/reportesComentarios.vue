@@ -7,11 +7,12 @@
                         <v-layout>
                             <v-card>
                                 <v-card-text>Comentario reportado</v-card-text>
-                                <v-card-text>"{{ data.item.comentarioReportado }}"</v-card-text>
-                                <v-card-text>-{{ data.item.idUsuarioDelComentario }} {{ data.item.idComentario }}</v-card-text>
+                                <v-card-text>{{ data.item.comentarioReportado }}</v-card-text>
+                                <v-card-text>{{ data.item.idUsuarioDelComentario }} {{ data.item.idComentario }}</v-card-text>
                                 <v-card-text>Detalles del reporte</v-card-text>
                                 <v-card-text>{{ data.item.textoDelReporte }}</v-card-text>
-                                <v-card-text>{{ data.item.idUsuarioDelReporte }} {{ data.item.urlComentario }}</v-card-text>
+                                <v-card-text>{{ data.item.nickname }} {{ data.item.urlComentario }}</v-card-text>
+                                <v-card-actions><v-btn @click="eliminarComentario (urlComentario, data.item)">Eliminar comentario</v-btn><v-btn @click="ignorarReporte">Ignorar reporte</v-btn></v-card-actions>
                             </v-card>
                         </v-layout>
                     </template>
@@ -29,7 +30,16 @@ export default {
         }
     },
     methods: {
-        
+        eliminarComentario (route, comment) {
+            let payload = {
+                url: route,
+                comentario: comment
+            }
+            this.$store.dispatch('eliminarComentario', payload)
+        },
+        ignorarReporte () {
+
+        }
     },
     computed: {
         reportes () {

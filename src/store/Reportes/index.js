@@ -23,13 +23,14 @@ export default ({
                 if (Array.isArray(data.reportes)) {
                     data.reportes.forEach(elementReportes => {
                         reportes.push({
-                            id: elementReportes.idReporte,
+                            key: elementReportes.idReporte,
                             idUsuarioDelReporte: elementReportes.idUsuarioDelReporte,
                             idUsuarioDelComentario: elementReportes.idUsuarioDelComentario,
                             idComentario: elementReportes.idComentario,
                             comentarioReportado: elementReportes.comentarioReportado,
                             textoDelReporte: elementReportes.textoDelReporte,
                             urlComentario: elementReportes.urlComentario,
+                            //nickname: elementReportes.Nickname,
                             type: 'Reporte'
                         })
                     });

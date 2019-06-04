@@ -114,12 +114,13 @@ firebase.auth().onAuthStateChanged(user => {
       Notification.requestPermission(function(status) {
           console.log('Notification permission status:', status);
       });
+      console.log("EL SERICE", navigator)
       // Registrar el SW
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js').then(res => {
-          console.log("JAJAJA")
+          console.log("JAJAJA service worker")
         }).catch(error => {
-          console.log("No sirve")
+          console.log("No sirve service worker")
         })
       } else {
         alert ('NO')
