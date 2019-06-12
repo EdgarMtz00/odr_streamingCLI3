@@ -46,25 +46,25 @@ export default {
     methods: {
         createTopic () {
             let etiqueta = "";
-            let negrita = 0, italica = 0, underline = 0, strike = 0, broke = 0, lista = 0, elemento = 0, posicion = 0;
+            let negrita = 0, italica = 0, underline = 0, strike = 0, broke = 0, lista = 0, elemento = 0, posicion = 0, tamaño = 0, url = 0;
             let formData = new FormData();
             let today = new Date();
             let date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
             
             for (let i = 0; i <= this.newTopic.post.length; i++) {
-                if (this.newTopic.post.search(/!b!/) != -1) {
+                if (this.newTopic.post.search(/!b!/i) != -1) {
                     etiqueta = 'B'
-                } else if (this.newTopic.post.search(/!i!/) != -1) {
+                } else if (this.newTopic.post.search(/!i!/i) != -1) {
                     etiqueta = 'I'
-                } else if (this.newTopic.post.search(/!u!/) != -1) {
+                } else if (this.newTopic.post.search(/!u!/i) != -1) {
                     etiqueta = 'U'
-                } else if (this.newTopic.post.search(/!s!/) != -1) {
+                } else if (this.newTopic.post.search(/!s!/i) != -1) {
                     etiqueta = 'S'
-                } else if (this.newTopic.post.search(/!j!/) != -1) {
+                } else if (this.newTopic.post.search(/!j!/i) != -1) {
                     etiqueta = 'Br'
-                } else if (this.newTopic.post.search(/!l!/) != -1) {
+                } else if (this.newTopic.post.search(/!l!/i) != -1) {
                     etiqueta = 'L'
-                } else if (this.newTopic.post.search(/!e!/) != -1) {
+                } else if (this.newTopic.post.search(/!e!/i) != -1) {
                     etiqueta = 'E'
                 } else if (this.newTopic.post.search(/"ctr"/i) != -1) {
                     etiqueta = 'Center'
@@ -74,107 +74,151 @@ export default {
                     etiqueta = 'Right'
                 } else if (this.newTopic.post.search(/"jtf"/i) != -1) {
                     etiqueta = 'Justify'
+                } else if (this.newTopic.post.search(/"a3"/i) != -1) {
+                    etiqueta = 'A3'
+                } else if (this.newTopic.post.search(/"a6"/i) != -1) {
+                    etiqueta = 'A6'
+                } else if (this.newTopic.post.search(/"t3"/i) != -1) {
+                    etiqueta = 'T3'
+                } else if (this.newTopic.post.search(/"t6"/i) != -1) {
+                    etiqueta = 'T6'
                 } else {
                     etiqueta = ''
                 }
                 switch (etiqueta) {
                     case 'B':
                         if (negrita == 1) {
-                            this.newTopic.post = this.newTopic.post.replace(/!b!/, "</b>")
+                            this.newTopic.post = this.newTopic.post.replace(/!b!/i, "</b>")
                             negrita = 0
                         } else if (negrita == 0) {
-                            this.newTopic.post = this.newTopic.post.replace(/!b!/, "<b>")
+                            this.newTopic.post = this.newTopic.post.replace(/!b!/i, "<b>")
                             negrita = 1
                         }
                         break;
                     case 'I':
                         if (italica == 1) {
-                            this.newTopic.post = this.newTopic.post.replace(/!i!/, "</i>")
+                            this.newTopic.post = this.newTopic.post.replace(/!i!/i, "</i>")
                             italica = 0
                         } else if (italica == 0) {
-                            this.newTopic.post = this.newTopic.post.replace(/!i!/, "<i>")
+                            this.newTopic.post = this.newTopic.post.replace(/!i!/i, "<i>")
                             italica = 1
                         }
                         break;
                     case 'U':
                         if (underline == 1) {
-                            this.newTopic.post = this.newTopic.post.replace(/!u!/, "</u>")
+                            this.newTopic.post = this.newTopic.post.replace(/!u!/i, "</u>")
                             underline = 0
                         } else if (underline == 0) {
-                            this.newTopic.post = this.newTopic.post.replace(/!u!/, "<u>")
+                            this.newTopic.post = this.newTopic.post.replace(/!u!/i, "<u>")
                             underline = 1
                         }
                         break;
                     case 'S':
                         if (strike == 1) {
-                            this.newTopic.post = this.newTopic.post.replace(/!s!/, "</strike>")
+                            this.newTopic.post = this.newTopic.post.replace(/!s!/i, "</strike>")
                             strike = 0
                         } else if (strike == 0) {
-                            this.newTopic.post = this.newTopic.post.replace(/!s!/, "<strike>")
+                            this.newTopic.post = this.newTopic.post.replace(/!s!/i, "<strike>")
                             strike = 1
                         }
                         break;
                     case 'Br':
                         if (broke == 1) {
-                            this.newTopic.post = this.newTopic.post.replace(/!j!/, "</br>")
+                            this.newTopic.post = this.newTopic.post.replace(/!j!/i, "</br>")
                             broke = 0
                         } else if (broke == 0) {
-                            this.newTopic.post = this.newTopic.post.replace(/!j!/, "<br>")
+                            this.newTopic.post = this.newTopic.post.replace(/!j!/i, "<br>")
                             broke = 1
                         }
                         break;
                     case 'L':
                         if (lista == 1) {
-                            this.newTopic.post = this.newTopic.post.replace(/!l!/, "</ul>")
+                            this.newTopic.post = this.newTopic.post.replace(/!l!/i, "</ul>")
                             lista = 0
                         } else if (lista == 0) {
-                            this.newTopic.post = this.newTopic.post.replace(/!l!/, "<ul>")
+                            this.newTopic.post = this.newTopic.post.replace(/!l!/i, "<ul>")
                             lista = 1
                         }
                         break;
                     case 'E':
                         if (elemento == 1) {
-                            this.newTopic.post = this.newTopic.post.replace(/!e!/, "</li>")
+                            this.newTopic.post = this.newTopic.post.replace(/!e!/i, "</li>")
                             elemento = 0
                         } else if (elemento == 0) {
-                            this.newTopic.post = this.newTopic.post.replace(/!e!/, "<li>")
+                            this.newTopic.post = this.newTopic.post.replace(/!e!/i, "<li>")
                             elemento = 1
                         }
                         break;
                     case 'Center':
                         if (posicion == 1) {
-                            this.newTopic.post = this.newTopic.post.replace(/"ctr"/, "</p>")
+                            this.newTopic.post = this.newTopic.post.replace(/"ctr"/i, "</p>")
                             posicion = 0
                         } else if (posicion == 0) {
-                            this.newTopic.post = this.newTopic.post.replace(/"ctr"/, '<p align="center">')
+                            this.newTopic.post = this.newTopic.post.replace(/"ctr"/i, '<p align="center">')
                             posicion = 1
                         }
                         break;
                     case 'Left':
                         if (posicion == 1) {
-                            this.newTopic.post = this.newTopic.post.replace(/"lft"/, "</p>")
+                            this.newTopic.post = this.newTopic.post.replace(/"lft"/i, "</p>")
                             posicion = 0
                         } else if (posicion == 0) {
-                            this.newTopic.post = this.newTopic.post.replace(/"lft"/, '<p align="left">')
+                            this.newTopic.post = this.newTopic.post.replace(/"lft"/i, '<p align="left">')
                             posicion = 1
                         }
                         break;
                     case 'Right':
                         if (posicion == 1) {
-                            this.newTopic.post = this.newTopic.post.replace(/"rgt"/, "</p>")
+                            this.newTopic.post = this.newTopic.post.replace(/"rgt"/i, "</p>")
                             posicion = 0
                         } else if (posicion == 0) {
-                            this.newTopic.post = this.newTopic.post.replace(/"rgt"/, '<p align="right">')
+                            this.newTopic.post = this.newTopic.post.replace(/"rgt"/i, '<p align="right">')
                             posicion = 1
                         }
                         break;
                     case 'Justify':
                         if (posicion == 1) {
-                            this.newTopic.post = this.newTopic.post.replace(/"jtf"/, "</p>")
+                            this.newTopic.post = this.newTopic.post.replace(/"jtf"/i, "</p>")
                             posicion = 0
                         } else if (posicion == 0) {
-                            this.newTopic.post = this.newTopic.post.replace(/"jtf"/, '<p align="justify">')
+                            this.newTopic.post = this.newTopic.post.replace(/"jtf"/i, '<p align="justify">')
                             posicion = 1
+                        }
+                        break;
+                    case 'A3':
+                        if (tamaño == 1) {
+                            this.newTopic.post = this.newTopic.post.replace(/"a3"/i, "</font>")
+                            tamaño = 0
+                        } else if (tamaño == 0) {
+                            this.newTopic.post = this.newTopic.post.replace(/"a3"/i, '<font size="3" face="Arial">')
+                            tamaño = 1
+                        }
+                        break;
+                    case 'A6':
+                        if (tamaño == 1) {
+                            this.newTopic.post = this.newTopic.post.replace(/"a6"/i, "</font>")
+                            tamaño = 0
+                        } else if (tamaño == 0) {
+                            this.newTopic.post = this.newTopic.post.replace(/"a6"/i, '<font size="6" face="Arial">')
+                            tamaño = 1
+                        }
+                        break;
+                    case 'T3':
+                        if (tamaño == 1) {
+                            this.newTopic.post = this.newTopic.post.replace(/"t3"/i, "</font>")
+                            tamaño = 0
+                        } else if (tamaño == 0) {
+                            this.newTopic.post = this.newTopic.post.replace(/"t3"/i, '<font size="3" face="Times New Roman">')
+                            tamaño = 1
+                        }
+                        break;
+                    case 'T6':
+                        if (tamaño == 1) {
+                            this.newTopic.post = this.newTopic.post.replace(/"t6"/i, "</font>")
+                            tamaño = 0
+                        } else if (tamaño == 0) {
+                            this.newTopic.post = this.newTopic.post.replace(/"t6"/i, '<font size="6" face="Times New Roman">')
+                            tamaño = 1
                         }
                         break;
                     case '':
@@ -209,13 +253,13 @@ export default {
                     this.newTopic.post = this.newTopic.post + ' !i!Message!i!'
                     break;
                 case 'Link':
-                    this.newTopic.post = this.newTopic.post + ' <a href="URL"> Message </a>'
+                    this.newTopic.post = this.newTopic.post + '<a href="URL">Mensaje</a>'
                     break;
                 case 'Align':
                     this.newTopic.post = this.newTopic.post + ' "jtf/lft/ctr/rgt"Message"jtf/lft/ctr/rgt"'
                     break;
                 case 'Font':
-                    this.newTopic.post = this.newTopic.post + ' <font size="3" face="Arial"> Message </font>'
+                    this.newTopic.post = this.newTopic.post + ' "a3/a6/t3/t6"Message"a3/a6/t3/t6"'
                     break;
                 case 'Underline':
                     this.newTopic.post = this.newTopic.post + ' !u!Message!u!'
