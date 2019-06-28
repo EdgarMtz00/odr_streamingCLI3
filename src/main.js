@@ -24,6 +24,7 @@ import ImagesInformation from './components/uploadContent/components/imagesInfo.
 import ImagesSelector from './components/uploadContent/components/imagesSelector.vue'
 import SelectImage from './components/common/selectImage.vue'
 import VideoUploader from './components/uploadContent/components/videoUploader.vue'
+import AudioUploader from './components/uploadContent/components/audioUploader.vue'
 import CommentsBox from './components/comentarios/comments.vue'
 import Buscador from './components/common/buscador.vue'
 import RowContent from './components/streaming main page/rowContent.vue'
@@ -47,6 +48,7 @@ Vue.component('select-image', SelectImage)
 Vue.component('images-selector-carousel', ImagesSelector)
 Vue.component('images-information', ImagesInformation)
 Vue.component('video-uploader', VideoUploader)
+Vue.component('audio-uploader', AudioUploader)
 Vue.component('comments', CommentsBox)
 Vue.component('buscador', Buscador)
 Vue.component('row-content', RowContent)

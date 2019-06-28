@@ -1,10 +1,8 @@
 <template>
     <div>
-        <!-- <unity src="static/Build/Avatar.json" width="1000" height="600" unityLoader="static/Build/UnityLoader.js"></unity> -->
         <label>File
-            <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+            <input type="file" id="file" ref="file" accept="audio/*" v-on:change="handleFileUpload()"/>
         </label>
-        <!-- <v-btn color="primary" :disabled="uploaded" @click="submitFile()">{{btnText}}</v-btn> -->
     </div>
 </template>
 
@@ -17,12 +15,14 @@ export default {
         }
     },
     methods: {
+        // Esto deberia estar en el store wtf >_>
       submitFile(){
           let urlBase = this.$store.getters.urlBase
           this.uploaded = true
           this.btnText = "Subiendo"
         let formData = new FormData();
         formData.append('file', this.file);
+        // El mismo PHP sirve para todo tipo de archivo, deberia cambiarle el nombre xd
         this.axios.post(urlBase + 'connections/streamingContent/content/uploadVideo.php',
             formData,{
             headers: {
@@ -37,6 +37,7 @@ export default {
             console.log('FAILURE!!');
         });
       },
+      // Obtener la referencia del fichero
       handleFileUpload(){
           this.file = this.$refs.file.files[0];
           console.log("THIS FILE XD",this.file)
