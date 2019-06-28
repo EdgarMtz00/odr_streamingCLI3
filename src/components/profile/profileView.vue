@@ -2,6 +2,8 @@
     <div>
         <v-card>
             <v-card-text>
+                <!-- user: {{profileData}} <br> -->
+                <!-- tipo de cuenta: {{tipoDeCuenta}} <br> -->
                 <v-layout row wrap justify-start="">
                         <v-flex xs12 md4 xl4>
                             <v-img :src="profileData.Imagen" :height="profilePicHeight" contain></v-img>
@@ -11,8 +13,9 @@
                                 <v-flex xs12>
                                     <v-layout row wrap align-center>
                                         <div class="headline">{{profileData.Nickname}}</div>
-                                        <span class="ml-2">(El webos)</span>
+                                        <!-- <span class="ml-2">(El webos)</span> -->
                                         <v-spacer></v-spacer>
+                                        
                                         <!-- Si es el perfil del usuario no se muestra el agregar -->
                                         <div v-if="!sameAsUser && isUserLogged">
                                             <!-- Si ya lo tiene de amigo se muestra eliminar -->
@@ -35,6 +38,27 @@
                                                     {{labels.removerAmigo[preferedLang]}}
                                                 </v-btn>
                                             </div>
+                                        </div>
+                                        <!-- Apartado para cambiar el tipo de cuenta de alguien -->
+                                        <!-- Solo un dios lo puede ver y si la cuenta que se ve es de
+                                        un dios solo dice "dios" -->
+                                        <div v-if="user.cuenta == 'Dios' && profileData.TipoDeUsuario != 'Dios'" 
+                                        class="mx-auto">
+                                            <v-btn-toggle class="primary" v-model="tipoDeCuenta">
+                                            <v-btn value="CDC">
+                                                CDC
+                                            </v-btn>
+                                            <v-btn value="Moderador">
+                                                Moderador
+                                            </v-btn>
+                                            <v-btn value="Consumidor">
+                                                Consumidor
+                                            </v-btn>
+                                            </v-btn-toggle>
+                                        </div>
+                                        <!-- Si es un dios solo dice "dios" el tipo de usuario 1 es dios -->
+                                        <div v-if="profileData.TipoDeUsuario == 1">
+                                            <v-btn color="red" disabled>Dios</v-btn>
                                         </div>
                                     </v-layout>
                                     <v-divider class="my-2"></v-divider>
@@ -108,7 +132,8 @@ export default {
             },
             profileData: {
 
-            }
+            },
+            tipoDeCuenta: String,
         }
     },
     methods: {
@@ -203,6 +228,33 @@ export default {
                 return false
             }
         },
+    },
+    watch: {
+        profileData: {
+            handler: function(user) {
+                if (user.TipoDeUsuario) {
+                    if (user.TipoDeUsuario == 1) {
+                        this.tipoDeCuenta = "Dios"
+                    } else if (user.TipoDeUsuario == 2) {
+                        this.tipoDeCuenta = "CDC"
+                    } else if (user.TipoDeUsuario == 3) {
+                        this.tipoDeCuenta = "Moderador"
+                    } else if (user.TipoDeUsuario == 4) {
+                        this.tipoDeCuenta = "Consumidor"
+                    }
+                }
+            },
+            deep: true,
+        },
+        tipoDeCuenta: {
+            handler: function(cuenta) {
+                let payload = {
+                    idUsuario: this.idProfile,
+                    cuenta: cuenta,
+                }
+                this.$store.dispatch('cambiarTipoDeCuenta', payload)
+            },
+        }
     }
 }
 </script>

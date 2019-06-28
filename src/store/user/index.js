@@ -203,6 +203,36 @@ export default({
                 commit ('setLoading', false)
             })
         },
+        cambiarTipoDeCuenta ({commit, getters}, payload) {
+            let urlBase = getters.urlBase
+            let bodyFormData = new FormData ()
+            let tipo = 0
+
+            if (payload.cuenta == "Dios") {
+                return // NO PUEDE HABER MAS DIOSES
+            } else if (payload.cuenta == "CDC") {
+                tipo = 2
+            } else if (payload.cuenta == "Moderador") {
+                tipo = 3
+            } else if (payload.cuenta == "Consumidor") {
+                tipo = 4
+            } 
+
+            console.log("datos: ", payload.idUsuario, tipo)
+
+            bodyFormData.set('idUsuario', payload.idUsuario)
+            bodyFormData.set('tipo', tipo)
+            axios.post(urlBase + "connections/userConnections/cambiarTipoDeCuenta.php", bodyFormData).then(response => {
+                let data = response.data
+                if (data.status.includes('OK')) {
+                    //alert("Actualizado correctamente")
+                } else {
+                    //alert("Error al actualizar")
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        }
     },
     getters: {
         getUrlBase (state) {

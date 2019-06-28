@@ -20,6 +20,7 @@ export default({
     },
     actions: {
         loadComentarios ({commit}, ruta) {
+            console.log("Cargando comentarios ruta: ", ruta)
             // Firebase no me dejaba usar '/' en las ids de los nodos asi que use '***'
             // Las ids son las urls, cada url tiene los comentarios de ese contenido
             // Se puede poner cualquier url y al acceder a ella cargara sus comentarios
@@ -32,6 +33,7 @@ export default({
                     returnArr.push(item);
                 });
                 commit('setComentarios', returnArr)
+                console.log("Comentarios: ", returnArr)
             })
         },
         comentar ({commit}, payload) {

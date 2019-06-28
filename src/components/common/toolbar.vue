@@ -10,19 +10,21 @@
                     <v-list-tile-content><v-list-tile-title>{{todosLosMedios[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
                 </v-list-tile>
 
-                <v-divider></v-divider>
-                <!-- --------------------------------------------------- -->
-                <v-subheader>{{crearSub[prefLanguaje]}}</v-subheader>
+                <div v-if="isUserLogged">
+                    <v-divider></v-divider>
+                    <!-- --------------------------------------------------- -->
+                    <v-subheader>{{crearSub[prefLanguaje]}}</v-subheader>
+                    <!-- Tuve que escribir la condicion del tipo de cuenta aqui, los computed no funcionan bien -->
+                    <v-list-tile avatar @click="gotoToPage('uploadContent')" v-show="(user.cuenta === 'CDC') || (user.cuenta === 'Dios')">
+                        <v-list-tile-avatar><v-icon>create</v-icon></v-list-tile-avatar>
+                        <v-list-tile-content><v-list-tile-title>{{nuevoMedio[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
+                    </v-list-tile>
 
-                <v-list-tile avatar @click="gotoToPage('uploadContent')">
-                    <v-list-tile-avatar><v-icon>create</v-icon></v-list-tile-avatar>
-                    <v-list-tile-content><v-list-tile-title>{{nuevoMedio[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
-                </v-list-tile>
-
-                <v-list-tile avatar @click="addProductShortcut()" v-if="isUserLogged">
-                    <v-list-tile-avatar><v-icon>create</v-icon></v-list-tile-avatar>
-                    <v-list-tile-content><v-list-tile-title>{{nuevoProducto[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
-                </v-list-tile>
+                    <v-list-tile avatar @click="addProductShortcut()" v-if="isUserLogged">
+                        <v-list-tile-avatar><v-icon>create</v-icon></v-list-tile-avatar>
+                        <v-list-tile-content><v-list-tile-title>{{nuevoProducto[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
+                    </v-list-tile>
+                </div>
 
                 <v-divider></v-divider>
                 <!-- --------------------------------------------------- -->
@@ -150,6 +152,7 @@ export default {
     },
     created () {
         this.$store.dispatch('loadNotificaciones')
+        console.log("El usuario", this.user)
     },
     methods: {
         gotoToPage (page) {
