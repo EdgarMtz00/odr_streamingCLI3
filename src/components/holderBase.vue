@@ -40,13 +40,13 @@
                         </v-layout>
                         <v-divider class="mt-2 mb-1" style="background: #000"></v-divider>
                         <v-layout row wrap align-center>
-                                <v-flex xs12 class="mt-1">
+                                <v-flex xs12 class="mt-1" v-if="currentContent.type.length > 0">
                                     <v-layout row wrap align-center>
                                         <div class="body-1 font-weight-medium" >{{typePH[lang]}}: </div>
                                         <v-chip class="ml-1" :small="xsOnly">{{currentContent.type}}</v-chip>
                                     </v-layout>
                                 </v-flex>
-                                <v-flex xs12 class="mt-1">
+                                <v-flex xs12 class="mt-1" v-if="currentContent.Tags.length > 0">
                                     <v-divider class="mb-1"></v-divider>
                                     <v-layout row wrap align-center>
                                         <div class="body-1 font-weight-medium">Tags:</div>
@@ -55,14 +55,14 @@
                                         </v-chip>
                                     </v-layout>
                                 </v-flex>
-                                <v-flex xs12 class="mt-1">
+                                <v-flex xs12 class="mt-1" v-if="currentContent.Descripcion.length > 0">
                                     <v-divider class="mb-1"></v-divider>
                                     <v-layout row wrap align-center>
                                         <div class="body-1 font-weight-medium mr-1">{{descriptionPH[lang]}}: </div>
                                         <div class="body-1"> {{currentContent.Descripcion}} </div>
                                     </v-layout>
                                 </v-flex>
-                                <v-flex xs12 class="mt-1">
+                                <v-flex xs12 class="mt-1" v-if="currentContent.Personajes.length > 0">
                                     <v-layout row wrap align-center>
                                         <v-flex xs12>
                                             <v-divider class="mb-1"></v-divider>
