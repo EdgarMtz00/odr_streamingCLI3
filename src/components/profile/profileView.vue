@@ -22,20 +22,20 @@
                                             <div v-if="!alreadyAFriend">
                                                 <v-btn color="primary" outline flat small v-if="this.$vuetify.breakpoint.xsOnly"
                                                     @click="addFriend">
-                                                    <v-icon>add</v-icon>{{labels.agregarAmigoCorto[preferedLang]}}
+                                                    <v-icon>add</v-icon>{{labels.agregarAmigoCorto[lang]}}
                                                 </v-btn>
                                                 <v-btn color="primary" outline flat v-else @click="addFriend">
-                                                    {{labels.agregarAmigo[preferedLang]}}
+                                                    {{labels.agregarAmigo[lang]}}
                                                 </v-btn>
                                             </div>
                                             <!-- Aca esta el eliminar -->
                                             <div v-else>
                                                 <v-btn color="primary" outline flat small v-if="this.$vuetify.breakpoint.xsOnly"
                                                     @click="addFriend">
-                                                    <v-icon>remove</v-icon>{{labels.removerAmigoCorto[preferedLang]}}
+                                                    <v-icon>remove</v-icon>{{labels.removerAmigoCorto[lang]}}
                                                 </v-btn>
                                                 <v-btn color="primary" outline flat v-else @click="removeFriend">
-                                                    {{labels.removerAmigo[preferedLang]}}
+                                                    {{labels.removerAmigo[lang]}}
                                                 </v-btn>
                                             </div>
                                         </div>
@@ -65,37 +65,37 @@
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.descripcion[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.descripcion[lang]}}: </div>
                                         <div class="ml-2">{{profileData.Descripcion}}</div>
                                     </v-layout>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.sexo[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.sexo[lang]}}: </div>
                                         <div class="ml-2">{{profileData.Sexo}}</div>
                                     </v-layout>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.ubicacion[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.ubicacion[lang]}}: </div>
                                         <div class="ml-2">{{profileData.Ubicacion}}</div>
                                     </v-layout>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.idioma[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.idioma[lang]}}: </div>
                                         <div class="ml-2">{{profileData.IdiomaPreferido}}</div>
                                     </v-layout>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.edad[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.edad[lang]}}: </div>
                                         <div class="ml-2">{{profileData.Edad}}</div>
                                     </v-layout>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.fechaReg[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.fechaReg[lang]}}: </div>
                                         <div class="ml-2">{{profileData.FechaDeRegistro}}</div>
                                     </v-layout>
                                 </v-flex>
@@ -140,7 +140,8 @@ export default {
         addFriend () {
             let friend = {
                 idProfile: this.idProfile,
-                idUsuario: this.user.id
+                idUsuario: this.user.id,
+                nombre: this.user.configuration.nickname,
             }
             this.$store.dispatch('addFriend', friend)
         },

@@ -5,8 +5,12 @@ import * as firebase from 'firebase'
 export default({
     state: {
         mensajes: {
-            contenido: ['Un contenido al que sigues estreno un nuevo elemento: <strong>---</strong>', 'A content you are following has new media: <strong>---</strong>'],
-            personaje: ['Un personaje al que sigues: <strong>***</strong> aparecera en el nuevo contenido <strong>---</strong> ', 'A character you are following: *** will appear in a this new content: '],
+            contenido: ['Un contenido al que sigues estreno un nuevo elemento: <strong>---</strong>', 
+            'A content you are following has new media: <strong>---</strong>'],
+            personaje: ['Un personaje al que sigues: <strong>***</strong> aparecera en el nuevo contenido <strong>---</strong> ', 
+            'A character you are following: <strong>***</strong> will appear in a this new content: <strong>---</strong>'],
+            contacto: ['El usuario: <strong>***</strong> te ha añadido de contacto, añadelo tambien para comenzar a chatear! ', 
+            'The user: <strong>***</strong> has added you as contact, add him too to start chating!'],
         },
         notificaciones: []
     },

@@ -102,6 +102,18 @@ export default({
                         if (!response1.exists()){
                             firebase.database().ref('chats/' + data.idChat).set('').then(response => {
                                 alert('Chat creado')
+                                // Crear la notificacion
+                                firebase.database().ref('notificaciones/').push({
+                                    idUsuario: friend.idProfile, // Como la notificacion es para el contacto, se pone la id del otro
+                                    idContacto: friend.idUsuario,
+                                    nombre: friend.nombre,
+                                    tipoContenido: 'contacto',
+                                    tipoNotificacion: 'contacto',
+                                    timestamp: (new Date().getTime() / 1000), /*Un timestamp para poder ordenarlos por fecha*/
+                                    visto: false,
+                                }).then(elThen => {
+                                    firebase.database().ref('notificaciones/' + elThen.key).child('idNotificacion').set(elThen.key)
+                                })
                             })
                         } else {
                             alert('El chat si existe')

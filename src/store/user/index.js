@@ -74,6 +74,13 @@ export default({
                 user.email = response.user.email
 
                 commit('setUserData', user)
+                // Crear el nodo en firebase para manejar los estados, por si no existia ya, en cada login lo checa
+                firebase.database().ref('estados/').push({
+                    estado: 'Online',
+                    idUsuario: user.id,
+                }).then(snapshot => {
+                    alert("Estado!")
+                })
 
             }).catch(error => {
                 console.log(error)
@@ -100,6 +107,13 @@ export default({
                 user.email = response.user.email
 
                 commit('setUserData', user)
+                // Crear el nodo en firebase para manejar los estados, por si no existia ya, en cada login lo checa
+                firebase.database().ref('estados/').push({
+                    estado: 'Online',
+                    idUsuario: user.id,
+                }).then(snapshot => {
+                    alert("Estado!")
+                })
 
                 // Aqui estaba el query a saveUser.php pero por el estado del auth firebase lo puse en donde
                 // este cambia

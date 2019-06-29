@@ -47,8 +47,12 @@ export default({
         actualizarEstado ({commit, getters}, payload) {
             firebase.database().ref('estados/' + payload.key).child('estado').set(payload.newEstado).then(res => {
             })
-
-        }
+        },
+        crearEstado ({commit, getters}, payload) {
+            firebase.database().ref('estados/').once('value').then(snapshot => {
+                console.log("Estados cantidad", snapshot.val().length)
+            })
+        },
     },
     getters: {
         getEstados (state) {

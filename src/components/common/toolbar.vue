@@ -235,8 +235,8 @@ export default {
             if (auxNotificaciones.length > 0) {
                 // Generar el mensaje de la notificacion
                 auxNotificaciones.forEach(notificacion => {
+                    let auxNotif = null
                     if (notificacion.tipoNotificacion == 'contenido') {
-                        let auxNotif = null
                         // Esta parte es un poco larga, ya que se genera el mensaje dependiendo
                         // Del tipo de notificacion y contenido que se tenga
                         if (notificacion.tipoNotificacion == 'contenido') {
@@ -275,9 +275,19 @@ export default {
                                 }
                             }
                         }
-                        if (auxNotif)
-                            notificaciones.push(auxNotif)
+                    } else if (notificacion.tipoContenido == 'contacto') {
+                        // Generar el nombre del usuario en el mensaje
+                        let auxCuerpo = this.systemMensajes.contacto[this.prefLanguaje].split('***').join(notificacion.nombre);
+                        auxNotif = {
+                            idNotificacion: notificacion.idNotificacion,
+                            cuerpo: auxCuerpo,
+                            titulo: '',
+                            url: "profileView/" + notificacion.idContacto + "/",
+                            visto: notificacion.visto
+                        }
                     }
+                    if (auxNotif)
+                        notificaciones.push(auxNotif)
                 });
                 console.log("Notificaciones generadas", notificaciones)
                 return notificaciones

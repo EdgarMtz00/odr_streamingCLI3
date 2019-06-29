@@ -161,7 +161,7 @@ firebase.auth().onAuthStateChanged(user => {
             let auxFind = val.find(iterator => {
                 return this.user.id == iterator.idUsuario
             })
-            console.log("debug auxfind", auxFind)
+            console.log("debug auxfind", auxFind, val)
             if(auxFind.estado.includes("Reproduciendo medios")) {
               return
             }
@@ -193,17 +193,15 @@ firebase.auth().onAuthStateChanged(user => {
           if (val.includes("/sagas/")) {
             let payload = {
                 key: auxFind.key, // key del firebase
-                newEstado: 'Reproduciendo medios' // Se pone como online
+                newEstado: 'Reproduciendo medios'
             }
             store.dispatch('actualizarEstado', payload)
-            alert("Acualizado el estado de medios")
           } else if (oldVal.includes("/sagas/") && !val.includes("/sagas/")) {
             let payload = {
                 key: auxFind.key, // key del firebase
                 newEstado: 'Online' // Se pone como online
             }
             store.dispatch('actualizarEstado', payload)
-            alert("Acualizado el estado a online")
           }
           // SI salio de reproducir un mdio
         }
