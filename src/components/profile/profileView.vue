@@ -42,7 +42,7 @@
                                         <!-- Apartado para cambiar el tipo de cuenta de alguien -->
                                         <!-- Solo un dios lo puede ver y si la cuenta que se ve es de
                                         un dios solo dice "dios" -->
-                                        <div v-if="user.cuenta == 'Dios' && profileData.TipoDeUsuario != 'Dios'" 
+                                        <div v-if="user.cuenta == 'Dios' && profileData.TipoDeUsuario != 'Dios' && !sameAsUser" 
                                         class="mx-auto">
                                             <v-btn-toggle class="primary" v-model="tipoDeCuenta">
                                             <v-btn value="CDC">

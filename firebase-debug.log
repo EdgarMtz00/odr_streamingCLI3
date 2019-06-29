@@ -1,34 +1,55 @@
-[debug] [2019-06-28T03:09:07.470Z] ----------------------------------------------------------------------
-[debug] [2019-06-28T03:09:07.472Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\esaue\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only functions
-[debug] [2019-06-28T03:09:07.472Z] CLI Version:   6.6.0
-[debug] [2019-06-28T03:09:07.472Z] Platform:      win32
-[debug] [2019-06-28T03:09:07.472Z] Node Version:  v11.3.0
-[debug] [2019-06-28T03:09:07.473Z] Time:          Thu Jun 27 2019 22:09:07 GMT-0500 (GMT-05:00)
-[debug] [2019-06-28T03:09:07.473Z] ----------------------------------------------------------------------
+[debug] [2019-06-29T02:01:31.190Z] ----------------------------------------------------------------------
+[debug] [2019-06-29T02:01:31.193Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\esaue\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js serve --only functions
+[debug] [2019-06-29T02:01:31.194Z] CLI Version:   6.6.0
+[debug] [2019-06-29T02:01:31.194Z] Platform:      win32
+[debug] [2019-06-29T02:01:31.194Z] Node Version:  v11.3.0
+[debug] [2019-06-29T02:01:31.195Z] Time:          Fri Jun 28 2019 21:01:31 GMT-0500 (GMT-05:00)
+[debug] [2019-06-29T02:01:31.195Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2019-06-28T03:09:07.489Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2019-06-28T03:09:07.490Z] > authorizing via signed-in user
-[debug] [2019-06-28T03:09:07.490Z] [iam] checking project odr-streaming for permissions ["firebase.projects.get"]
-[debug] [2019-06-28T03:09:07.492Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2019-06-28T03:09:07.492Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
- <request body omitted>
-[debug] [2019-06-28T03:09:07.914Z] <<< HTTP RESPONSE 200
-[debug] [2019-06-28T03:09:07.946Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/odr-streaming:testIamPermissions  
+[debug] [2019-06-29T02:01:31.207Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-06-29T02:01:31.209Z] > authorizing via signed-in user
+[debug] [2019-06-29T02:01:31.211Z] [iam] checking project odr-streaming for permissions ["firebase.projects.get"]
+[debug] [2019-06-29T02:01:31.213Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/odr-streaming:testIamPermissions  
 
-[debug] [2019-06-28T03:09:08.382Z] <<< HTTP RESPONSE 200
-[debug] [2019-06-28T03:09:08.383Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/odr-streaming  
+[debug] [2019-06-29T02:01:31.678Z] <<< HTTP RESPONSE 200
+[debug] [2019-06-29T02:01:31.679Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/odr-streaming  
  
-[debug] [2019-06-28T03:09:08.672Z] <<< HTTP RESPONSE 200
+[debug] [2019-06-29T02:01:32.000Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from 'C:\Users\esaue\Desktop\Odr\Odr'...
 [info] 
 [info] i  functions: Preparing to emulate functions.
-[debug] [2019-06-28T03:09:18.530Z] Fetching environment
-[debug] [2019-06-28T03:09:18.533Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/50680997374:getServerAppConfig  
+[debug] [2019-06-29T02:01:43.030Z] Fetching environment
+[debug] [2019-06-29T02:01:43.033Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/50680997374:getServerAppConfig  
  
-[debug] [2019-06-28T03:09:18.962Z] <<< HTTP RESPONSE 200
-[debug] [2019-06-28T03:09:18.962Z] Starting @google-cloud/functions-emulator
-[debug] [2019-06-28T03:09:24.821Z] Parsing function triggers
-[info] +  functions: checkHolderSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkHolderSuscriptions
-[info] +  functions: checkSagasSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkSagasSuscriptions
-[info] +  functions: checkPersonajesSuscriptions: http://localhost:5000/odr-streaming/us-central1/checkPersonajesSuscriptions
+[debug] [2019-06-29T02:01:43.430Z] <<< HTTP RESPONSE 200
+[debug] [2019-06-29T02:01:43.431Z] Starting @google-cloud/functions-emulator
+[debug] [2019-06-29T02:01:48.049Z] Parsing function triggers
+[warn] !  functions: Failed to load functions source code. Ensure that you have the latest SDK by running npm i --save firebase-functions inside the functions directory.
+[debug] [2019-06-29T02:01:48.370Z] Error during trigger parsing:  Error occurred while parsing your function triggers.
+
+TypeError: Cannot read property 'email' of undefined
+    at Object.<anonymous> (C:\Users\esaue\Desktop\Odr\Odr\functions\index.js:14:44)
+    at Module._compile (internal/modules/cjs/loader.js:722:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:733:10)
+    at Module.load (internal/modules/cjs/loader.js:620:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:560:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:552:3)
+    at Module.require (internal/modules/cjs/loader.js:658:17)
+    at require (internal/modules/cjs/helpers.js:22:18)
+    at C:\Users\esaue\AppData\Roaming\npm\node_modules\firebase-tools\lib\triggerParser.js:15:15
+    at Object.<anonymous> (C:\Users\esaue\AppData\Roaming\npm\node_modules\firebase-tools\lib\triggerParser.js:53:3)
+[warn] !  functions: Error from emulator. Error occurred while parsing your function triggers.
+
+TypeError: Cannot read property 'email' of undefined
+    at Object.<anonymous> (C:\Users\esaue\Desktop\Odr\Odr\functions\index.js:14:44)
+    at Module._compile (internal/modules/cjs/loader.js:722:30)
+    at Object.Module._extensions..js (internal/modules/cjs/loader.js:733:10)
+    at Module.load (internal/modules/cjs/loader.js:620:32)
+    at tryModuleLoad (internal/modules/cjs/loader.js:560:12)
+    at Function.Module._load (internal/modules/cjs/loader.js:552:3)
+    at Module.require (internal/modules/cjs/loader.js:658:17)
+    at require (internal/modules/cjs/helpers.js:22:18)
+    at C:\Users\esaue\AppData\Roaming\npm\node_modules\firebase-tools\lib\triggerParser.js:15:15
+    at Object.<anonymous> (C:\Users\esaue\AppData\Roaming\npm\node_modules\firebase-tools\lib\triggerParser.js:53:3)
+[debug] [2019-06-29T02:01:48.384Z] 

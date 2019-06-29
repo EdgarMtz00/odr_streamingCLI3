@@ -180,11 +180,22 @@ export default({
 
             user.configuration.base64 = image.substr(image.indexOf(',') + 1)
 
-            console.log('user', user.configuration)
+            console.log('user', user)
+            // Moficacion del 28/06/19 ya no solo se gurada la opcion de notificaciones por correo e idioma en la base SQL sino tambien
+            // En Firebase porque para hacer peticiones externas desde cloud functions para traer la info de los usuarios (entre ellas
+            // El idioma y las notificaciones de correo) se tenia que pagar y ps nomms xd nel
+            let configCorreo = {
+                activado: user.configuration.notificaciones,
+                correo: user.email,
+                idioma: (user.configuration.idioma == 0)? 'español':'ingles',
+            }
+
             bodyFormData.set('configuration', JSON.stringify(user.configuration))
 
             axios.post(urlBase + "connections/userConnections/saveConfiguration.php", bodyFormData).then(response => {
-                alert("Actualizado correctamente")
+                firebase.database().ref('correo/' + user.id).set(configCorreo).then(response => {
+                    alert("Actualizado correctamente")
+                })
                 commit ('setLoading', false)
             }).catch(error => {
                 commit ('setLoading', false)

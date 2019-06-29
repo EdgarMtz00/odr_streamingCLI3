@@ -340,7 +340,7 @@
         }
         console.log('Crear notificacion', params, {"Access-Control-Allow-Origin": "*"})
         // Llamar a la cloud function para notificar a los usuarios sucritos a ese holder
-        this.axios.get("http://localhost:5000/odr-streaming/us-central1/checkPersonajesSuscriptions", {params: params}, {"Access-Control-Allow-Origin": "*"}).then(response => {
+        this.axios.get("https://us-central1-odr-streaming.cloudfunctions.net/checkPersonajesSuscriptions", {params: params}, {"Access-Control-Allow-Origin": "*"}).then(response => {
             console.log("Wey, checa a ver si ya salio", response)
         })
       },
@@ -353,7 +353,7 @@
         }
         console.log('Crear notificacion', params, {"Access-Control-Allow-Origin": "*"})
         // Llamar a la cloud function para notificar a los usuarios sucritos a ese holder
-        this.axios.get("http://localhost:5000/odr-streaming/us-central1/checkSagasSuscriptions", {params: params}, {"Access-Control-Allow-Origin": "*"}).then(response => {
+        this.axios.get("https://us-central1-odr-streaming.cloudfunctions.net/checkSagasSuscriptions", {params: params}, {"Access-Control-Allow-Origin": "*"}).then(response => {
             console.log("Wey, checa a ver si ya salio", response)
         })
       },
