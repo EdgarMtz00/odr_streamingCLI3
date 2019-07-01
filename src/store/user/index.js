@@ -8,6 +8,7 @@ export default({
     state: {
         user: {},
         manualLogin: false,
+        reputacion: 0,
     },
     mutations: {
         setUserData (state, payload) {
@@ -50,6 +51,9 @@ export default({
         setManualLogin (state, payload) {
           state.manualLogin = payload
         },
+        setReputacion (state, payload) {
+            state.reputacion = payload
+        }
     },
     actions: {
         googleSignIn ({commit, getters}) {
@@ -257,6 +261,93 @@ export default({
             }).catch(error => {
                 console.log(error)
             })
+        },
+        loadReputacion ({commit}, idProfile) {
+            firebase.database().ref('reputacionVentas/').orderByChild("idUsuario").equalTo(idProfile).on('value', snapshot => {
+                console.log("reputacion", snapshot.val())
+                if (snapshot.val()) {
+                    // Misma rutina de siempre para guardar los resultados del snapshot
+                    let returnArr = [];
+                    snapshot.forEach(childSnapshot => {
+                        let item = childSnapshot.val();
+                        item.key = childSnapshot.key;
+                        returnArr.push(item);
+                    });
+                    let payload = {
+                        thumbsup: returnArr[0].thumbsup,
+                        thumbsdown: returnArr[0].thumbsdown
+                    }
+                    console.log("reputacion payload", payload)
+                    commit('setReputacion', payload)
+                } else {
+                    commit('setReputacion', {thumbsup: 1, thumbsdown: 0})
+                }
+                
+            })
+        },
+        registrarReputacion ({commit, getters}, payload) {
+            let urlBase = getters.urlBase
+            firebase.database().ref('reputacionVentas/').orderByChild("idUsuario").equalTo(payload.idUsuario).once('value', snapshot => {
+                let val = null
+                let returnArr = [];
+                snapshot.forEach(childSnapshot => {
+                    let item = childSnapshot.val();
+                    item.key = childSnapshot.key;
+                    returnArr.push(item);
+                });
+                val = returnArr[0]
+
+                console.log("reputacion up", val)
+                // Si no tiene hecho su nodo de reputacion se crea
+                if (!val) {
+                    if (payload.reputacion == 'good') {
+                        firebase.database().ref('reputacionVentas/').push({idUsuario: payload.idUsuario, thumbsup: 1, thumbsdown: 0}).then(res => {
+                            alert("Reputacion creada")
+                        })
+                    } else if (payload.reputacion == 'bad') {
+                        firebase.database().ref('reputacionVentas/').push({idUsuario: payload.idUsuario, thumbsup: 0, thumbsdown: 1}).then(res => {
+                            alert("Reputacion creada")
+                        })
+                    }
+                } else {
+                    if (payload.reputacion == 'good') {
+                        val.thumbsup += 1;
+                        console.log("reputacion", snapshot.ref)
+                        firebase.database().ref(snapshot.ref).child(val.key).set(val).then(res => {
+                            alert('registrado')
+                        })
+                    } else if (payload.reputacion == 'bad') {
+                        val.thumbsdown += 1;
+                        console.log("reputacion", snapshot.ref)
+                        firebase.database().ref(snapshot.ref).child(val.key).set(val).then(res => {})
+                    }
+                }
+
+                if (payload.tipo == 'comprador') {
+                    // Despues de haber registrado su calificacion es necesario borrarlo del nodo de tiendaCompradores para que no pueda volver
+                    // A entrar a la pagina de calificar al vendedor por su producto de nuevo y como el producto ya ha sido borrado pues no podra votar dos veces
+                    // Solo obtenemos la refencia 
+                    firebase.database().ref('tiendaCompradores/').orderByChild("idProducto").equalTo(payload.idProducto).once('value', snapshot => {
+                        snapshot.ref.remove().then(res => {
+                            //Volver a la pagina principal
+                            router.push('/shop')
+                        })
+                    })
+                } else if (payload.tipo == 'vendedor') {
+                    let formData = new FormData ()
+                    // En caso de que sea el vendedor quien esta calificando al comprador entonces se debe borrar el producto porque ya ha sido vendido
+                    axios.post(urlBase + 'connections/productos/productoVendido.php', formData).then(response => {
+                        let data = response.data
+                        if (data.status.includes('OK')) {
+                            router.push('/shop')
+                        } else {
+                            alert('ERROR AL BORRAR PRODUCTO!')
+                        }
+                    }).catch(error => {
+                        alert('ERROR AL BORRAR PRODUCTO!-> ' + error)
+                    })
+                }
+            })
         }
     },
     getters: {
@@ -281,5 +372,8 @@ export default({
             else
                 return 0
         },
+        getReputacion (state) {
+            return state.reputacion
+        }
     }
 })

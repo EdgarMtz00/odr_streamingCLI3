@@ -1,6 +1,5 @@
 <template>
     <v-layout row wrap fill-height style="background-color: #1a1325" justify-center>
-        Webos: {{imageUrl}}
         <v-flex xs12>
             <v-layout row wrap justify-center class="my-5" v-touch="{left: () => swipe('left'),right: () => swipe('right')}" v-if="isScan">
                 <v-flex xs10>

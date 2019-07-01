@@ -1,4 +1,6 @@
 import axios from 'axios'
+import * as firebase from 'firebase'
+import router from '../../router'
 
 export default({
   state: {
@@ -89,7 +91,10 @@ export default({
        },
        // Esto solo guarda los datos del usuario que publico el anuncio
        productoComprar: {
-       }
+       },
+       // Es una lista con los usuarios que contactaron al vendedor de un producto, con ella se realiza el proceso de marcar
+       // Como vendido
+       usuariosContactados: []
   },
   mutations: {
       setFiltro (state, payload) {
@@ -133,6 +138,9 @@ export default({
       },
       setProductoComprar (state, producto) {
           state.productoComprar = producto
+      },
+      setUsuariosContactados (state, payload) {
+          state.usuariosContactados = payload
       }
   },
   actions: {
@@ -237,6 +245,39 @@ export default({
               commit('setStatus', "Not Uploaded")
               console.log("Error!?", error)
           }) 
+      },
+      //Para formatear un solo producto
+      cargarProducto({commit, getters}, producto) {
+          let urlBase = getters.urlBase
+          // Auxiliar para guardar las url generadas
+          let auxUrls = []
+          for(let i = 1; i <= producto.numeroElemento; i++) {
+              auxUrls.push({
+                  src: urlBase + 'productos/' + producto.idProducto + '/' + i + '.jpg'
+              })
+          }
+
+          let type = ''
+          if (producto.cuenta == 'Consumidor') {
+              type = 'user'
+          } else {
+              type = 'system'
+          }
+          // El producto formateado
+          let aux = {
+              id: producto.idProducto,
+              titulo: producto.nombreProducto,
+              stock: producto.cantidad,
+              precio: producto.precio,
+              descripcion: producto.descripcion,
+              categoria: producto.categoria,
+              imagenes: auxUrls,
+              idUsuario: producto.idUsuario,
+              nickname: producto.Nickname,
+              type: type,
+              profilePic: urlBase + 'Profiles/' + producto.idUsuario + "/profile.jpg"
+          }
+          return aux
       },
       cargarProductos ({commit, getters}) {
           let urlBase = getters.urlBase
@@ -359,6 +400,69 @@ export default({
               commit('setLoading', false)
               commit('setStatus', "Not Deleted")
           })
+      },
+      indicarComprador({commit}, payload) {
+          let comprador = {
+              idComprador: payload.comprador.idUsuario,
+              idProducto: payload.idProducto,
+              idVendedor: payload.idVendedor,
+          }
+          firebase.database().ref('tiendaCompradores').push(comprador).then(response => {
+              alert('Se ha guardado el comprador')
+          })
+      },
+      cargarUsuariosContactados ({commit}, idProducto) {
+          // Traer la lista de usuarios que contactaron al creador del objeto
+          console.log("Usuarios contactados id", idProducto)
+          firebase.database().ref('tiendaUsuariosContactados/' + idProducto).once('value', snapshot => {
+              console.log("Usuarios contactados", snapshot.val())
+              let returnArr = [];
+              // Procedimiento para guardar los resultados del snapshot en un array, nose porque no lo hago funcion xd
+              snapshot.forEach(childSnapshot => {
+                  returnArr.push(childSnapshot.val());
+              });
+              // Guardarlos en el estado
+              console.log("Usuarios contactados returnArr", returnArr)
+              commit('setUsuariosContactados', returnArr)
+          })
+      },
+      // Va a firebase y en base al idProducto busca un nodo en tienda compradores
+      cargarComprador ({commit}, payload) {
+          console.log("Comprador payload", payload)
+          firebase.database().ref('tiendaCompradores/').orderByChild("idProducto").equalTo(payload.idProducto).once('value', snapshot => {
+              let returnArr = [];
+              snapshot.forEach(childSnapshot => {
+                  let item = childSnapshot.val();
+                  item.key = childSnapshot.key;
+                  returnArr.push(item);
+              });
+              // Comprobar que el usuario que ingreso a la pagina sea el mismo que compro el producto
+              let data = returnArr[0]
+              if (data.idComprador == payload.idUsuario) {
+                  //alert('Eres el comprador del producto')
+              } else {
+                  //alert('Solo el comprador puede entrar a esa pagina ' + data.idComprador + " " + payload.idUsuario)
+                  router.push('/')
+              }
+              
+          })
+      },
+      crearNotificacionVenta ({commit}, payload) {
+          // Llenar base de notificaciones
+          firebase.database().ref('notificaciones/').push({
+              idUsuario: payload.comprador.idUsuario,
+              idVendedor: payload.idVendedor,
+              idProducto: payload.idProducto,
+              nickname: payload.comprador.nickname,
+              producto: payload.producto,
+              tipoContenido: 'venta',
+              tipoNotificacion: 'calificar',
+              timestamp: (new Date().getTime() / 1000), /*Un timestamp para poder ordenarlos por fecha*/
+              visto: false,
+          }).then(elThen => {
+              firebase.database().ref('notificaciones/' + elThen.key).child('idNotificacion').set(elThen.key)     
+              alert('Notificacion creada')
+          })
       }
   },
   getters: {
@@ -379,6 +483,9 @@ export default({
       },
       getComprarProducto (state) {
           return state.productoComprar
+      },
+      getUsuariosContactados (state) {
+          return state.usuariosContactados
       }
   }
 })

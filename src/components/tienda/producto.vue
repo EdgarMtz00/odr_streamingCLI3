@@ -79,26 +79,32 @@
                     </v-flex>
                     <v-flex xs12 class="mt-2" v-if="!isFromUser">
                         <div class="body-2">
-                            Stock: {{stock}} {{isUserLogged}}
+                            Stock: {{stock}}
                         </div>
                     </v-flex>
                 </v-layout>
             </v-card-text>
-            <v-card-actions>
+            <v-card-actions v-if="!viewOnly">
                 <v-layout row wrap justify-space-between>
                     <!-- <v-btn :color="colorStatus" @click="" v-if="isFromUser">
                         <v-icon class="mr-1">message</v-icon>{{contanctUser}}
                     </v-btn> -->
-                    <contactar-usuario-component v-if="isFromUser && !sameUser"
-                    :imagenes="imagenes" :titulo="titulo" v-on:contactUser="setComprarProducto">
-                    </contactar-usuario-component>
-                    <v-btn v-else-if="!isFromUser"
+                    <v-flex xs12 md4>
+                        <contactar-usuario-component v-if="!sameUser" :idProducto="id"
+                        :imagenes="imagenes" :titulo="titulo" v-on:contactUser="setComprarProducto">
+                        </contactar-usuario-component>
+                        <!-- Boton marcar como vendido -->
+                        <marcar-vendido-component :idProducto="id" :nombreProducto="titulo" :idUsuario="idUsuario" v-if="sameUser"></marcar-vendido-component>
+                    </v-flex>
+                    <v-flex xs12 md4>
+                        <editar-producto-component v-if="puedeEditar"
+                        v-on:setEditProduct="setEditarProducto">
+                        </editar-producto-component>
+                    </v-flex>
+                    <!-- <v-btn v-else-if="!isFromUser"
                     :color="colorStatus" @click="añadirCarrito ()" :disabled="!disponibilidad">
                         <v-icon class="mr-1">{{iconStatus}}</v-icon>{{productoStatus[lang]}}
-                    </v-btn>
-                    <editar-producto-component v-if="puedeEditar"
-                    v-on:setEditProduct="setEditarProducto">
-                    </editar-producto-component>
+                    </v-btn> -->
                 </v-layout>
             </v-card-actions>
         </v-card>
@@ -150,6 +156,9 @@ export default {
         profilePic: {
             type: String
         },
+        viewOnly: {
+            default: false
+        }
     },
     data () {
         return {
@@ -157,7 +166,7 @@ export default {
             productoStatus: ['Añadir a carrito', 'Add to Cart'],
             iconStatus: 'add',
             colorStatus: 'success',
-            contanctUser: ['Contactar usuario', 'Contact user']
+            contanctUser: ['Contactar usuario', 'Contact user'],
         }
     },
     methods: {
@@ -214,7 +223,7 @@ export default {
                 profilePic: this.profilePic,
             }
             this.$store.commit('setProductoComprar', producto)
-        }
+        },
     },
     computed: {
         ...mapGetters({

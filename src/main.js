@@ -33,6 +33,7 @@ import TabsPerfil from './components/profile/tabsPerfil.vue'
 import Comment from './components/comentarios/comentario.vue'
 
 import Producto from "./components/tienda/producto.vue";
+import MarcarVendido from "./components/tienda/marcarVendido.vue";
 import MainCarrito from "./components/tienda/carrito/mainCarrito.vue";
 import CrearProducto from "./components/tienda/crearProducto.vue";
 import EditarProducto from './components/tienda/editarProducto.vue'
@@ -58,6 +59,7 @@ Vue.component('tabs-perfil-component', TabsPerfil)
 Vue.component('comentario-component', Comment)
 
 Vue.component("producto-component", Producto);
+Vue.component("marcar-vendido-component", MarcarVendido);
 Vue.component("carrito-component", MainCarrito);
 Vue.component("crear-producto-component", CrearProducto);
 Vue.component('editar-producto-component', EditarProducto)

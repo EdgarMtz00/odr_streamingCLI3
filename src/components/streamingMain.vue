@@ -3,7 +3,7 @@
     <v-layout row wrap justify-center>
       <v-flex xs12 md12>
         <v-layout column>
-          <v-btn color="success" @click="displayNotification">Prueba notificacion</v-btn>
+          <!-- <v-btn color="success" @click="displayNotification">Prueba notificacion</v-btn> -->
           <!-- Linea de sagas -->
           <!--------------------------------------------------------  -------------------------->
           <v-flex xs12>

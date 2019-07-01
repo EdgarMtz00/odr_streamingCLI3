@@ -11,6 +11,8 @@ export default({
             'A character you are following: <strong>***</strong> will appear in a this new content: <strong>---</strong>'],
             contacto: ['El usuario: <strong>***</strong> te ha añadido de contacto, añadelo tambien para comenzar a chatear! ', 
             'The user: <strong>***</strong> has added you as contact, add him too to start chating!'],
+            calificar: ['Se te ha elegido como comprador del producto <strong>***</strong>, califica el servicio del vendedor <strong>---</strong>',
+            "You have been choosed as the buyer of <strong>***</strong>, rate the seller's service: <strong>---</strong>"],
         },
         notificaciones: []
     },

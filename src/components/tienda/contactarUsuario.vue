@@ -14,7 +14,7 @@
                 <v-toolbar-title>{{title[currLanguaje]}}</v-toolbar-title>
                 <v-spacer></v-spacer>
 
-                {{amigos[0]}}
+                Idproducto: {{idProducto}}
 
                 </v-toolbar>
                 <v-layout row wrap>
@@ -103,6 +103,9 @@ export default {
         },
         titulo: {
             type: String
+        },
+        idProducto: {
+            default: '0'
         }
     },
     data () {
@@ -146,6 +149,8 @@ export default {
             let payload = {
                 idProfile: this.publicadorData.idUsuario,
                 idUsuario: this.user.id,
+                idProducto: this.idProducto,
+                nickname: this.user.configuration.nickname,
                 mensaje: "Re: " + this.titulo + ': ' + this.values[0].nombre + " - " + this.values[1].correo + " - " +
                 this.values[2].numero + " - \n" + this.values[3].descripcion,
             }

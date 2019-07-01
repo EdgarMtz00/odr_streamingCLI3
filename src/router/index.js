@@ -22,6 +22,8 @@ import Hubs from '@/components/red social/mostrarHubs.vue'
 import CreateHub from '@/components/red social/crearHub.vue'
 import HubImages from '@/components/red social/mostrarImagenes.vue'
 import CreateImage from '@/components/red social/crearImagen.vue'
+import CalificarVendedor from '@/components/tienda/calificarVendedor.vue'
+
 import { store } from '../store'
 // Profile
 import Configuration from '@/components/profile/configuration.vue'
@@ -162,6 +164,12 @@ const router = new Router({
       path: '/social/:urlSaga/:urlHub/createImage',
       name: 'Create Image',
       component: CreateImage,
+      beforeEnter: AuthGuard
+    },
+    {
+      path: '/calificarVendedor/:idVendedor/:idProducto',
+      name: 'Calificar vendedor',
+      component: CalificarVendedor,
       beforeEnter: AuthGuard
     }
   ],
