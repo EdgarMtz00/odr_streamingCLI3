@@ -18,7 +18,8 @@ export default ({
             fecha: '',
             status: false
         },
-        threadElegido: {}
+        threadElegido: {},
+        postProcesado: ''
     },
     mutations: {
         setSagasForo (state, payload) {
@@ -52,6 +53,12 @@ export default ({
         },
         guardarThread (state, payload) {
             state.threadElegido = payload
+        },
+        setNuevoPost (state, nuevoPost) {
+            state.postProcesado = nuevoPost
+        },
+        setCitaTextual (state, citaTextual) {
+            state.postProcesado = citaTextual
         }
     },
     actions: {
@@ -159,6 +166,186 @@ export default ({
                 console.log("Hubo un error en el POST a /forum/getPosts", error)
             })
         },
+        formatoAlTexto ({commit}, newPost) {
+            let etiqueta = "";
+            let negrita = 0, italica = 0, underline = 0, strike = 0, broke = 0, lista = 0, elemento = 0, posicion = 0, tamaño = 0;
+
+            for (let i = 0; i <= newPost.length; i++) {
+                if (newPost.search(/!b!/i) != -1) {
+                    etiqueta = 'B'
+                } else if (newPost.search(/!i!/i) != -1) {
+                    etiqueta = 'I'
+                } else if (newPost.search(/!u!/i) != -1) {
+                    etiqueta = 'U'
+                } else if (newPost.search(/!s!/i) != -1) {
+                    etiqueta = 'S'
+                } else if (newPost.search(/!j!/i) != -1) {
+                    etiqueta = 'Br'
+                } else if (newPost.search(/!l!/i) != -1) {
+                    etiqueta = 'L'
+                } else if (newPost.search(/!e!/i) != -1) {
+                    etiqueta = 'E'
+                } else if (newPost.search(/"ctr"/i) != -1) {
+                    etiqueta = 'Center'
+                } else if (newPost.search(/"lft"/i) != -1) {
+                    etiqueta = 'Left'
+                } else if (newPost.search(/"rgt"/i) != -1) {
+                    etiqueta = 'Right'
+                } else if (newPost.search(/"jtf"/i) != -1) {
+                    etiqueta = 'Justify'
+                } else if (newPost.search(/"a3"/i) != -1) {
+                    etiqueta = 'A3'
+                } else if (newPost.search(/"a6"/i) != -1) {
+                    etiqueta = 'A6'
+                } else if (newPost.search(/"t3"/i) != -1) {
+                    etiqueta = 'T3'
+                } else if (newPost.search(/"t6"/i) != -1) {
+                    etiqueta = 'T6'
+                } else {
+                    etiqueta = ''
+                }
+                switch (etiqueta) {
+                    case 'B':
+                        if (negrita == 1) {
+                            newPost = newPost.replace(/!b!/i, "</b>")
+                            negrita = 0
+                        } else if (negrita == 0) {
+                            newPost = newPost.replace(/!b!/i, "<b>")
+                            negrita = 1
+                        }
+                        break;
+                    case 'I':
+                        if (italica == 1) {
+                            newPost = newPost.replace(/!i!/i, "</i>")
+                            italica = 0
+                        } else if (italica == 0) {
+                            newPost = newPost.replace(/!i!/i, "<i>")
+                            italica = 1
+                        }
+                        break;
+                    case 'U':
+                        if (underline == 1) {
+                            newPost = newPost.replace(/!u!/i, "</u>")
+                            underline = 0
+                        } else if (underline == 0) {
+                            newPost = newPost.replace(/!u!/i, "<u>")
+                            underline = 1
+                        }
+                        break;
+                    case 'S':
+                        if (strike == 1) {
+                            newPost = newPost.replace(/!s!/i, "</strike>")
+                            strike = 0
+                        } else if (strike == 0) {
+                            newPost = newPost.replace(/!s!/i, "<strike>")
+                            strike = 1
+                        }
+                        break;
+                    case 'Br':
+                        if (broke == 1) {
+                            newPost = newPost.replace(/!j!/i, "</br>")
+                            broke = 0
+                        } else if (broke == 0) {
+                            newPost = newPost.replace(/!j!/i, "<br>")
+                            broke = 1
+                        }
+                        break;
+                    case 'L':
+                        if (lista == 1) {
+                            newPost = newPost.replace(/!l!/i, "</ul>")
+                            lista = 0
+                        } else if (lista == 0) {
+                            newPost = newPost.replace(/!l!/i, "<ul>")
+                            lista = 1
+                        }
+                        break;
+                    case 'E':
+                        if (elemento == 1) {
+                            newPost = newPost.replace(/!e!/i, "</li>")
+                            elemento = 0
+                        } else if (elemento == 0) {
+                            newPost = newPost.replace(/!e!/i, "<li>")
+                            elemento = 1
+                        }
+                        break;
+                    case 'Center':
+                        if (posicion == 1) {
+                            newPost = newPost.replace(/"ctr"/i, "</p>")
+                            posicion = 0
+                        } else if (posicion == 0) {
+                            newPost = newPost.replace(/"ctr"/i, '<p align="center">')
+                            posicion = 1
+                        }
+                        break;
+                    case 'Left':
+                        if (posicion == 1) {
+                            newPost = newPost.replace(/"lft"/i, "</p>")
+                            posicion = 0
+                        } else if (posicion == 0) {
+                            newPost = newPost.replace(/"lft"/i, '<p align="left">')
+                            posicion = 1
+                        }
+                        break;
+                    case 'Right':
+                        if (posicion == 1) {
+                            newPost = newPost.replace(/"rgt"/i, "</p>")
+                            posicion = 0
+                        } else if (posicion == 0) {
+                            newPost = newPost.replace(/"rgt"/i, '<p align="right">')
+                            posicion = 1
+                        }
+                        break;
+                    case 'Justify':
+                        if (posicion == 1) {
+                            newPost = newPost.replace(/"jtf"/i, "</p>")
+                            posicion = 0
+                        } else if (posicion == 0) {
+                            newPost = newPost.replace(/"jtf"/i, '<p align="justify">')
+                            posicion = 1
+                        }
+                        break;
+                    case 'A3':
+                        if (tamaño == 1) {
+                            newPost = newPost.replace(/"a3"/i, "</font>")
+                            tamaño = 0
+                        } else if (tamaño == 0) {
+                            newPost = newPost.replace(/"a3"/i, '<font size="3" face="Arial">')
+                            tamaño = 1
+                        }
+                        break;
+                    case 'A6':
+                        if (tamaño == 1) {
+                            newPost = newPost.replace(/"a6"/i, "</font>")
+                            tamaño = 0
+                        } else if (tamaño == 0) {
+                            newPost = newPost.replace(/"a6"/i, '<font size="6" face="Arial">')
+                            tamaño = 1
+                        }
+                        break;
+                    case 'T3':
+                        if (tamaño == 1) {
+                            newPost = newPost.replace(/"t3"/i, "</font>")
+                            tamaño = 0
+                        } else if (tamaño == 0) {
+                            newPost = newPost.replace(/"t3"/i, '<font size="3" face="Times New Roman">')
+                            tamaño = 1
+                        }
+                        break;
+                    case 'T6':
+                        if (tamaño == 1) {
+                            newPost = newPost.replace(/"t6"/i, "</font>")
+                            tamaño = 0
+                        } else if (tamaño == 0) {
+                            newPost = newPost.replace(/"t6"/i, '<font size="6" face="Times New Roman">')
+                            tamaño = 1
+                        }
+                        break;
+                    case '':
+                        break;
+                }
+            }
+            commit('setNuevoPost', newPost)
+        }
     },
     getters: {
         getSagasForo (state) {
@@ -185,8 +372,11 @@ export default ({
         getPostElegido (state) {
             return state.postElegido
         },
-        getThread (state){
+        getThread (state) {
             return state.threadElegido
+        },
+        getNuevoPost (state) {
+            return state.postProcesado
         }
     }
 })

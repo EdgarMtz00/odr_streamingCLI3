@@ -50,11 +50,14 @@ export default {
             let today = new Date();
             let date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
 
+            this.$store.dispatch("formatoAlTexto", this.newPost.post)
+
             if (this.postElegido.status) {
-                this.newPost.post = '<div>' + this.newPost.post + '</div>' + '<div>' + '<p>' + this.postElegido.contenido + '</p>' + '<p>' + this.postElegido.nickname + '</p>' + '</div>'
+                this.newPost.post = '<div>' + this.nuevoPost + '</div>' + '<div>' + '<p>' + this.postElegido.contenido + '</p>' + '<p>' + this.postElegido.nickname + '</p>' + '</div>'
+                this.$store.commit("setCitaTextual", this.newPost.post)
             }
 
-            formData.set('ContenidoPost', this.newPost.post)
+            formData.set('ContenidoPost', this.nuevoPost)
             formData.set('IdUsuario', this.user.id)
             formData.set('FechaDeCreacion', date)
             formData.set('IdThread', this.topicElegido)
@@ -73,31 +76,31 @@ export default {
         formatearTexto (type) {
             switch (type) {
                 case 'Bold':
-                    this.newPost.post = this.newPost.post + ' <b> Message </b>'
+                    this.newPost.post = this.newPost.post + ' !b!Message!b!'
                     break;
                 case 'Italic':
-                    this.newPost.post = this.newPost.post + ' <i> Message </i>'
+                    this.newPost.post = this.newPost.post + ' !i!Message!i!'
                     break;
                 case 'Link':
-                    this.newPost.post = this.newPost.post + ' <a href="URL"> Message </a>'
+                    this.newPost.post = this.newPost.post + ' <a href="URL">Mensaje</a>'
                     break;
                 case 'Align':
-                    this.newPost.post = this.newPost.post + ' <p align="ALIGNMENT"> Message </p>'
+                    this.newPost.post = this.newPost.post + ' "jtf/lft/ctr/rgt"Message"jtf/lft/ctr/rgt"'
                     break;
                 case 'Font':
-                    this.newPost.post = this.newPost.post + ' <font size="3" face="Arial"> Message </font>'
+                    this.newPost.post = this.newPost.post + ' "a3/a6/t3/t6"Message"a3/a6/t3/t6"'
                     break;
                 case 'Underline':
-                    this.newPost.post = this.newPost.post + ' <u> Message </u>'
+                    this.newPost.post = this.newPost.post + ' !u!Message!u!'
                     break;
                 case 'Cross':
-                    this.newPost.post = this.newPost.post + ' <strike> Message </strike>'
+                    this.newPost.post = this.newPost.post + ' !s!Message!s!'
                     break;
                 case 'Bullet':
-                    this.newPost.post = this.newPost.post + ' <ul><li> Message 1</li><li> Message 2</li><li> Message 3</li></ul>'
+                    this.newPost.post = this.newPost.post + ' !l!!e!Message 1!e!!e!Message 2!e!!e!Message 3!e!!l!'
                     break;
                 case 'Break':
-                    this.newPost.post = this.newPost.post + ' <br> Message </br>'
+                    this.newPost.post = this.newPost.post + ' !j!Message!j!'
                     break;
             }
         }
@@ -111,6 +114,9 @@ export default {
         },
         postElegido () {
             return this.$store.getters.getPostElegido
+        },
+        nuevoPost () {
+            return this.$store.getters.getNuevoPost
         }
     },
     watch: {
