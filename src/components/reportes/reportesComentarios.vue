@@ -2,17 +2,18 @@
     <v-layout row wrap justify-center>
         <v-flex>
             <v-layout justify-center>
-                <v-data-table :items="reporteData" rows-per-page-text="Reportes por página">
+                <v-data-table :items="reporteData" hide-actions hide-headers no-data-text="No hay reportes">
                     <template slot="items" slot-scope="data">
                         <v-layout>
                             <v-card>
-                                <v-card-text>Comentario reportado</v-card-text>
-                                <v-card-text>{{ data.item.comentarioReportado }}</v-card-text>
+                                <v-card-text>Contenido reportado</v-card-text>
+                                <v-card-text v-html="data.item.comentarioReportado"></v-card-text>
+                                <v-img v-if="data.item.type == 'Imagen'" :src="data.item.thumbnail"></v-img>
                                 <v-card-text>{{ data.item.idUsuarioDelComentario }} {{ data.item.idComentario }}</v-card-text>
                                 <v-card-text>Detalles del reporte</v-card-text>
                                 <v-card-text>{{ data.item.textoDelReporte }}</v-card-text>
-                                <v-card-text>{{ data.item.nickname }} {{ data.item.urlComentario }}</v-card-text>
-                                <v-card-actions><v-btn @click="eliminarComentario (urlComentario, data.item)">Eliminar comentario</v-btn><v-btn @click="ignorarReporte">Ignorar reporte</v-btn></v-card-actions>
+                                <v-card-text>{{ data.item.nickname }} {{ data.item.urlComentario }} {{ data.item.type }}</v-card-text>
+                                <v-card-actions><v-btn @click="eliminarContenido (data.item)">Eliminar contenido</v-btn><v-btn @click="ignorarReporte">Ignorar reporte</v-btn></v-card-actions>
                             </v-card>
                         </v-layout>
                     </template>
@@ -30,9 +31,17 @@ export default {
         }
     },
     methods: {
-        eliminarComentario (route, comment) {
+        eliminarContenido (contenido) {
+            console.log("El objeto contenido: ", contenido)
+            if (contenido.type == 'Comentario') {
+                this.eliminarComentario(contenido)
+            } else {
+                this.$store.dispatch("eliminarReporte", contenido)
+            }
+        },
+        eliminarComentario (comment) {
             let payload = {
-                url: route,
+                url: comment.urlComentario,
                 comentario: comment
             }
             this.$store.dispatch('eliminarComentario', payload)

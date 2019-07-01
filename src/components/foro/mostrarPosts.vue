@@ -17,6 +17,7 @@
                                 <v-card-text v-html="data.item.contenidoPost"></v-card-text>
                                 <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
                                 <v-btn @click="citarPost(data.item.contenidoPost, data.item.nickname, data.item.fecha)">Quote post</v-btn>
+                                <v-btn @click="reportarPost(data.item)">Report Post</v-btn>
                             </v-card>
                         </v-layout>
                     </template>
@@ -65,6 +66,9 @@ export default {
             this.quote.status = true
             this.$store.commit('setPostElegido', this.quote)
             this.goToRoute('New', 'createPost')
+        },
+        reportarPost (reportedPost) {
+            this.$store.dispatch("reportarPost", reportedPost)
         }
     },
     computed: {

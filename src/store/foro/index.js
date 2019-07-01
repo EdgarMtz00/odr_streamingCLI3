@@ -129,6 +129,7 @@ export default ({
                             contenidoThread: elementTopics.ContenidoThread,
                             fecha: elementTopics.FechaDeCreacion,
                             url: elementTopics.IdThread,
+                            idUsuario: elementTopics.IdUsuario,
                             nickname: elementTopics.Nickname,
                             type: 'Topic'
                         })       
@@ -155,6 +156,7 @@ export default ({
                             contenidoPost: elementPosts.ContenidoPost,
                             fecha: elementPosts.FechaDeCreacion,
                             idThread: elementPosts.IdThread,
+                            idUsuario: elementPosts.IdUsuario,
                             nickname: elementPosts.Nickname,
                             type: 'Post'
                         })       
@@ -345,6 +347,44 @@ export default ({
                 }
             }
             commit('setNuevoPost', newPost)
+        },
+        reportarPost ({commit, getters}, postReportado) {
+            let urlBase = getters.urlBase
+            let usuario = getters.getUserData
+
+            let formData = new FormData()
+            formData.set('idUsuarioDelReporte', usuario.id)
+            formData.set('idUsuarioDelComentario', postReportado.idUsuario)
+            formData.set('idComentario', postReportado.idPost)
+            formData.set('comentarioReportado', postReportado.contenidoPost)
+            formData.set('textoDelReporte', 'N/A')
+            formData.set('urlComentario', 'N/A')
+            formData.set('tipoReporte', 'Post')
+
+            axios.post(urlBase + "connections/comments/sendReport.php", formData).then(function (response) {
+                console.log("Lo que se envia al server: ", response)
+            }).catch(function (error) {
+                console.log("Ocurrio un error enviando al server: ", error)
+            })
+        },
+        reportarTopic ({commit, getters}, topicReportado) {
+            let urlBase = getters.urlBase
+            let usuario = getters.getUserData
+
+            let formData = new FormData()
+            formData.set('idUsuarioDelReporte', usuario.id)
+            formData.set('idUsuarioDelComentario', topicReportado.idUsuario)
+            formData.set('idComentario', topicReportado.url)
+            formData.set('comentarioReportado', topicReportado.contenidoThread)
+            formData.set('textoDelReporte', 'N/A')
+            formData.set('urlComentario', 'N/A')
+            formData.set('tipoReporte', 'Topic')
+
+            axios.post(urlBase + "connections/comments/sendReport.php", formData).then(function (response) {
+                console.log("Lo que se envia al server: ", response)
+            }).catch(function (error) {
+                console.log("Ocurrio un error enviando al server: ", error)
+            })
         }
     },
     getters: {

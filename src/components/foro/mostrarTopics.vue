@@ -14,6 +14,7 @@
                                 <v-card-title>{{ data.item.titulo }}</v-card-title>
                                 <v-card-text v-html="data.item.contenidoThread"></v-card-text>
                                 <v-card-text>{{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
+                                <v-btn @click="reportarTopic(data.item)">Report Topic</v-btn>
                             </v-card>
                         </v-layout>
                     </template>
@@ -57,6 +58,9 @@ export default {
             this.$nextTick(() => {
                     this.$router.push('/forums/' + this.urlSaga)
             })
+        },
+        reportarTopic (reportedTopic) {
+            this.$store.dispatch("reportarTopic", reportedTopic)
         }
     },
     computed: {

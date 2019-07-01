@@ -13,7 +13,7 @@
                             <td class="text-xs-left my-1">{{ data.item.url }}</td>
                             <td class="text-xs-left my-1">{{ data.item.titulo }}</td>
                             <td class="text-xs-left my-1">{{ data.item.creador }}</td>
-                            <td class="text-xs-left my-1">{{ data.item.type }}</td>
+                            <v-btn @click="reportarHub(data.item)">Report Hub</v-btn>
                         </v-layout>
                     </template>
                 </v-data-table>
@@ -55,6 +55,9 @@ export default {
             this.$nextTick(() => {
                     this.$router.push('/social/')
             })
+        },
+        reportarHub (reportedHub) {
+            this.$store.dispatch("reportarHub", reportedHub)
         }
     },
     computed: {

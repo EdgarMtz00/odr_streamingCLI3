@@ -14,6 +14,7 @@
                                 <v-img :src="data.item.thumbnail"></v-img>
                                 <v-card-text v-html="data.item.titulo"></v-card-text>
                                 <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
+                                <v-btn @click="reportarImagen(data.item)">Report Image</v-btn>
                             </v-card>
                         </v-layout>
                     </template>
@@ -70,6 +71,9 @@ export default {
                     break;
                 }
             }
+        },
+        reportarImagen (reportedImage) {
+            this.$store.dispatch("reportarImagen", reportedImage)
         }
     },
     computed: {

@@ -81,6 +81,7 @@ export default ({
                             titulo: elementHubs.TituloHub,
                             idSaga: elementHubs.IdSaga,
                             idPersonaje: elementHubs.IdPersonaje,
+                            idUsuario: elementHubs.IdUsuario,
                             creador: elementHubs.Nickname,
                             type: 'Hub',
                         })
@@ -164,6 +165,44 @@ export default ({
             commit('guardarIdHub', strVacio)
             commit('guardarIdImage', strVacio)
             commit('guardarIdSaga', strVacio)
+        },
+        reportarImagen ({commit, getters}, imagenReportada) {
+            let urlBase = getters.urlBase
+            let usuario = getters.getUserData
+
+            let formData = new FormData()
+            formData.set('idUsuarioDelReporte', usuario.id)
+            formData.set('idUsuarioDelComentario', imagenReportada.idUsuario)
+            formData.set('idComentario', imagenReportada.id)
+            formData.set('comentarioReportado', imagenReportada.thumbnail)
+            formData.set('textoDelReporte', 'N/A')
+            formData.set('urlComentario', 'N/A')
+            formData.set('tipoReporte', 'Imagen')
+
+            axios.post(urlBase + "connections/comments/sendReport.php", formData).then(function (response) {
+                console.log("Lo que se envia al server: ", response)
+            }).catch(function (error) {
+                console.log("Ocurrio un error enviando al server: ", error)
+            })
+        },
+        reportarHub ({commit, getters}, hubReportado) {
+            let urlBase = getters.urlBase
+            let usuario = getters.getUserData
+
+            let formData = new FormData()
+            formData.set('idUsuarioDelReporte', usuario.id)
+            formData.set('idUsuarioDelComentario', hubReportado.idUsuario)
+            formData.set('idComentario', hubReportado.url)
+            formData.set('comentarioReportado', hubReportado.titulo)
+            formData.set('textoDelReporte', 'N/A')
+            formData.set('urlComentario', 'N/A')
+            formData.set('tipoReporte', 'Hub')
+
+            axios.post(urlBase + "connections/comments/sendReport.php", formData).then(function (response) {
+                console.log("Lo que se envia al server: ", response)
+            }).catch(function (error) {
+                console.log("Ocurrio un error enviando al server: ", error)
+            })
         }
     },
     getters: {

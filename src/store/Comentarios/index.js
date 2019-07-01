@@ -60,6 +60,7 @@ export default({
             formData.set('idUsuarioDelComentario', payload.comentario.idUsuario)
             formData.set('idComentario', payload.comentario.idComentario)
             formData.set('idUsuarioDelReporte', payload.usuarioReporte)
+            formData.set('tipoReporte', 'Comentario')
             axios.post(urlBase + 'connections/comments/sendReport.php', formData).then(function (response) {
                 alert("Reporte enviado")
             }).catch(function (error) {
