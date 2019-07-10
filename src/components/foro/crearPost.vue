@@ -76,31 +76,31 @@ export default {
         formatearTexto (type) {
             switch (type) {
                 case 'Bold':
-                    this.newPost.post = this.newPost.post + ' !b!Message!b!'
+                    this.newPost.post = this.newPost.post + ' *write your message between the asterisks*'
                     break;
                 case 'Italic':
-                    this.newPost.post = this.newPost.post + ' !i!Message!i!'
+                    this.newPost.post = this.newPost.post + ' _write your message between the underscores_'
                     break;
                 case 'Link':
-                    this.newPost.post = this.newPost.post + ' <a href="URL">Mensaje</a>'
+                    this.newPost.post = this.newPost.post + ' <a href="URL">write your message here and the url where it says URL</a>'
                     break;
                 case 'Align':
-                    this.newPost.post = this.newPost.post + ' "jtf/lft/ctr/rgt"Message"jtf/lft/ctr/rgt"'
+                    this.newPost.post = this.newPost.post + ' "jtf/lft/ctr/rgt"write your message here and choose one in both sides (must be the same), leave the quotes"jtf/lft/ctr/rgt"'
                     break;
                 case 'Font':
-                    this.newPost.post = this.newPost.post + ' "a3/a6/t3/t6"Message"a3/a6/t3/t6"'
+                    this.newPost.post = this.newPost.post + ' "a3/a6/t3/t6"write your message here and choose one in both sides (must be the same), leave the quotes"a3/a6/t3/t6"'
                     break;
                 case 'Underline':
-                    this.newPost.post = this.newPost.post + ' !u!Message!u!'
+                    this.newPost.post = this.newPost.post + ' $write your message between the money signs$'
                     break;
                 case 'Cross':
-                    this.newPost.post = this.newPost.post + ' !s!Message!s!'
+                    this.newPost.post = this.newPost.post + ' ~write your message between the curly lines~'
                     break;
                 case 'Bullet':
-                    this.newPost.post = this.newPost.post + ' !l!!e!Message 1!e!!e!Message 2!e!!e!Message 3!e!!l!'
+                    this.newPost.post = this.newPost.post + ' |°write your list elements between the circles, the list must be surrounded by absolute value symbols°°element 2°°element 3°|'
                     break;
                 case 'Break':
-                    this.newPost.post = this.newPost.post + ' !j!Message!j!'
+                    this.newPost.post = this.newPost.post + ' #write your message between the sharp symbols, it will appear in a new line#'
                     break;
             }
         }

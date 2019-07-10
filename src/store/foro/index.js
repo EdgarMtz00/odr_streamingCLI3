@@ -173,19 +173,19 @@ export default ({
             let negrita = 0, italica = 0, underline = 0, strike = 0, broke = 0, lista = 0, elemento = 0, posicion = 0, tamaño = 0;
 
             for (let i = 0; i <= newPost.length; i++) {
-                if (newPost.search(/!b!/i) != -1) {
+                if (newPost.search(/\*/i) != -1) {
                     etiqueta = 'B'
-                } else if (newPost.search(/!i!/i) != -1) {
+                } else if (newPost.search(/\_/i) != -1) {
                     etiqueta = 'I'
-                } else if (newPost.search(/!u!/i) != -1) {
+                } else if (newPost.search(/\$/i) != -1) {
                     etiqueta = 'U'
-                } else if (newPost.search(/!s!/i) != -1) {
+                } else if (newPost.search(/\~/i) != -1) {
                     etiqueta = 'S'
-                } else if (newPost.search(/!j!/i) != -1) {
+                } else if (newPost.search(/\#/i) != -1) {
                     etiqueta = 'Br'
-                } else if (newPost.search(/!l!/i) != -1) {
+                } else if (newPost.search(/\|/i) != -1) {
                     etiqueta = 'L'
-                } else if (newPost.search(/!e!/i) != -1) {
+                } else if (newPost.search(/\°/i) != -1) {
                     etiqueta = 'E'
                 } else if (newPost.search(/"ctr"/i) != -1) {
                     etiqueta = 'Center'
@@ -209,64 +209,64 @@ export default ({
                 switch (etiqueta) {
                     case 'B':
                         if (negrita == 1) {
-                            newPost = newPost.replace(/!b!/i, "</b>")
+                            newPost = newPost.replace(/\*/i, "</b>")
                             negrita = 0
                         } else if (negrita == 0) {
-                            newPost = newPost.replace(/!b!/i, "<b>")
+                            newPost = newPost.replace(/\*/i, "<b>")
                             negrita = 1
                         }
                         break;
                     case 'I':
                         if (italica == 1) {
-                            newPost = newPost.replace(/!i!/i, "</i>")
+                            newPost = newPost.replace(/\_/i, "</i>")
                             italica = 0
                         } else if (italica == 0) {
-                            newPost = newPost.replace(/!i!/i, "<i>")
+                            newPost = newPost.replace(/\_/i, "<i>")
                             italica = 1
                         }
                         break;
                     case 'U':
                         if (underline == 1) {
-                            newPost = newPost.replace(/!u!/i, "</u>")
+                            newPost = newPost.replace(/\$/i, "</u>")
                             underline = 0
                         } else if (underline == 0) {
-                            newPost = newPost.replace(/!u!/i, "<u>")
+                            newPost = newPost.replace(/\$/i, "<u>")
                             underline = 1
                         }
                         break;
                     case 'S':
                         if (strike == 1) {
-                            newPost = newPost.replace(/!s!/i, "</strike>")
+                            newPost = newPost.replace(/\~/i, "</strike>")
                             strike = 0
                         } else if (strike == 0) {
-                            newPost = newPost.replace(/!s!/i, "<strike>")
+                            newPost = newPost.replace(/\~/i, "<strike>")
                             strike = 1
                         }
                         break;
                     case 'Br':
                         if (broke == 1) {
-                            newPost = newPost.replace(/!j!/i, "</br>")
+                            newPost = newPost.replace(/\#/i, "</br>")
                             broke = 0
                         } else if (broke == 0) {
-                            newPost = newPost.replace(/!j!/i, "<br>")
+                            newPost = newPost.replace(/\#/i, "<br>")
                             broke = 1
                         }
                         break;
                     case 'L':
                         if (lista == 1) {
-                            newPost = newPost.replace(/!l!/i, "</ul>")
+                            newPost = newPost.replace(/\|/i, "</ul>")
                             lista = 0
                         } else if (lista == 0) {
-                            newPost = newPost.replace(/!l!/i, "<ul>")
+                            newPost = newPost.replace(/\|/i, "<ul>")
                             lista = 1
                         }
                         break;
                     case 'E':
                         if (elemento == 1) {
-                            newPost = newPost.replace(/!e!/i, "</li>")
+                            newPost = newPost.replace(/\°/i, "</li>")
                             elemento = 0
                         } else if (elemento == 0) {
-                            newPost = newPost.replace(/!e!/i, "<li>")
+                            newPost = newPost.replace(/\°/i, "<li>")
                             elemento = 1
                         }
                         break;

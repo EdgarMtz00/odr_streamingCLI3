@@ -13,7 +13,7 @@
                                 <v-card-text>Detalles del reporte</v-card-text>
                                 <v-card-text>{{ data.item.textoDelReporte }}</v-card-text>
                                 <v-card-text>{{ data.item.nickname }} {{ data.item.urlComentario }} {{ data.item.type }}</v-card-text>
-                                <v-card-actions><v-btn @click="eliminarContenido (data.item)">Eliminar contenido</v-btn><v-btn @click="ignorarReporte">Ignorar reporte</v-btn></v-card-actions>
+                                <v-card-actions><v-btn @click="eliminarContenido (data.item)">Eliminar contenido</v-btn><v-btn @click="ignorarReporte (data.item)">Ignorar reporte</v-btn></v-card-actions>
                             </v-card>
                         </v-layout>
                     </template>
@@ -46,8 +46,8 @@ export default {
             }
             this.$store.dispatch('eliminarComentario', payload)
         },
-        ignorarReporte () {
-
+        ignorarReporte (reporte) {
+            this.$store.dispatch("ignorarReporte", reporte)
         }
     },
     computed: {

@@ -79,6 +79,19 @@ export default ({
                     break;
             }
         },
+        ignorarReporte ({commit, getters}, reporte) {
+            let urlBase = getters.urlBase
+
+            let formData = new FormData()
+            formData.set('tipoReporte', reporte.type)
+            formData.set('idContenido', reporte.idComentario)
+
+            axios.post(urlBase + 'connections/comments/deletePost.php', formData).then(function (response) {
+                console.log("No hubo problema", response)
+            }).catch(function (error) {
+                console.log("Hubo un error en el POST a /comments/deletePost", error)
+            })
+        }
     },
     getters: {
         getReportesComentarios (state) {
