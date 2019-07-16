@@ -77,6 +77,13 @@ export default ({
                         console.log("Hubo un error en el POST a /comments/deleteHub", error)
                     })
                     break;
+                case 'Producto':
+                    axios.post(urlBase + 'connections/comments/deleteProduct.php', formData).then(function (response) {
+                        console.log("No hubo problema", response)
+                    }).catch(function (error) {
+                        console.log("Hubo un error en el POST a /comments/deleteProduct", error)
+                    })
+                    break;
             }
         },
         ignorarReporte ({commit, getters}, reporte) {

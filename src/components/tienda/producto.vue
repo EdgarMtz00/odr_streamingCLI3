@@ -96,6 +96,7 @@
                     :color="colorStatus" @click="añadirCarrito ()" :disabled="!disponibilidad">
                         <v-icon class="mr-1">{{iconStatus}}</v-icon>{{productoStatus[lang]}}
                     </v-btn>
+                    <v-btn @click="reportarProducto()">Report Object</v-btn>
                     <editar-producto-component v-if="puedeEditar"
                     v-on:setEditProduct="setEditarProducto">
                     </editar-producto-component>
@@ -214,6 +215,14 @@ export default {
                 profilePic: this.profilePic,
             }
             this.$store.commit('setProductoComprar', producto)
+        },
+        reportarProducto () {
+            let productReport = {
+                idUsuario: this.idUsuario,
+                idContenido: this.id,
+                contenido: 'Titulo: ' + this.titulo + ' Descripcion: ' + this.descripcion + ' Imagen: ' + this.imagen,
+            }
+            this.$store.dispatch('reportProduct', productReport)
         }
     },
     computed: {

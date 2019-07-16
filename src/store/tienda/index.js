@@ -359,6 +359,25 @@ export default({
               commit('setLoading', false)
               commit('setStatus', "Not Deleted")
           })
+      },
+      reportProduct ({commit, getters}, productoReportado) {
+        let urlBase = getters.urlBase
+        let usuario = getters.getUserData
+
+        let formData = new FormData()
+        formData.set('idUsuarioDelComentario', productoReportado.idUsuario)
+        formData.set('idUsuarioDelReporte', usuario.id)
+        formData.set('comentarioReportado', productoReportado.contenido)
+        formData.set('urlComentario', 'N/A')
+        formData.set('idComentario', productoReportado.idContenido)
+        formData.set('tipoReporte', 'Producto')
+        formData.set('textoDelReporte', 'N/A')
+
+        axios.post(urlBase + "connections/comments/sendReport.php", formData).then(function (response) {
+            console.log("Lo que se envia al server: ", response)
+        }).catch(function (error) {
+            console.log("Ocurrio un error enviando al server: ", error)
+        })
       }
   },
   getters: {
