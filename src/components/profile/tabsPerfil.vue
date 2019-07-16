@@ -10,7 +10,7 @@
             <!-- TAB DE WATCHLIST -->
             <v-tab-item value="tab-watchlist">
                 <v-layout row wrap v-if="watchlist.length > 0">
-                    <v-flex xs12 md6 lg4 v-for="(item, index) in watchlist" :key="index" class="pa-1">
+                    <v-flex xs12 md12 lg12 v-for="(item, index) in watchlist" :key="index" class="pa-1">
                         <v-card flat>
                             <v-card-text>
                                 <v-layout row wrap>
@@ -33,11 +33,11 @@
                                                             <v-layout row wrap justify-space-between>
                                                                 <v-btn color="primary" icon flat small outline
                                                                 @click="cambiarOrdenMas(item)">
-                                                                    <v-icon>arrow_upward</v-icon>
+                                                                    <v-icon>arrow_downward</v-icon>
                                                                 </v-btn>
                                                                 <v-btn color="primary" icon flat small outline
                                                                 @click="cambiarOrdenMenos(item)">
-                                                                    <v-icon>arrow_downward</v-icon>
+                                                                    <v-icon>arrow_upward</v-icon>
                                                                 </v-btn>
                                                             </v-layout>
                                                         </v-flex>

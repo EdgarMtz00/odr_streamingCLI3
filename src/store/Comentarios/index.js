@@ -16,6 +16,9 @@ export default({
     mutations: {
         setComentarios (state, payload) {
             state.comentarios = payload
+        },
+        setComentariosReportados (state, payload) {
+            state.comentariosReportados = payload
         }
     },
     actions: {
@@ -48,11 +51,33 @@ export default({
             let key = payload.comentario.key
             console.log("El comentario", payload)
             firebase.database().ref('comentarios/' + codedUrl + '/' + key).remove()
+        },
+        reportarComentario ({commit, getters, dispatch}, payload) {
+            let urlBase = getters.urlBase
+            console.log("payload", payload)
+            let formData = new FormData()
+            formData.set('urlComentario', payload.url)
+            formData.set('comentarioReportado', payload.comentario.comentario)
+            formData.set('textoDelReporte', payload.reporte)
+            formData.set('idUsuarioDelComentario', payload.comentario.idUsuario)
+            formData.set('idComentario', payload.comentario.idComentario)
+            formData.set('idUsuarioDelReporte', payload.usuarioReporte)
+            formData.set('tipoReporte', 'Comentario')
+            axios.post(urlBase + 'connections/comments/sendReport.php', formData).then(function (response) {
+                // Segundo parametro es el tipo de contenido del reporte
+                dispatch('crearNotificacionReporte', 'comentario')
+                alert("Reporte enviado")
+            }).catch(function (error) {
+                console.log("Hubo un error en el POST a comments/sendReport", error)
+            })
         }
     },
     getters: {
         getComentarios (state) {
             return state.comentarios.reverse()
+        },
+        getComentariosReportados (state) {
+            return state.comentariosReportados
         }
     }
 })

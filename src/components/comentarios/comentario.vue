@@ -8,7 +8,7 @@
                         <img :src="comentario.urlImagen">
                     </v-avatar>
                     <v-tooltip bottom>
-                        <v-btn color="red" icon slot="activator"><v-icon>report</v-icon></v-btn>
+                        <v-btn color="red" icon slot="activator" @click="reportComment = !reportComment"><v-icon>report</v-icon></v-btn>
                         <span>{{reportar[currLanguaje]}}</span>
                     </v-tooltip>
                     <v-tooltip bottom v-if="isOwner">
@@ -36,6 +36,14 @@
                     {{verMas[currLanguaje]}}
                 </v-btn>
             </v-flex>
+
+            <v-flex xs10 md11 class="pl-2 pa-2 mb-2" style="background-color: rgba(0,0,0,0.3); border-radius: 10px;" v-if="reportComment">
+                    <div>
+                        <h2>Formulario de reporte: </h2>
+                        <v-text-field name="reporte" label="Escribe tu reporte" v-model="reporte"></v-text-field>
+                        <v-btn color="success" @click="reportarComentario">Enviar reporte</v-btn>
+                    </div>
+            </v-flex>
         </v-layout>
     </div>
 </template>
@@ -46,7 +54,9 @@ export default {
     props: {
         comentario: {
             type: Object
-        }
+        },
+        reportComment: true,
+        reporte: ""
     },
     data () {
         return {
@@ -56,7 +66,8 @@ export default {
             verMenos: ['Ver menos...', 'Show less...'],
             reportar: ['Reportar', 'Report'],
             eliminar: ['Eliminar', 'Remove'],
-            confirmEliminar: ['Estas seguro de que deseas eliminar tu comentario?', 'You want to delete your comment?'],
+            confirmEliminar: ['¿Estas seguro de que deseas eliminar tu comentario?', 'Do you want to delete your comment?'],
+            confirmReportar: ['¿Estas seguro de que deseas reportar este comentario?', 'Do you want to report this comment?']
         }
     },
     methods: {
@@ -74,10 +85,24 @@ export default {
         gotoToPage (page) {
             this.$router.push('/' + page)
         },
+        reportarComentario () {
+            let confirmar = confirm(this.confirmReportar[this.currLanguaje])
+            if (!confirmar) {
+                return
+            }
+            let payload = {
+                url: this.$route.fullPath,
+                comentario: this.comentario,
+                usuarioReporte: this.user.id,
+                reporte: this.reporte
+            }
+            this.$store.dispatch('reportarComentario', payload)
+        }
     },
     computed: {
         ...mapGetters({
             currLanguaje: 'getUserLang',
+            user: 'getUserData'
         }),
         isOwner () {
             let id = this.$store.getters.getUserData.id

@@ -30,7 +30,32 @@ const APP_NAME = 'Odr Streaming';
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
-admin.initializeApp(functions.config().firebase)
+admin.initializeApp({
+    apiKey: "AIzaSyCt8KOVPcyBES6-vVSBIZQgedl7fBPfR_w",
+    authDomain: "odr-streaming.firebaseapp.com",
+    databaseURL: "https://odr-streaming.firebaseio.com",
+    projectId: "odr-streaming",
+    storageBucket: "odr-streaming.appspot.com",
+    messagingSenderId: "50680997374"
+  })
+
+/*exports.notificacionDeAdministradores = functions.https.onRequest((req, res) => {
+    // Obtener el objeto convertido a String y convertirlo a un objeto JSON
+    const notificacion = JSON.parse(req.query.notificacion)
+    // Obtener a todos los usuarios que sean administradores
+    const usuarios = req.query.usuarios
+    // Generar una notificacion para cada usuario administrador
+    //El objeto notificacion que se le pasa a la funcion ya tiene todo menos el idUsuario
+    usuarios.forEach(usuario => {
+        
+    });
+
+    admin.database().ref('notificaciones').push(payload).then(res => {
+        
+    })
+
+    res.send(200)
+})*/
 
 // Si se esta suscrito a un holder le llenan notifaicaiones por scans, videos, audio, etc
 exports.checkHolderSuscriptions = functions.https.onRequest((req, res) => {

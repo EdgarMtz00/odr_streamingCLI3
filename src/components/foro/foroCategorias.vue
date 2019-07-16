@@ -1,15 +1,24 @@
 <template>
     <v-layout row wrap justify-center>
         <v-flex>
-            <v-layout justify-center>
-                <v-btn @click="back()"> Return </v-btn>
-                <v-data-table :items="categoriaData" rows-per-page-text="Categorías por página">
-                    <template slot="items" slot-scope="data">
-                            <td class="text-xs-right my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.id }}</td>
-                            <td class="text-xs-right my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.nombre }}</td>
-                            <td class="text-xs-right my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.descripcion }}</td>
-                    </template>
-                </v-data-table>
+            <v-layout>
+                <v-flex>
+                    <v-layout row wrap justify-center>
+                        <v-card class="text-xs-left my-1">
+                            <v-card-text>Categorías</v-card-text>
+                        </v-card>
+                    </v-layout>
+                    <v-layout row wrap justify-center>
+                        <v-data-table :items="categoriaData" hide-actions hide-headers no-data-text="Ha ocurrido un error">
+                            <template slot="items" slot-scope="data">
+                                <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.id }}</td>
+                                <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.nombre }}</td>
+                                <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.descripcion }}</td>
+                            </template>
+                        </v-data-table>
+                        <v-btn @click="back()"> Return </v-btn>
+                    </v-layout>
+                </v-flex>
             </v-layout>
         </v-flex>
     </v-layout>

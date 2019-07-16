@@ -4,9 +4,6 @@
             <v-layout justify-center>
                 <v-card>
                     <v-card>
-                        <v-btn @click="back()"> Return </v-btn>
-                    </v-card>
-                    <v-card>
                         <v-btn @click="formatearTexto('Italic')"><i>I</i></v-btn>
                         <v-btn @click="formatearTexto('Bold')"><b>B</b></v-btn>
                         <v-btn @click="formatearTexto('Link')"> Link </v-btn>
@@ -29,6 +26,7 @@
                             <p>{{this.postElegido.nickname}}</p>
                         </div>
                         <v-btn @click="createPost"> Create Post </v-btn>
+                        <v-btn @click="back()"> Return </v-btn>
                     </v-card>
                 </v-card>
             </v-layout>
@@ -52,11 +50,14 @@ export default {
             let today = new Date();
             let date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
 
+            this.$store.dispatch("formatoAlTexto", this.newPost.post)
+
             if (this.postElegido.status) {
-                this.newPost.post = '<div>' + this.newPost.post + '</div>' + '<div>' + '<p>' + this.postElegido.contenido + '</p>' + '<p>' + this.postElegido.nickname + '</p>' + '</div>'
+                this.newPost.post = '<div>' + this.nuevoPost + '</div>' + '<div>' + '<p>' + this.postElegido.contenido + '</p>' + '<p>' + this.postElegido.nickname + '</p>' + '</div>'
+                this.$store.commit("setCitaTextual", this.newPost.post)
             }
 
-            formData.set('ContenidoPost', this.newPost.post)
+            formData.set('ContenidoPost', this.nuevoPost)
             formData.set('IdUsuario', this.user.id)
             formData.set('FechaDeCreacion', date)
             formData.set('IdThread', this.topicElegido)
@@ -75,31 +76,31 @@ export default {
         formatearTexto (type) {
             switch (type) {
                 case 'Bold':
-                    this.newPost.post = this.newPost.post + ' <b> Message </b>'
+                    this.newPost.post = this.newPost.post + ' *write your message between the asterisks*'
                     break;
                 case 'Italic':
-                    this.newPost.post = this.newPost.post + ' <i> Message </i>'
+                    this.newPost.post = this.newPost.post + ' _write your message between the underscores_'
                     break;
                 case 'Link':
-                    this.newPost.post = this.newPost.post + ' <a href="URL"> Message </a>'
+                    this.newPost.post = this.newPost.post + ' <a href="URL">write your message here and the url where it says URL</a>'
                     break;
                 case 'Align':
-                    this.newPost.post = this.newPost.post + ' <p align="ALIGNMENT"> Message </p>'
+                    this.newPost.post = this.newPost.post + ' "jtf/lft/ctr/rgt"write your message here and choose one in both sides (must be the same), leave the quotes"jtf/lft/ctr/rgt"'
                     break;
                 case 'Font':
-                    this.newPost.post = this.newPost.post + ' <font size="3" face="Arial"> Message </font>'
+                    this.newPost.post = this.newPost.post + ' "a3/a6/t3/t6"write your message here and choose one in both sides (must be the same), leave the quotes"a3/a6/t3/t6"'
                     break;
                 case 'Underline':
-                    this.newPost.post = this.newPost.post + ' <u> Message </u>'
+                    this.newPost.post = this.newPost.post + ' $write your message between the money signs$'
                     break;
                 case 'Cross':
-                    this.newPost.post = this.newPost.post + ' <strike> Message </strike>'
+                    this.newPost.post = this.newPost.post + ' ~write your message between the curly lines~'
                     break;
                 case 'Bullet':
-                    this.newPost.post = this.newPost.post + ' <ul><li> Message 1</li><li> Message 2</li><li> Message 3</li></ul>'
+                    this.newPost.post = this.newPost.post + ' |°write your list elements between the circles, the list must be surrounded by absolute value symbols°°element 2°°element 3°|'
                     break;
                 case 'Break':
-                    this.newPost.post = this.newPost.post + ' <br> Message </br>'
+                    this.newPost.post = this.newPost.post + ' #write your message between the sharp symbols, it will appear in a new line#'
                     break;
             }
         }
@@ -113,6 +114,9 @@ export default {
         },
         postElegido () {
             return this.$store.getters.getPostElegido
+        },
+        nuevoPost () {
+            return this.$store.getters.getNuevoPost
         }
     },
     watch: {

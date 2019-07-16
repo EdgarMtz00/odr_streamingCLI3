@@ -4,9 +4,6 @@
             <v-layout justify-center>
                 <v-card>
                     <v-card>
-                        <v-btn @click="back()"> Return </v-btn>
-                    </v-card>
-                    <v-card>
                         <v-btn @click="formatearTexto('Italic')"><i>I</i></v-btn>
                         <v-btn @click="formatearTexto('Bold')"><b>B</b></v-btn>
                         <v-btn @click="formatearTexto('Link')"> Link </v-btn>
@@ -26,6 +23,7 @@
                             <p v-html="newTopic.post"></p>
                         </div>
                         <v-btn @click="createTopic"> Create Post </v-btn>
+                        <v-btn @click="back()"> Return </v-btn>
                     </v-card>
                 </v-card>
             </v-layout>
@@ -51,8 +49,10 @@ export default {
             let today = new Date();
             let date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
 
+            this.$store.dispatch("formatoAlTexto", this.newTopic.post)
+
             formData.set('TituloThread', this.newTopic.title)
-            formData.set('ContenidoPost', this.newTopic.post)
+            formData.set('ContenidoPost', this.nuevoPost)
             formData.set('IdUsuario', this.user.id)
             formData.set('IdSaga', this.sagaElegida)
             formData.set('IdCategoria', this.categoriaElegida)
@@ -72,31 +72,31 @@ export default {
         formatearTexto (type) {
             switch (type) {
                 case 'Bold':
-                    this.newTopic.post = this.newTopic.post + ' <b> Message </b>'
+                    this.newTopic.post = this.newTopic.post + ' *write your message between the asterisks*'
                     break;
                 case 'Italic':
-                    this.newTopic.post = this.newTopic.post + ' <i> Message </i>'
+                    this.newTopic.post = this.newTopic.post + ' _write your message between the underscores_'
                     break;
                 case 'Link':
-                    this.newTopic.post = this.newTopic.post + ' <a href="URL"> Message </a>'
+                    this.newTopic.post = this.newTopic.post + '<a href="URL">write your message here and the url where it says URL</a>'
                     break;
                 case 'Align':
-                    this.newTopic.post = this.newTopic.post + ' <p align="ALIGNMENT"> Message </p>'
+                    this.newTopic.post = this.newTopic.post + ' "jtf/lft/ctr/rgt"write your message here and choose one in both sides (must be the same), leave the quotes"jtf/lft/ctr/rgt"'
                     break;
                 case 'Font':
-                    this.newTopic.post = this.newTopic.post + ' <font size="3" face="Arial"> Message </font>'
+                    this.newTopic.post = this.newTopic.post + ' "a3/a6/t3/t6"write your message here and choose one in both sides (must be the same), leave the quotes"a3/a6/t3/t6"'
                     break;
                 case 'Underline':
-                    this.newTopic.post = this.newTopic.post + ' <u> Message </u>'
+                    this.newTopic.post = this.newTopic.post + ' $write your message between the money signs$'
                     break;
                 case 'Cross':
-                    this.newTopic.post = this.newTopic.post + ' <strike> Message </strike>'
+                    this.newTopic.post = this.newTopic.post + ' ~write your message between the curly lines~'
                     break;
                 case 'Bullet':
-                    this.newTopic.post = this.newTopic.post + ' <ul><li> Message 1</li><li> Message 2</li><li> Message 3</li></ul>'
+                    this.newTopic.post = this.newTopic.post + ' |°write your list elements between the circles, the list must be surrounded by absolute value symbols°°element 2°°element 3°|'
                     break;
                 case 'Break':
-                    this.newTopic.post = this.newTopic.post + ' <br> Message </br>'
+                    this.newTopic.post = this.newTopic.post + ' #write your message between the sharp symbols, it will appear in a new line#'
                     break;
             }
         }
@@ -111,6 +111,9 @@ export default {
         categoriaElegida () {
             return this.$store.getters.getCategoriaElegida
         },
+        nuevoPost () {
+            return this.$store.getters.getNuevoPost
+        }
     },
     watch: {
 

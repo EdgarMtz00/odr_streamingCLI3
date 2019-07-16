@@ -13,6 +13,9 @@ export default({
             'The user: <strong>***</strong> has added you as contact, add him too to start chating!'],
             calificar: ['Se te ha elegido como comprador del producto <strong>***</strong>, califica el servicio del vendedor <strong>---</strong>',
             "You have been choosed as the buyer of <strong>***</strong>, rate the seller's service: <strong>---</strong>"],
+            reporte: ['Hay un nuevo reporte', "There's a new report"],
+            reporteEliminado: ['Tu reporte fue eliminado', "You report has been deleted"],
+            reporteConcedido: ['El contenido que has reportado fue eliminado', "The content you reported has been deleted"],
         },
         notificaciones: []
     },

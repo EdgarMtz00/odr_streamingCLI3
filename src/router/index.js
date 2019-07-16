@@ -16,7 +16,6 @@ import Forums from '@/components/foro/foroBase.vue'
 import ForumCategories from '@/components/foro/foroCategorias.vue'
 import ShowTopics from '@/components/foro/mostrarTopics.vue'
 import ShowPosts from '@/components/foro/mostrarPosts.vue'
-import MainProductos from "@/components/tienda/mainTienda.vue";
 import SocialNetwork from '@/components/red social/mostrarSagas.vue'
 import Hubs from '@/components/red social/mostrarHubs.vue'
 import CreateHub from '@/components/red social/crearHub.vue'
@@ -24,6 +23,9 @@ import HubImages from '@/components/red social/mostrarImagenes.vue'
 import CreateImage from '@/components/red social/crearImagen.vue'
 import CalificarVendedor from '@/components/tienda/calificarVendedor.vue'
 
+import SingleImage from '@/components/red social/informacionImagen.vue'
+import MainProductos from "@/components/tienda/mainTienda.vue"
+import Reportes from '@/components/reportes/reportesComentarios.vue'
 import { store } from '../store'
 // Profile
 import Configuration from '@/components/profile/configuration.vue'
@@ -161,7 +163,7 @@ const router = new Router({
       component: HubImages,
     },
     {
-      path: '/social/:urlSaga/:urlHub/createImage',
+      path: '/createImage',
       name: 'Create Image',
       component: CreateImage,
       beforeEnter: AuthGuard
@@ -171,6 +173,21 @@ const router = new Router({
       name: 'Calificar vendedor',
       component: CalificarVendedor,
       beforeEnter: AuthGuard
+    },
+    {
+      path: '/social/:urlSaga/:urlHub/:urlImagen',
+      name: 'Image',
+      component: SingleImage,
+    },
+    {
+      path: "/shop",
+      name: "Tienda",
+      component: MainProductos
+    },
+    {
+      path: '/report',
+      name: 'Reportes',
+      component: Reportes
     }
   ],
   mode: 'history'

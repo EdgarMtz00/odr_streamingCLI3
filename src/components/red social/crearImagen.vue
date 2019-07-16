@@ -17,6 +17,7 @@
         </v-card-text>
         <v-card-actions>
             <v-btn color="success" :disabled="!uploadBtnEnabled" @click="uploadContent">{{btnText}}</v-btn>
+            <v-btn @click="goToRoute('Back', '')"> Return </v-btn>
         </v-card-actions>
     </v-card>
 </template>
@@ -33,7 +34,6 @@ export default {
             },
             uploadBtnEnabled: true,
             btnText: 'Subir contenido',
-            urlHub: ''
         }
     },
     methods: {
@@ -50,6 +50,8 @@ export default {
             let urlBase = this.$store.getters.urlBase
             let today = new Date();
             let date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+            let time = new Date();
+            let currentTime = time.getHours() + '-' + time.getMinutes() + '-' + time.getSeconds();
             //Reset array
             this.newContent.imagesNoHeader = []
             //Quitar header del base64
@@ -61,8 +63,10 @@ export default {
             })
             bodyFormData.set('Scans', JSON.stringify(this.newContent.imagesNoHeader))
             bodyFormData.set('fechaDeCreacion', date)
+            bodyFormData.set('tiempo', currentTime)
             bodyFormData.set('idHub', this.urlHub)
             bodyFormData.set('idUsuario', this.user.id)
+            bodyFormData.set('nImagenes', this.newContent.imagesNoHeader.length)
             bodyFormData.set('pieImagen', this.newContent.description)
             bodyFormData.set('thumbnailScans', this.removeBase64Headers(thumbnail.src))
             console.log("Lo del bodyForm del Hub")
@@ -82,17 +86,36 @@ export default {
         removeBase64Headers (base64) {
             return base64.substr(base64.indexOf(',') + 1)
         },
+        goToRoute (type, route){
+            switch (type) { 
+                case 'Back': {
+                    if (this.urlSaga) {
+                        this.$nextTick(() => {
+                            this.$router.push('/social/' + this.urlSaga + '/' + this.urlHub)
+                        })
+                    } else {
+                        this.$nextTick(() => {
+                            this.$router.push('/social/' + this.urlPersonaje + '/' + this.urlHub)
+                        })
+                    }
+                    break;
+                }
+            }
+        }
     },
     computed: {
         ...mapGetters({
             user: 'getUserData',
+            urlHub: 'getIdHub',
+            urlSaga: 'getIdSaga',
+            urlPersonaje: 'getIdPersonaje'
         }),
     },
     watch: {
 
     },
     mounted () {
-        this.urlHub = this.$route.params.urlHub
+        
     }
 }
 </script>

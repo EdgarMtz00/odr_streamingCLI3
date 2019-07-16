@@ -296,6 +296,28 @@ export default {
                             url: "calificarVendedor/" + notificacion.idVendedor + "/" + notificacion.idProducto,
                             visto: notificacion.visto
                         }
+                    } else if (notificacion.tipoNotificacion == 'reporte') {
+                        let auxCuerpo = this.systemMensajes.reporte[this.prefLanguaje]
+                        auxNotif = {
+                            idNotificacion: notificacion.idNotificacion,
+                            cuerpo: auxCuerpo,
+                            url: "report",
+                            visto: notificacion.visto
+                        }
+                    } else if (notificacion.tipoNotificacion == 'resolucion') {
+                        // Significa que el reporte fue eliminado
+                        let auxCuerpo
+                        if (notificacion.resolucion == 'no') {
+                            auxCuerpo = this.systemMensajes.reporteEliminado[this.prefLanguaje]
+                        } else { // Sino pues significa que se elimino el contenido que fue reportado
+                            auxCuerpo = this.systemMensajes.reporteConcedido[this.prefLanguaje]
+                        }
+                        auxNotif = {
+                            idNotificacion: notificacion.idNotificacion,
+                            cuerpo: auxCuerpo,
+                            url: "/",
+                            visto: notificacion.visto
+                        }
                     }
                     if (auxNotif)
                         notificaciones.push(auxNotif)
