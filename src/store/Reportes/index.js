@@ -93,11 +93,23 @@ export default ({
             formData.set('tipoReporte', reporte.type)
             formData.set('idContenido', reporte.idComentario)
 
-            axios.post(urlBase + 'connections/comments/deletePost.php', formData).then(function (response) {
+            axios.post(urlBase + 'connections/comments/deleteReporte.php', formData).then(function (response) {
                 console.log("No hubo problema", response)
             }).catch(function (error) {
-                console.log("Hubo un error en el POST a /comments/deletePost", error)
+                console.log("Hubo un error en el POST a /comments/deleteReporte", error)
             })
+        },
+        eliminarReporteComentario ({dispatch, commit, getters}, comment) {
+            console.log("El comentario ya en la store: ", comment)
+            let payload = {
+                url: comment.comentario.urlComentario,
+                comentario: {
+                    key: comment.comentario.idComentario
+                }
+            }
+            console.log("El comentario saliendo de la store: ", payload)
+            dispatch('eliminarComentario', payload)
+            dispatch('ignorarReporte', comment.comentario)
         }
     },
     getters: {

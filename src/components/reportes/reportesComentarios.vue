@@ -34,17 +34,14 @@ export default {
         eliminarContenido (contenido) {
             console.log("El objeto contenido: ", contenido)
             if (contenido.type == 'Comentario') {
-                this.eliminarComentario(contenido)
+                let payload = {
+                    url: contenido.urlComentario,
+                    comentario: contenido
+                }
+                this.$store.dispatch('eliminarReporteComentario', payload)
             } else {
                 this.$store.dispatch("eliminarReporte", contenido)
             }
-        },
-        eliminarComentario (comment) {
-            let payload = {
-                url: comment.urlComentario,
-                comentario: comment
-            }
-            this.$store.dispatch('eliminarComentario', payload)
         },
         ignorarReporte (reporte) {
             this.$store.dispatch("ignorarReporte", reporte)

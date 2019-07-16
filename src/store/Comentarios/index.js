@@ -47,7 +47,7 @@ export default({
         eliminarComentario ({commit}, payload) {
             let codedUrl = payload.url.split('/').join('***')
             let key = payload.comentario.key
-            console.log("El comentario", payload)
+            console.log("El comentario", payload, "El codedURL", codedUrl, "El key", key)
             firebase.database().ref('comentarios/' + codedUrl + '/' + key).remove()
         },
         reportarComentario ({commit, getters}, payload) {
