@@ -335,9 +335,11 @@ export default({
                     })
                 } else if (payload.tipo == 'vendedor') {
                     let formData = new FormData ()
+                    formData.set('idProducto', payload.idProducto)
                     // En caso de que sea el vendedor quien esta calificando al comprador entonces se debe borrar el producto porque ya ha sido vendido
                     axios.post(urlBase + 'connections/productos/productoVendido.php', formData).then(response => {
                         let data = response.data
+                        alert(JSON.stringify(data))
                         if (data.status.includes('OK')) {
                             router.push('/shop')
                         } else {

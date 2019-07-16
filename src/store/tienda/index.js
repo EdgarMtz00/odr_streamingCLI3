@@ -438,6 +438,9 @@ export default({
               });
               // Comprobar que el usuario que ingreso a la pagina sea el mismo que compro el producto
               let data = returnArr[0]
+              if (!data) {
+                  router.push('/')
+              }
               if (data.idComprador == payload.idUsuario) {
                   //alert('Eres el comprador del producto')
               } else {

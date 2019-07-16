@@ -209,7 +209,7 @@ export default {
             this.uploadBtnEnabled = false
             alert('Subir contenido')
             console.log("Nuevo contenido", this.newContent)
-            //this.crearNotificacion()
+            this.crearNotificacion()
             switch (this.contentType) {
                 // Caso de imagenes
                 case '1': {
@@ -316,7 +316,7 @@ export default {
             }
             console.log('Crear notificacion', params, {"Access-Control-Allow-Origin": "*"})
             // Llamar a la cloud function para notificar a los usuarios sucritos a ese holder
-            this.axios.get("https://us-central1-odr-streaming.cloudfunctions.net/checkSagasSuscriptions", {params: params}, {"Access-Control-Allow-Origin": "*"}).then(response => {
+            this.axios.get("https://us-central1-odr-streaming.cloudfunctions.net/checkHolderSuscriptions", {params: params}, {"Access-Control-Allow-Origin": "*"}).then(response => {
                 console.log("Wey, checa a ver si ya salio", response)
             })
         },

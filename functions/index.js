@@ -242,8 +242,6 @@ exports.checkSagasSuscriptions = functions.https.onRequest((req, res) => {
                 admin.database().ref('notificaciones/' + elThen.key).child('idNotificacion').set(elThen.key)            
             })
         });
-
-        console.log(idHolder, titulo, urlHolder, urlSaga, urlMedia)
     }).catch(error => {
         console.log(error)
     })

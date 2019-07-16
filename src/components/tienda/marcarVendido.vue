@@ -24,7 +24,6 @@
                             <v-layout row wrap align-center class="mb-2">
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        {{comprador}}
                                         <v-icon class="mr-1">info</v-icon> <div class="subheading">{{seleccionarComprador[lang]}}</div>
                                     </v-layout>
                                 </v-flex>

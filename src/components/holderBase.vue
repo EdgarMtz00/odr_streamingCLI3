@@ -136,9 +136,9 @@
                 </v-layout>
                 <!-- Si es audio -->
                 <v-layout row wrap class="pa-3" justify-center v-if="isAudio">
-                    <v-flex xs5 sm4 md3 xl2 v-for="(aux, index) in currentContent.content" :key="index">
+                    <v-flex xs6 sm4 md3 lg2 xl2 v-for="(aux, index) in currentContent.content" :key="index">
                         <v-layout row wrap align-center fill-height @click="goToScan (aux.URLContenido)">
-                            <v-img contain :height="heightHolderItems"
+                            <v-img :height="heightHolderItems"
                             class="ma-1"  :src="currentContent.thumbnail">
                                 <v-layout row wrap fill-height align-end>
                                     <v-flex xs12>
@@ -262,7 +262,7 @@ export default {
                 }
             } else if (this.isAudio) {
                 switch (this.$vuetify.breakpoint.name) {
-                    case 'xs': return '100px'
+                    case 'xs': return '200px'
                     case 'sm': return '200px'
                     case 'md': return '200px'
                     case 'lg': return '150px'
