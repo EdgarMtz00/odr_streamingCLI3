@@ -166,7 +166,7 @@ export default ({
             commit('guardarIdImage', strVacio)
             commit('guardarIdSaga', strVacio)
         },
-        reportarImagen ({commit, getters}, imagenReportada) {
+        reportarImagen ({commit, getters, dispatch}, imagenReportada) {
             let urlBase = getters.urlBase
             let usuario = getters.getUserData
 
@@ -181,11 +181,12 @@ export default ({
 
             axios.post(urlBase + "connections/comments/sendReport.php", formData).then(function (response) {
                 console.log("Lo que se envia al server: ", response)
+                dispatch('crearNotificacionReporte', 'imagen')
             }).catch(function (error) {
                 console.log("Ocurrio un error enviando al server: ", error)
             })
         },
-        reportarHub ({commit, getters}, hubReportado) {
+        reportarHub ({commit, getters, dispatch}, hubReportado) {
             let urlBase = getters.urlBase
             let usuario = getters.getUserData
 
@@ -200,6 +201,7 @@ export default ({
 
             axios.post(urlBase + "connections/comments/sendReport.php", formData).then(function (response) {
                 console.log("Lo que se envia al server: ", response)
+                dispatch('crearNotificacionReporte', 'hub')
             }).catch(function (error) {
                 console.log("Ocurrio un error enviando al server: ", error)
             })

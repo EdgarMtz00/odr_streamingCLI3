@@ -34,35 +34,17 @@ export default {
         eliminarContenido (contenido) {
             console.log("El objeto contenido: ", contenido)
             if (contenido.type == 'Comentario') {
-                this.eliminarComentario(contenido)
+                let payload = {
+                    url: contenido.urlComentario,
+                    comentario: contenido
+                }
+                this.$store.dispatch('eliminarReporteComentario', payload)
             } else {
                 this.$store.dispatch("eliminarReporte", contenido)
             }
         },
-        eliminarComentario (comment) {
-            let payload = {
-                url: comment.urlComentario,
-                comentario: comment
-            }
-            this.$store.dispatch('eliminarComentario', payload)
-            // Informacion para generar la notificacion del usuario acerca de la resolucion
-            // De su reporte
-            let payloadReporte = {
-                idUsuario: reporte.idUsuarioDelReporte,
-                resolucion: 'si' // resolucion: 'no' para no se borro, 'si' para si se borro
-            }
-            this.$store.dispatch("crearNotificacionUsuario", payloadReporte)
-        },
         ignorarReporte (reporte) {
             this.$store.dispatch("ignorarReporte", reporte)
-
-            // Informacion para generar la notificacion del usuario acerca de la resolucion
-            // De su reporte
-            let payloadReporte = {
-                idUsuario: reporte.idUsuarioDelReporte,
-                resolucion: 'no' // resolucion: 'no' para no se borro, 'si' para si se borro
-            }
-            this.$store.dispatch("crearNotificacionUsuario", payloadReporte)
         }
     },
     computed: {

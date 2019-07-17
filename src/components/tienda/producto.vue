@@ -105,6 +105,7 @@
                     :color="colorStatus" @click="añadirCarrito ()" :disabled="!disponibilidad">
                         <v-icon class="mr-1">{{iconStatus}}</v-icon>{{productoStatus[lang]}}
                     </v-btn> -->
+                    <v-btn @click="reportarProducto()">Report Object</v-btn>
                 </v-layout>
             </v-card-actions>
         </v-card>
@@ -224,6 +225,14 @@ export default {
             }
             this.$store.commit('setProductoComprar', producto)
         },
+        reportarProducto () {
+            let productReport = {
+                idUsuario: this.idUsuario,
+                idContenido: this.id,
+                contenido: 'Titulo: ' + this.titulo + ' Descripcion: ' + this.descripcion + ' Imagen: ' + this.imagen,
+            }
+            this.$store.dispatch('reportProduct', productReport)
+        }
     },
     computed: {
         ...mapGetters({
