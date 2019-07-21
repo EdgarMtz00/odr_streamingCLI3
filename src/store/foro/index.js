@@ -375,7 +375,7 @@ export default ({
             formData.set('idUsuarioDelReporte', usuario.id)
             formData.set('idUsuarioDelComentario', topicReportado.idUsuario)
             formData.set('idComentario', topicReportado.url)
-            formData.set('comentarioReportado', topicReportado.contenidoThread)
+            formData.set('comentarioReportado', 'Topic: ' + topicReportado.titulo + ' Cont: ' + topicReportado.contenidoThread)
             formData.set('textoDelReporte', 'N/A')
             formData.set('urlComentario', 'N/A')
             formData.set('tipoReporte', 'Topic')

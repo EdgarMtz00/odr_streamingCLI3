@@ -177,7 +177,7 @@ export default ({
             formData.set('comentarioReportado', imagenReportada.thumbnail)
             formData.set('textoDelReporte', 'N/A')
             formData.set('urlComentario', 'N/A')
-            formData.set('tipoReporte', 'Imagen')
+            formData.set('tipoReporte', 'Img')
 
             axios.post(urlBase + "connections/comments/sendReport.php", formData).then(function (response) {
                 console.log("Lo que se envia al server: ", response)

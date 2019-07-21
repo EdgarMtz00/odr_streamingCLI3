@@ -30,7 +30,6 @@ export default ({
                             comentarioReportado: elementReportes.comentarioReportado,
                             textoDelReporte: elementReportes.textoDelReporte,
                             urlComentario: elementReportes.urlComentario,
-                            //nickname: elementReportes.Nickname,
                             type: elementReportes.tipoReporte
                         })
                     });
@@ -63,7 +62,7 @@ export default ({
                         console.log("Hubo un error en el POST a /comments/deleteTopic", error)
                     })
                     break;
-                case 'Imagen':
+                case 'Img':
                     axios.post(urlBase + 'connections/comments/deleteImagen.php', formData).then(function (response) {
                         console.log("No hubo problema", response)
                     }).catch(function (error) {
