@@ -136,17 +136,24 @@
                             </v-card-actions>
                         </v-card>
                     </v-stepper-content>
-
+                    <!-- Seccion para la subida de contenido -->
                     <v-stepper-content step="4">
                         <v-card>
                             <v-card-title primary-title text-xs-center>
                                 <div class="headline">Elegir archivos</div>
                             </v-card-title>
+                            <!-- Tipo de contenido a subid -->
                             <v-card-text>
+                                <!-- Caso 1: Imagenes -->
                                 <images-selector-carousel :preview="true" v-on:passImages="getImages($event)" v-if="contentType == 1">
                                 </images-selector-carousel>
+                                <!-- Caso 2: Video -->
                                 <video-uploader v-on:refFile="getVideo($event)" v-if="contentType == 2">
                                 </video-uploader>
+                                <!-- Caso 3: Audio -->
+                                <audio-uploader v-on:refFile="getAudio($event)" v-if="contentType == 3">
+
+                                </audio-uploader>
                             </v-card-text>
                             <v-card-actions>
                                 <v-btn color="info" @click="stepper = 3">Atras</v-btn>
@@ -175,19 +182,27 @@ export default {
                 categoria: {},
                 images: [],
                 imagesNoHeader: [],
-                video: ''
+                video: '',
+                audio: '',
             },
             uploadBtnEnabled: true,
             btnText: 'Subir contenido'
         }
     },
     methods: {
+        /* getImages, getVideo y getAudio obtienen los ficheros que se consiguen a traves de 
+        componentes que son hijos de este a traves del evento emit en los hijos, asi se los pasan
+        al padre (osea este componente) y este se agrega al objeto que se guarda (newContent) */
         getImages ($event) {
             this.newContent.images = $event
         },
         getVideo ($event) {
             this.newContent.video = $event
             console.log("Event", $event)
+        },
+        getAudio ($event) {
+            this.newContent.audio = $event
+            console.log("Audio obtenido!")
         },
         uploadContent () {
             this.btnText = "Subiendo"
@@ -203,6 +218,12 @@ export default {
                 }
                 // Caso de video
                 case '2': {
+                    this.uploadVideo()
+                    break;
+                }
+                // Caso de audio
+                case '3': {
+                    // El mismo metodo funciona tambien para el audio equisde
                     this.uploadVideo()
                     break;
                 }
@@ -254,8 +275,15 @@ export default {
             })
         },
         uploadVideo () {
+            //console.log("Nuevo contenido", this.newContent)
+            //return
             let formData = new FormData();
             let urlBase = this.$store.getters.urlBase
+            if (this.contentType == 2) {
+                formData.append('file', this.newContent.video);
+            } else if (this.contentType == 3) {
+                formData.append('file', this.newContent.audio);
+            }
             formData.append('file', this.newContent.video);
             formData.set('titulo', this.newContent.titulo)
             formData.set('idHolder', this.newContent.holder.idHolder)
@@ -337,6 +365,7 @@ export default {
             data.Categorias.forEach(elementCateg => {
                 this.categoriasInfo.push(elementCateg)
             });
+            console.log("Categorias obtenidas:", data.Categorias)
 
             data.Sagas.forEach(elementSaga => {
                 if (Array.isArray(elementSaga.Holders)) {

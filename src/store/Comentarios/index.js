@@ -23,6 +23,7 @@ export default({
     },
     actions: {
         loadComentarios ({commit}, ruta) {
+            console.log("Cargando comentarios ruta: ", ruta)
             // Firebase no me dejaba usar '/' en las ids de los nodos asi que use '***'
             // Las ids son las urls, cada url tiene los comentarios de ese contenido
             // Se puede poner cualquier url y al acceder a ella cargara sus comentarios
@@ -35,6 +36,7 @@ export default({
                     returnArr.push(item);
                 });
                 commit('setComentarios', returnArr)
+                console.log("Comentarios: ", returnArr)
             })
         },
         comentar ({commit}, payload) {
@@ -47,10 +49,10 @@ export default({
         eliminarComentario ({commit}, payload) {
             let codedUrl = payload.url.split('/').join('***')
             let key = payload.comentario.key
-            console.log("El comentario", payload)
+            console.log("El comentario", payload, "El codedURL", codedUrl, "El key", key)
             firebase.database().ref('comentarios/' + codedUrl + '/' + key).remove()
         },
-        reportarComentario ({commit, getters}, payload) {
+        reportarComentario ({commit, getters, dispatch}, payload) {
             let urlBase = getters.urlBase
             console.log("payload", payload)
             let formData = new FormData()
@@ -62,6 +64,8 @@ export default({
             formData.set('idUsuarioDelReporte', payload.usuarioReporte)
             formData.set('tipoReporte', 'Comentario')
             axios.post(urlBase + 'connections/comments/sendReport.php', formData).then(function (response) {
+                // Segundo parametro es el tipo de contenido del reporte
+                dispatch('crearNotificacionReporte', 'comentario')
                 alert("Reporte enviado")
             }).catch(function (error) {
                 console.log("Hubo un error en el POST a comments/sendReport", error)

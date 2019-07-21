@@ -8,8 +8,7 @@ import User from './user'
 import Shared from './shared'
 import Buscador from './buscador'
 import Amigos from './amigos'
-import Foro from './foro'
-import RedSocial from './red social'
+import Foro from './foro' 
 import Tienda from './tienda'
 import Carrito from './Carrito'
 import Notificaciones from './Notificaciones'
@@ -17,6 +16,7 @@ import Suscripciones from './Suscripciones'
 import Watchlist from './Watchlist'
 import Estado from './Estado'
 import Comentarios from './Comentarios'
+import RedSocial from './red social'
 import Reportes from './Reportes'
 
 Vue.use(Vuex)
@@ -37,6 +37,7 @@ export const store = new Vuex.Store({
         watchlist: Watchlist,
         estado: Estado,
         comentarios: Comentarios,
+        redSocial: RedSocial,
         reportes: Reportes
     }
 })

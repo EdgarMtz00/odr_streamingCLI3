@@ -10,19 +10,21 @@
                     <v-list-tile-content><v-list-tile-title>{{todosLosMedios[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
                 </v-list-tile>
 
-                <v-divider></v-divider>
-                <!-- --------------------------------------------------- -->
-                <v-subheader>{{crearSub[prefLanguaje]}}</v-subheader>
+                <div v-if="isUserLogged">
+                    <v-divider></v-divider>
+                    <!-- --------------------------------------------------- -->
+                    <v-subheader>{{crearSub[prefLanguaje]}}</v-subheader>
+                    <!-- Tuve que escribir la condicion del tipo de cuenta aqui, los computed no funcionan bien -->
+                    <v-list-tile avatar @click="gotoToPage('uploadContent')" v-show="(user.cuenta === 'CDC') || (user.cuenta === 'Dios')">
+                        <v-list-tile-avatar><v-icon>create</v-icon></v-list-tile-avatar>
+                        <v-list-tile-content><v-list-tile-title>{{nuevoMedio[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
+                    </v-list-tile>
 
-                <v-list-tile avatar @click="gotoToPage('uploadContent')">
-                    <v-list-tile-avatar><v-icon>create</v-icon></v-list-tile-avatar>
-                    <v-list-tile-content><v-list-tile-title>{{nuevoMedio[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
-                </v-list-tile>
-
-                <v-list-tile avatar @click="addProductShortcut()" v-if="isUserLogged">
-                    <v-list-tile-avatar><v-icon>create</v-icon></v-list-tile-avatar>
-                    <v-list-tile-content><v-list-tile-title>{{nuevoProducto[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
-                </v-list-tile>
+                    <v-list-tile avatar @click="addProductShortcut()" v-if="isUserLogged">
+                        <v-list-tile-avatar><v-icon>create</v-icon></v-list-tile-avatar>
+                        <v-list-tile-content><v-list-tile-title>{{nuevoProducto[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
+                    </v-list-tile>
+                </div>
 
                 <v-divider></v-divider>
                 <!-- --------------------------------------------------- -->
@@ -150,6 +152,7 @@ export default {
     },
     created () {
         this.$store.dispatch('loadNotificaciones')
+        console.log("El usuario", this.user)
     },
     methods: {
         gotoToPage (page) {
@@ -232,8 +235,8 @@ export default {
             if (auxNotificaciones.length > 0) {
                 // Generar el mensaje de la notificacion
                 auxNotificaciones.forEach(notificacion => {
+                    let auxNotif = null
                     if (notificacion.tipoNotificacion == 'contenido') {
-                        let auxNotif = null
                         // Esta parte es un poco larga, ya que se genera el mensaje dependiendo
                         // Del tipo de notificacion y contenido que se tenga
                         if (notificacion.tipoNotificacion == 'contenido') {
@@ -272,9 +275,52 @@ export default {
                                 }
                             }
                         }
-                        if (auxNotif)
-                            notificaciones.push(auxNotif)
+                    } else if (notificacion.tipoNotificacion == 'contacto') {
+                        // Generar el nombre del usuario en el mensaje
+                        let auxCuerpo = this.systemMensajes.contacto[this.prefLanguaje].split('***').join(notificacion.nombre);
+                        auxNotif = {
+                            idNotificacion: notificacion.idNotificacion,
+                            cuerpo: auxCuerpo,
+                            titulo: '',
+                            url: "profileView/" + notificacion.idContacto + "/",
+                            visto: notificacion.visto
+                        }
+                    } else if (notificacion.tipoNotificacion == 'calificar') {
+                        // Generar el nombre del producto en el mensaje
+                        let auxCuerpoPers = this.systemMensajes.calificar[this.prefLanguaje].split('***').join(notificacion.producto);
+                        // Ya que esta el producto ahora sigue el nombre del vendedor
+                        let auxCuerpo = auxCuerpoPers.split('---').join(notificacion.nickname);
+                        auxNotif = {
+                            idNotificacion: notificacion.idNotificacion,
+                            cuerpo: auxCuerpo,
+                            url: "calificarVendedor/" + notificacion.idVendedor + "/" + notificacion.idProducto,
+                            visto: notificacion.visto
+                        }
+                    } else if (notificacion.tipoNotificacion == 'reporte') {
+                        let auxCuerpo = this.systemMensajes.reporte[this.prefLanguaje]
+                        auxNotif = {
+                            idNotificacion: notificacion.idNotificacion,
+                            cuerpo: auxCuerpo,
+                            url: "report",
+                            visto: notificacion.visto
+                        }
+                    } else if (notificacion.tipoNotificacion == 'resolucion') {
+                        // Significa que el reporte fue eliminado
+                        let auxCuerpo
+                        if (notificacion.resolucion == 'no') {
+                            auxCuerpo = this.systemMensajes.reporteEliminado[this.prefLanguaje]
+                        } else { // Sino pues significa que se elimino el contenido que fue reportado
+                            auxCuerpo = this.systemMensajes.reporteConcedido[this.prefLanguaje]
+                        }
+                        auxNotif = {
+                            idNotificacion: notificacion.idNotificacion,
+                            cuerpo: auxCuerpo,
+                            url: "/",
+                            visto: notificacion.visto
+                        }
                     }
+                    if (auxNotif)
+                        notificaciones.push(auxNotif)
                 });
                 console.log("Notificaciones generadas", notificaciones)
                 return notificaciones

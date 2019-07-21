@@ -13,21 +13,7 @@
         box
         @change="changeTitulo"
         required>
-        </v-text-field>
-    <v-layout row wrap>
-        <v-flex xs12 md6>
-            <v-select
-                :items="generosCargados"
-                v-model="modelTitulo"
-                label="Genero"
-                box
-                multiple
-                chips
-                @change="changeGenero"
-                persistent-hint>
-            </v-select>
-        </v-flex>
-    </v-layout>
+    </v-text-field>
     </div>
 </template>
 

@@ -11,6 +11,11 @@
                     <video controls style="width: 100%; max-height: 700px;" :src="imageUrl"></video>
                 </v-flex>
             </v-layout>
+            <v-layout row wrap justify-center class="my-5" v-if="isAudio">
+                <v-flex xs10>
+                    <video controls style="width: 100%; max-height: 100px;" :src="imageUrl"></video>
+                </v-flex>
+            </v-layout>
         </v-flex>
         <v-flex xs12 md12>
             <v-layout row wrap justify-center>
@@ -83,14 +88,18 @@ export default {
             console.log("IS VIDEOOO")
             return (this.currentContent.type === 'Anime')
         },
+        isAudio () {
+            return (this.currentContent.type === 'Musica')
+        },
         imageUrl () {
-            
             if (this.saga.content) {
                 let urlBase = this.$store.getters.urlBase
                 if (this.isScan) {
                     return urlBase + 'Manga/' + this.urlHolder + "/" + this.urlContenido + "/" + this.nPagina + ".jpg"
                 } else if (this.isVideo) {
                     return urlBase + 'Anime/' + this.urlHolder + "/" + this.urlContenido + "/" + this.nPagina + ".mp4"
+                } else if (this.isAudio) {
+                    return urlBase + 'Musica/' + this.urlHolder + "/" + this.urlContenido + "/" + this.nPagina + ".mp3"
                 }
             } else {
                 return ''

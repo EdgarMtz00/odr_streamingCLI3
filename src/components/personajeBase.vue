@@ -63,7 +63,7 @@
             </v-card>
         </v-flex>
         <v-flex xs12 md10 lg12 xl5>
-            <v-card>
+            <!-- <v-card>
                 <v-card-text>
                     <v-layout row wrap>
                         <v-flex xs12 class="my-2">
@@ -88,7 +88,7 @@
                         </v-flex>
                     </v-layout>
                 </v-card-text>
-            </v-card>
+            </v-card> -->
             <comments :enDialog="false"></comments>
         </v-flex>
     </v-layout>

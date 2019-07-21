@@ -24,6 +24,7 @@ import ImagesInformation from './components/uploadContent/components/imagesInfo.
 import ImagesSelector from './components/uploadContent/components/imagesSelector.vue'
 import SelectImage from './components/common/selectImage.vue'
 import VideoUploader from './components/uploadContent/components/videoUploader.vue'
+import AudioUploader from './components/uploadContent/components/audioUploader.vue'
 import CommentsBox from './components/comentarios/comments.vue'
 import Buscador from './components/common/buscador.vue'
 import RowContent from './components/streaming main page/rowContent.vue'
@@ -32,6 +33,7 @@ import TabsPerfil from './components/profile/tabsPerfil.vue'
 import Comment from './components/comentarios/comentario.vue'
 
 import Producto from "./components/tienda/producto.vue";
+import MarcarVendido from "./components/tienda/marcarVendido.vue";
 import MainCarrito from "./components/tienda/carrito/mainCarrito.vue";
 import CrearProducto from "./components/tienda/crearProducto.vue";
 import EditarProducto from './components/tienda/editarProducto.vue'
@@ -47,6 +49,7 @@ Vue.component('select-image', SelectImage)
 Vue.component('images-selector-carousel', ImagesSelector)
 Vue.component('images-information', ImagesInformation)
 Vue.component('video-uploader', VideoUploader)
+Vue.component('audio-uploader', AudioUploader)
 Vue.component('comments', CommentsBox)
 Vue.component('buscador', Buscador)
 Vue.component('row-content', RowContent)
@@ -56,6 +59,7 @@ Vue.component('tabs-perfil-component', TabsPerfil)
 Vue.component('comentario-component', Comment)
 
 Vue.component("producto-component", Producto);
+Vue.component("marcar-vendido-component", MarcarVendido);
 Vue.component("carrito-component", MainCarrito);
 Vue.component("crear-producto-component", CrearProducto);
 Vue.component('editar-producto-component', EditarProducto)
@@ -152,7 +156,7 @@ firebase.auth().onAuthStateChanged(user => {
         }),
     },
     watch: {
-      // Watch a estados, que contiene el estado del usuario
+      // Watch a estados cargados, que contiene el estado del usuario
       estados: {
         handler: function (val, oldVal) {
           if (val.length > 0 && this.user.id) {
@@ -160,6 +164,10 @@ firebase.auth().onAuthStateChanged(user => {
             let auxFind = val.find(iterator => {
                 return this.user.id == iterator.idUsuario
             })
+            console.log("debug auxfind", auxFind, val)
+            if(auxFind.estado.includes("Reproduciendo medios")) {
+              return
+            }
             let payload = {
                 key: auxFind.key, // key del firebase
                 newEstado: 'Online' // Se pone como online
@@ -176,6 +184,30 @@ firebase.auth().onAuthStateChanged(user => {
           }
         },
         deep: true
+      },
+      '$route.path': {
+        handler: function (val, oldVal) {
+          // Cuando carguen se obtiene la referencia dle estado del usuario
+          let auxFind = this.estados.find(iterator => {
+              return this.user.id == iterator.idUsuario
+          })
+
+          // Si entra a reproducir un medio...
+          if (val.includes("/sagas/")) {
+            let payload = {
+                key: auxFind.key, // key del firebase
+                newEstado: 'Reproduciendo medios'
+            }
+            store.dispatch('actualizarEstado', payload)
+          } else if (oldVal.includes("/sagas/") && !val.includes("/sagas/")) {
+            let payload = {
+                key: auxFind.key, // key del firebase
+                newEstado: 'Online' // Se pone como online
+            }
+            store.dispatch('actualizarEstado', payload)
+          }
+          // SI salio de reproducir un mdio
+        }
       }
     },
   })

@@ -72,7 +72,12 @@
             </v-tab-item>
             <!-- TAB DE ESTADISTICAS -->
             <v-tab-item value="tab-estadisticas">
-                Vacio
+                <v-card>
+                    <v-card-text>
+                        crudo: {{reput}} <br>
+                        {{tabsLabels.reputacionText[lang]}}: {{reputacion}}% {{tabsLabels.from[lang]}} ({{reput.thumbsup + reput.thumbsdown}}  {{tabsLabels.personas[lang]}})
+                    </v-card-text>
+                </v-card>
             </v-tab-item>
         </v-tabs>
     </div>
@@ -94,11 +99,15 @@ export default {
                 watchlist: ['Watchlist', 'Watchlist'],
                 estadisticas: ['Estadisticas', 'Statistics'],
                 emptyWatchlist: ['Watchlist vacia', 'Empty watchlist'],
+                reputacionText: ['Reputacion', 'Reputation'],
+                personas: ['Personas', 'People'],
+                from: ['De', 'From']
             },
         }
     },
     created () {
         this.$store.dispatch('loadWatchlist', this.idProfile)
+        this.$store.dispatch('loadReputacion', this.idProfile)
     },
     methods: {
         cambiarOrdenMenos (elemento) {
@@ -148,6 +157,7 @@ export default {
         ...mapGetters({
             lang: 'getUserLang',
             user: 'getUserData',
+            reput: 'getReputacion'
         }),
         watchlist () {
             let aux = this.$store.getters.getWatchlist
@@ -173,6 +183,10 @@ export default {
             } else {
                 return false
             }
+        },
+        reputacion () {
+            let reputacion = this.$store.getters.getReputacion
+            return ((reputacion.thumbsup / (reputacion.thumbsup + reputacion.thumbsdown)) * 100)
         }
     }
 }

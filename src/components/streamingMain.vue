@@ -3,7 +3,7 @@
     <v-layout row wrap justify-center>
       <v-flex xs12 md12>
         <v-layout column>
-          <v-btn color="success" @click="displayNotification">Prueba notificacion</v-btn>
+          <!-- <v-btn color="success" @click="displayNotification">Prueba notificacion</v-btn> -->
           <!-- Linea de sagas -->
           <!--------------------------------------------------------  -------------------------->
           <v-flex xs12>
@@ -82,6 +82,27 @@
                   <div style="background-color: rgba(0, 0, 0, 0.5); width: 100%;">
                     <div class="title white--text font-weight-bold ml-2">
                       {{comic[aux-1].titulo}}
+                    </div>
+                  </div>
+                </v-layout>
+              </v-img>
+            </v-layout>
+            <v-divider class="my-2 "></v-divider>
+          </v-flex>
+          <!-- Linea de Musica -->
+          <!--------------------------------------------------------  -------------------------->
+          <v-flex xs12 v-if="musica.length > 0">
+            <div class="title black--text font-weight-light my-2" >Musica</div>
+            <v-layout row text-xs-center :justify-center="0"
+              class="verticalSlider" v-if="musica.length >= 0">
+              <v-img :height="sagaItemHeight" :width="sagaItemWidth" max-width="300"
+              v-for="aux in (musica.length < 6)? musica.length : 6" :key="aux" class="mr-3 boxContent"
+              @click="goToSaga (musica[aux-1].url)"
+              :src="musica[aux-1].thumbnail">
+                <v-layout row wrap fill-height align-end>
+                  <div style="background-color: rgba(0, 0, 0, 0.5); width: 100%;">
+                    <div class="title white--text font-weight-bold ml-2">
+                      {{musica[aux-1].titulo}}
                     </div>
                   </div>
                 </v-layout>
@@ -212,6 +233,15 @@ export default {
         }
       });
       return comic
+    },
+    musica () {
+      let musica = []
+      this.holders.forEach(element => {
+        if (element.type == 'Musica') {
+          musica.push(element)
+        }
+      });
+      return musica
     },
     // Si el tamaño de la ventana es menor al del total del tamaño de todas las sagas
     sagasJustifyCenter () {

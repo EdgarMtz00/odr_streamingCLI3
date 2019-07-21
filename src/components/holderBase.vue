@@ -40,13 +40,13 @@
                         </v-layout>
                         <v-divider class="mt-2 mb-1" style="background: #000"></v-divider>
                         <v-layout row wrap align-center>
-                                <v-flex xs12 class="mt-1">
+                                <v-flex xs12 class="mt-1" v-if="currentContent.type.length > 0">
                                     <v-layout row wrap align-center>
                                         <div class="body-1 font-weight-medium" >{{typePH[lang]}}: </div>
                                         <v-chip class="ml-1" :small="xsOnly">{{currentContent.type}}</v-chip>
                                     </v-layout>
                                 </v-flex>
-                                <v-flex xs12 class="mt-1">
+                                <v-flex xs12 class="mt-1" v-if="currentContent.Tags.length > 0">
                                     <v-divider class="mb-1"></v-divider>
                                     <v-layout row wrap align-center>
                                         <div class="body-1 font-weight-medium">Tags:</div>
@@ -55,14 +55,14 @@
                                         </v-chip>
                                     </v-layout>
                                 </v-flex>
-                                <v-flex xs12 class="mt-1">
+                                <v-flex xs12 class="mt-1" v-if="currentContent.Descripcion.length > 0">
                                     <v-divider class="mb-1"></v-divider>
                                     <v-layout row wrap align-center>
                                         <div class="body-1 font-weight-medium mr-1">{{descriptionPH[lang]}}: </div>
                                         <div class="body-1"> {{currentContent.Descripcion}} </div>
                                     </v-layout>
                                 </v-flex>
-                                <v-flex xs12 class="mt-1">
+                                <v-flex xs12 class="mt-1" v-if="currentContent.Personajes.length > 0">
                                     <v-layout row wrap align-center>
                                         <v-flex xs12>
                                             <v-divider class="mb-1"></v-divider>
@@ -99,7 +99,7 @@
                 </v-layout>
             </v-card>
         </v-flex>
-
+        <!-- Seccion que muestra el contenido del holder -->
         <v-flex xs12 md12>
             <v-card class="vCardStyle mt-3 elevation-10">
                 <!-- Si son scans -->
@@ -118,10 +118,28 @@
                         </v-layout>
                     </v-flex>
                 </v-layout>
+                <!-- Si es video -->
                 <v-layout row wrap class="pa-3" justify-center v-if="isVideo">
                     <v-flex xs5 sm4 md3 xl3 v-for="(aux, index) in currentContent.content" :key="index">
                         <v-layout row wrap align-center fill-height @click="goToScan (aux.URLContenido)">
                             <v-img :height="heightHolderItems" class="ma-1"  src="https://homuapp.000webhostapp.com/Imagenes/15-1-2019-2-20-45.jpg">
+                                <v-layout row wrap fill-height align-end>
+                                    <v-flex xs12>
+                                        <v-layout row wrap style="background-color: rgba(0,0,0,0.5);" justify-center>
+                                            <div :class="{'headline': !smAndDown, 'body-1': smAndDown, 'white--text': 1}">{{aux.TituloContenido}}</div>
+                                        </v-layout>
+                                    </v-flex>
+                                </v-layout>
+                            </v-img>
+                        </v-layout>
+                    </v-flex>
+                </v-layout>
+                <!-- Si es audio -->
+                <v-layout row wrap class="pa-3" justify-center v-if="isAudio">
+                    <v-flex xs6 sm4 md3 lg2 xl2 v-for="(aux, index) in currentContent.content" :key="index">
+                        <v-layout row wrap align-center fill-height @click="goToScan (aux.URLContenido)">
+                            <v-img :height="heightHolderItems"
+                            class="ma-1"  :src="currentContent.thumbnail">
                                 <v-layout row wrap fill-height align-end>
                                     <v-flex xs12>
                                         <v-layout row wrap style="background-color: rgba(0,0,0,0.5);" justify-center>
@@ -242,6 +260,14 @@ export default {
                     case 'lg': return '150px'
                     case 'xl': return '200px'
                 }
+            } else if (this.isAudio) {
+                switch (this.$vuetify.breakpoint.name) {
+                    case 'xs': return '200px'
+                    case 'sm': return '200px'
+                    case 'md': return '200px'
+                    case 'lg': return '150px'
+                    case 'xl': return '250px'
+                }
             }
         },
         isScan () {
@@ -249,6 +275,9 @@ export default {
         },
         isVideo () {
             return (this.currentContent.type === 'Anime')
+        },
+        isAudio () {
+            return (this.currentContent.type === 'Musica')
         },
         isUserLogged () {
             let id = this.$store.getters.getUserData.id

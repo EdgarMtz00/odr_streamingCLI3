@@ -2,6 +2,8 @@
     <div>
         <v-card>
             <v-card-text>
+                <!-- user: {{profileData}} <br> -->
+                <!-- tipo de cuenta: {{tipoDeCuenta}} <br> -->
                 <v-layout row wrap justify-start="">
                         <v-flex xs12 md4 xl4>
                             <v-img :src="profileData.Imagen" :height="profilePicHeight" contain></v-img>
@@ -11,67 +13,89 @@
                                 <v-flex xs12>
                                     <v-layout row wrap align-center>
                                         <div class="headline">{{profileData.Nickname}}</div>
-                                        <span class="ml-2">(El webos)</span>
+                                        <!-- <span class="ml-2">(El webos)</span> -->
                                         <v-spacer></v-spacer>
+                                        
                                         <!-- Si es el perfil del usuario no se muestra el agregar -->
                                         <div v-if="!sameAsUser && isUserLogged">
                                             <!-- Si ya lo tiene de amigo se muestra eliminar -->
                                             <div v-if="!alreadyAFriend">
                                                 <v-btn color="primary" outline flat small v-if="this.$vuetify.breakpoint.xsOnly"
                                                     @click="addFriend">
-                                                    <v-icon>add</v-icon>{{labels.agregarAmigoCorto[preferedLang]}}
+                                                    <v-icon>add</v-icon>{{labels.agregarAmigoCorto[lang]}}
                                                 </v-btn>
                                                 <v-btn color="primary" outline flat v-else @click="addFriend">
-                                                    {{labels.agregarAmigo[preferedLang]}}
+                                                    {{labels.agregarAmigo[lang]}}
                                                 </v-btn>
                                             </div>
                                             <!-- Aca esta el eliminar -->
                                             <div v-else>
                                                 <v-btn color="primary" outline flat small v-if="this.$vuetify.breakpoint.xsOnly"
                                                     @click="addFriend">
-                                                    <v-icon>remove</v-icon>{{labels.removerAmigoCorto[preferedLang]}}
+                                                    <v-icon>remove</v-icon>{{labels.removerAmigoCorto[lang]}}
                                                 </v-btn>
                                                 <v-btn color="primary" outline flat v-else @click="removeFriend">
-                                                    {{labels.removerAmigo[preferedLang]}}
+                                                    {{labels.removerAmigo[lang]}}
                                                 </v-btn>
                                             </div>
+                                        </div>
+                                        <!-- Apartado para cambiar el tipo de cuenta de alguien -->
+                                        <!-- Solo un dios lo puede ver y si la cuenta que se ve es de
+                                        un dios solo dice "dios" -->
+                                        <div v-if="user.cuenta == 'Dios' && profileData.TipoDeUsuario != 'Dios' && !sameAsUser" 
+                                        class="mx-auto">
+                                            <v-btn-toggle class="primary" v-model="tipoDeCuenta">
+                                            <v-btn value="CDC">
+                                                CDC
+                                            </v-btn>
+                                            <v-btn value="Moderador">
+                                                Moderador
+                                            </v-btn>
+                                            <v-btn value="Consumidor">
+                                                Consumidor
+                                            </v-btn>
+                                            </v-btn-toggle>
+                                        </div>
+                                        <!-- Si es un dios solo dice "dios" el tipo de usuario 1 es dios -->
+                                        <div v-if="profileData.TipoDeUsuario == 1">
+                                            <v-btn color="red" disabled>Dios</v-btn>
                                         </div>
                                     </v-layout>
                                     <v-divider class="my-2"></v-divider>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.descripcion[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.descripcion[lang]}}: </div>
                                         <div class="ml-2">{{profileData.Descripcion}}</div>
                                     </v-layout>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.sexo[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.sexo[lang]}}: </div>
                                         <div class="ml-2">{{profileData.Sexo}}</div>
                                     </v-layout>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.ubicacion[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.ubicacion[lang]}}: </div>
                                         <div class="ml-2">{{profileData.Ubicacion}}</div>
                                     </v-layout>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.idioma[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.idioma[lang]}}: </div>
                                         <div class="ml-2">{{profileData.IdiomaPreferido}}</div>
                                     </v-layout>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.edad[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.edad[lang]}}: </div>
                                         <div class="ml-2">{{profileData.Edad}}</div>
                                     </v-layout>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-layout row wrap>
-                                        <div class="body-1">{{labels.fechaReg[preferedLang]}}: </div>
+                                        <div class="body-1">{{labels.fechaReg[lang]}}: </div>
                                         <div class="ml-2">{{profileData.FechaDeRegistro}}</div>
                                     </v-layout>
                                 </v-flex>
@@ -108,14 +132,16 @@ export default {
             },
             profileData: {
 
-            }
+            },
+            tipoDeCuenta: String,
         }
     },
     methods: {
         addFriend () {
             let friend = {
                 idProfile: this.idProfile,
-                idUsuario: this.user.id
+                idUsuario: this.user.id,
+                nombre: this.user.configuration.nickname,
             }
             this.$store.dispatch('addFriend', friend)
         },
@@ -203,6 +229,33 @@ export default {
                 return false
             }
         },
+    },
+    watch: {
+        profileData: {
+            handler: function(user) {
+                if (user.TipoDeUsuario) {
+                    if (user.TipoDeUsuario == 1) {
+                        this.tipoDeCuenta = "Dios"
+                    } else if (user.TipoDeUsuario == 2) {
+                        this.tipoDeCuenta = "CDC"
+                    } else if (user.TipoDeUsuario == 3) {
+                        this.tipoDeCuenta = "Moderador"
+                    } else if (user.TipoDeUsuario == 4) {
+                        this.tipoDeCuenta = "Consumidor"
+                    }
+                }
+            },
+            deep: true,
+        },
+        tipoDeCuenta: {
+            handler: function(cuenta) {
+                let payload = {
+                    idUsuario: this.idProfile,
+                    cuenta: cuenta,
+                }
+                this.$store.dispatch('cambiarTipoDeCuenta', payload)
+            },
+        }
     }
 }
 </script>

@@ -8,6 +8,7 @@ export default({
     state: {
         user: {},
         manualLogin: false,
+        reputacion: 0,
     },
     mutations: {
         setUserData (state, payload) {
@@ -50,6 +51,9 @@ export default({
         setManualLogin (state, payload) {
           state.manualLogin = payload
         },
+        setReputacion (state, payload) {
+            state.reputacion = payload
+        }
     },
     actions: {
         googleSignIn ({commit, getters}) {
@@ -74,6 +78,13 @@ export default({
                 user.email = response.user.email
 
                 commit('setUserData', user)
+                // Crear el nodo en firebase para manejar los estados, por si no existia ya, en cada login lo checa
+                firebase.database().ref('estados/').push({
+                    estado: 'Online',
+                    idUsuario: user.id,
+                }).then(snapshot => {
+                    alert("Estado!")
+                })
 
             }).catch(error => {
                 console.log(error)
@@ -100,6 +111,13 @@ export default({
                 user.email = response.user.email
 
                 commit('setUserData', user)
+                // Crear el nodo en firebase para manejar los estados, por si no existia ya, en cada login lo checa
+                firebase.database().ref('estados/').push({
+                    estado: 'Online',
+                    idUsuario: user.id,
+                }).then(snapshot => {
+                    alert("Estado!")
+                })
 
                 // Aqui estaba el query a saveUser.php pero por el estado del auth firebase lo puse en donde
                 // este cambia
@@ -180,11 +198,22 @@ export default({
 
             user.configuration.base64 = image.substr(image.indexOf(',') + 1)
 
-            console.log('user', user.configuration)
+            console.log('user', user)
+            // Moficacion del 28/06/19 ya no solo se gurada la opcion de notificaciones por correo e idioma en la base SQL sino tambien
+            // En Firebase porque para hacer peticiones externas desde cloud functions para traer la info de los usuarios (entre ellas
+            // El idioma y las notificaciones de correo) se tenia que pagar y ps nomms xd nel
+            let configCorreo = {
+                activado: user.configuration.notificaciones,
+                correo: user.email,
+                idioma: (user.configuration.idioma == 0)? 'español':'ingles',
+            }
+
             bodyFormData.set('configuration', JSON.stringify(user.configuration))
 
             axios.post(urlBase + "connections/userConnections/saveConfiguration.php", bodyFormData).then(response => {
-                alert("Actualizado correctamente")
+                firebase.database().ref('correo/' + user.id).set(configCorreo).then(response => {
+                    alert("Actualizado correctamente")
+                })
                 commit ('setLoading', false)
             }).catch(error => {
                 commit ('setLoading', false)
@@ -203,6 +232,125 @@ export default({
                 commit ('setLoading', false)
             })
         },
+        cambiarTipoDeCuenta ({commit, getters}, payload) {
+            let urlBase = getters.urlBase
+            let bodyFormData = new FormData ()
+            let tipo = 0
+
+            if (payload.cuenta == "Dios") {
+                return // NO PUEDE HABER MAS DIOSES
+            } else if (payload.cuenta == "CDC") {
+                tipo = 2
+            } else if (payload.cuenta == "Moderador") {
+                tipo = 3
+            } else if (payload.cuenta == "Consumidor") {
+                tipo = 4
+            } 
+
+            console.log("datos: ", payload.idUsuario, tipo)
+
+            bodyFormData.set('idUsuario', payload.idUsuario)
+            bodyFormData.set('tipo', tipo)
+            axios.post(urlBase + "connections/userConnections/cambiarTipoDeCuenta.php", bodyFormData).then(response => {
+                let data = response.data
+                if (data.status.includes('OK')) {
+                    //alert("Actualizado correctamente")
+                } else {
+                    //alert("Error al actualizar")
+                }
+            }).catch(error => {
+                console.log(error)
+            })
+        },
+        loadReputacion ({commit}, idProfile) {
+            firebase.database().ref('reputacionVentas/').orderByChild("idUsuario").equalTo(idProfile).on('value', snapshot => {
+                console.log("reputacion", snapshot.val())
+                if (snapshot.val()) {
+                    // Misma rutina de siempre para guardar los resultados del snapshot
+                    let returnArr = [];
+                    snapshot.forEach(childSnapshot => {
+                        let item = childSnapshot.val();
+                        item.key = childSnapshot.key;
+                        returnArr.push(item);
+                    });
+                    let payload = {
+                        thumbsup: returnArr[0].thumbsup,
+                        thumbsdown: returnArr[0].thumbsdown
+                    }
+                    console.log("reputacion payload", payload)
+                    commit('setReputacion', payload)
+                } else {
+                    commit('setReputacion', {thumbsup: 1, thumbsdown: 0})
+                }
+                
+            })
+        },
+        registrarReputacion ({commit, getters}, payload) {
+            let urlBase = getters.urlBase
+            firebase.database().ref('reputacionVentas/').orderByChild("idUsuario").equalTo(payload.idUsuario).once('value', snapshot => {
+                let val = null
+                let returnArr = [];
+                snapshot.forEach(childSnapshot => {
+                    let item = childSnapshot.val();
+                    item.key = childSnapshot.key;
+                    returnArr.push(item);
+                });
+                val = returnArr[0]
+
+                console.log("reputacion up", val)
+                // Si no tiene hecho su nodo de reputacion se crea
+                if (!val) {
+                    if (payload.reputacion == 'good') {
+                        firebase.database().ref('reputacionVentas/').push({idUsuario: payload.idUsuario, thumbsup: 1, thumbsdown: 0}).then(res => {
+                            alert("Reputacion creada")
+                        })
+                    } else if (payload.reputacion == 'bad') {
+                        firebase.database().ref('reputacionVentas/').push({idUsuario: payload.idUsuario, thumbsup: 0, thumbsdown: 1}).then(res => {
+                            alert("Reputacion creada")
+                        })
+                    }
+                } else {
+                    if (payload.reputacion == 'good') {
+                        val.thumbsup += 1;
+                        console.log("reputacion", snapshot.ref)
+                        firebase.database().ref(snapshot.ref).child(val.key).set(val).then(res => {
+                            alert('registrado')
+                        })
+                    } else if (payload.reputacion == 'bad') {
+                        val.thumbsdown += 1;
+                        console.log("reputacion", snapshot.ref)
+                        firebase.database().ref(snapshot.ref).child(val.key).set(val).then(res => {})
+                    }
+                }
+
+                if (payload.tipo == 'comprador') {
+                    // Despues de haber registrado su calificacion es necesario borrarlo del nodo de tiendaCompradores para que no pueda volver
+                    // A entrar a la pagina de calificar al vendedor por su producto de nuevo y como el producto ya ha sido borrado pues no podra votar dos veces
+                    // Solo obtenemos la refencia 
+                    firebase.database().ref('tiendaCompradores/').orderByChild("idProducto").equalTo(payload.idProducto).once('value', snapshot => {
+                        snapshot.ref.remove().then(res => {
+                            //Volver a la pagina principal
+                            router.push('/shop')
+                        })
+                    })
+                } else if (payload.tipo == 'vendedor') {
+                    let formData = new FormData ()
+                    formData.set('idProducto', payload.idProducto)
+                    // En caso de que sea el vendedor quien esta calificando al comprador entonces se debe borrar el producto porque ya ha sido vendido
+                    axios.post(urlBase + 'connections/productos/productoVendido.php', formData).then(response => {
+                        let data = response.data
+                        alert(JSON.stringify(data))
+                        if (data.status.includes('OK')) {
+                            router.push('/shop')
+                        } else {
+                            alert('ERROR AL BORRAR PRODUCTO!')
+                        }
+                    }).catch(error => {
+                        alert('ERROR AL BORRAR PRODUCTO!-> ' + error)
+                    })
+                }
+            })
+        }
     },
     getters: {
         getUrlBase (state) {
@@ -226,5 +374,8 @@ export default({
             else
                 return 0
         },
+        getReputacion (state) {
+            return state.reputacion
+        }
     }
 })

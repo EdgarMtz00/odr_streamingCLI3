@@ -102,6 +102,18 @@ export default({
                         if (!response1.exists()){
                             firebase.database().ref('chats/' + data.idChat).set('').then(response => {
                                 alert('Chat creado')
+                                // Crear la notificacion
+                                firebase.database().ref('notificaciones/').push({
+                                    idUsuario: friend.idProfile, // Como la notificacion es para el contacto, se pone la id del otro
+                                    idContacto: friend.idUsuario,
+                                    nombre: friend.nombre,
+                                    tipoContenido: 'contacto',
+                                    tipoNotificacion: 'contacto',
+                                    timestamp: (new Date().getTime() / 1000), /*Un timestamp para poder ordenarlos por fecha*/
+                                    visto: false,
+                                }).then(elThen => {
+                                    firebase.database().ref('notificaciones/' + elThen.key).child('idNotificacion').set(elThen.key)
+                                })
                             })
                         } else {
                             alert('El chat si existe')
@@ -189,6 +201,14 @@ export default({
                         }
                         console.log('El mensaje de contacto', chat)
                         dispatch('sendMessage', chat)
+                        // Registrar en el nodo donde se ponen todos los usuarios que contactaron al vendedor por medio del id
+                        let usuarioContacto = {
+                            idProducto: payload.idProducto,
+                            idUsuario: payload.idUsuario,
+                            nickname: payload.nickname,
+                            idChat: data.idChat,
+                        }
+                        dispatch('registrarUsuarioContactado', usuarioContacto)
                         alert('mensaje enviado')
                     })
                     commit('addFriend', {idProfile: payload.idProfile, idUsuario: payload.idUsuario})
@@ -222,7 +242,30 @@ export default({
             }).catch(error => {
                 console.log(error)
             })
-        }
+        },
+        // Para cuando se contactan dos usuarios para la venta de un producto
+        // Registrar en el nodo donde se ponen todos los usuarios que contactaron al vendedor por medio del id
+        registrarUsuarioContactado ({commit}, payload) {
+            // Verificar que el mismo usuario no haya contactado antes al vendedor para que no lo registre varias veces
+            firebase.database().ref('tiendaUsuariosContactados/' + payload.idProducto).orderByChild("idUsuario").equalTo(payload.idUsuario).once('value', snapshot => {
+                console.log('Contactador', snapshot.val())
+                // Si si existe, no registrarlo de nuevo
+                if (snapshot.val()) {
+                    return
+                } else {
+                    // Formato de los nodos de firebase de tiendaUsuarioContactados
+                    let auxPush = {
+                        idChat: payload.idChat,
+                        idUsuario: payload.idUsuario,
+                        nickname: payload.nickname,
+                    }
+                    // Registrar
+                    firebase.database().ref('tiendaUsuariosContactados/' + payload.idProducto).push(auxPush).then(response => {
+                        //alert('Contacto guardado!')
+                    })
+                }
+            })
+        },
 
     },
     getters: {
