@@ -146,6 +146,7 @@ export default ({
                         personajes.push({
                             id: elementPersonajes.IdPersonaje,
                             nombre: elementPersonajes.NombrePersonaje,
+                            thumbnail: urlBase + 'Characters/' + elementPersonajes.URLPersonaje + '/' + 'profile.jpg',
                             type: 'Personaje',
                         })
                     });
@@ -172,10 +173,10 @@ export default ({
 
             let formData = new FormData()
             formData.set('idUsuarioDelReporte', usuario.id)
-            formData.set('idUsuarioDelComentario', imagenReportada.idUsuario)
-            formData.set('idComentario', imagenReportada.id)
-            formData.set('comentarioReportado', imagenReportada.thumbnail)
-            formData.set('textoDelReporte', 'N/A')
+            formData.set('idUsuarioDelComentario', imagenReportada.content.idUsuario)
+            formData.set('idComentario', imagenReportada.content.id)
+            formData.set('comentarioReportado', 'Desc: ' + imagenReportada.content.titulo + ' Img: ' + imagenReportada.content.thumbnail)
+            formData.set('textoDelReporte', imagenReportada.report)
             formData.set('urlComentario', 'N/A')
             formData.set('tipoReporte', 'Img')
 
@@ -192,10 +193,10 @@ export default ({
 
             let formData = new FormData()
             formData.set('idUsuarioDelReporte', usuario.id)
-            formData.set('idUsuarioDelComentario', hubReportado.idUsuario)
-            formData.set('idComentario', hubReportado.url)
-            formData.set('comentarioReportado', hubReportado.titulo)
-            formData.set('textoDelReporte', 'N/A')
+            formData.set('idUsuarioDelComentario', hubReportado.content.idUsuario)
+            formData.set('idComentario', hubReportado.content.url)
+            formData.set('comentarioReportado', hubReportado.content.titulo)
+            formData.set('textoDelReporte', hubReportado.report)
             formData.set('urlComentario', 'N/A')
             formData.set('tipoReporte', 'Hub')
 

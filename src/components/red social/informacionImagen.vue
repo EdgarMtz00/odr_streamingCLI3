@@ -9,7 +9,7 @@
                 </v-card>    
             </v-layout>
             <v-layout justify-center>
-                <v-btn @click="goToRoute('Back', '')"> Return </v-btn>
+                <v-btn @click="goToRoute('Back', '')">{{returnTxt[currLanguaje]}}</v-btn>
             </v-layout>
             <v-layout justify-center>
                 <comments :enDialog="false"></comments>
@@ -23,7 +23,7 @@ import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            
+            returnTxt: ['Regresar', 'Return']
         }
     },
     methods: {
@@ -47,6 +47,7 @@ export default {
     },
     computed: {
         ...mapGetters ({
+            currLanguaje: 'getUserLang',
             imagenes: 'getImagenes',
             urlSaga: 'getIdSaga',
             urlHub: 'getIdHub',

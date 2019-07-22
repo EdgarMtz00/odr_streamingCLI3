@@ -5,18 +5,19 @@
                 <v-flex>
                     <v-layout row wrap justify-center>
                         <v-card class="text-xs-left my-1">
-                            <v-card-text>Categorías</v-card-text>
+                            <v-card-text>{{categoriaTxt[currLanguaje]}}</v-card-text>
                         </v-card>
                     </v-layout>
                     <v-layout row wrap justify-center>
-                        <v-data-table :items="categoriaData" hide-actions hide-headers no-data-text="Ha ocurrido un error">
+                        <v-data-table :items="categoriaData" hide-actions hide-headers :no-data-text="noCategoryTxt[currLanguaje]">
                             <template slot="items" slot-scope="data">
-                                <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.id }}</td>
                                 <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.nombre }}</td>
                                 <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.descripcion }}</td>
                             </template>
                         </v-data-table>
-                        <v-btn @click="back()"> Return </v-btn>
+                    </v-layout>
+                    <v-layout row wrap justify-center>
+                        <v-btn @click="back()">{{returnTxt[currLanguaje]}}</v-btn>
                     </v-layout>
                 </v-flex>
             </v-layout>
@@ -25,10 +26,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            
+            categoriaTxt: ['Menú de categorías', 'Category Menu'],
+            noCategoryTxt: ['¿¡No hay categorias?!', 'No categorys?!'],
+            returnTxt: ['Regresar', 'Return']
         }
     },
     methods: {
@@ -50,13 +54,18 @@ export default {
         }
     },
     computed: {
+        ...mapGetters({
+            currLanguaje: 'getUserLang'
+        }),
         categorias () {
             return this.$store.getters.getCategoriasForo
         },
         categoriaData () {
             let aux = []
             this.categorias.forEach(elementCategorias => {
-                aux.push(elementCategorias)
+                if (elementCategorias.nombre != null) {
+                    aux.push(elementCategorias)
+                }
             });
             return aux
         }

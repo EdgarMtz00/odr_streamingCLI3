@@ -5,17 +5,17 @@ import * as firebase from 'firebase'
 export default({
     state: {
         mensajes: {
-            contenido: ['Un contenido al que sigues estreno un nuevo elemento: <strong>---</strong>', 
+            contenido: ['Un contenido al que sigues estrenó un nuevo elemento: <strong>---</strong>', 
             'A content you are following has new media: <strong>---</strong>'],
-            personaje: ['Un personaje al que sigues: <strong>***</strong> aparecera en el nuevo contenido <strong>---</strong> ', 
+            personaje: ['Un personaje al que sigues: <strong>***</strong> aparecerá en el nuevo contenido <strong>---</strong> ', 
             'A character you are following: <strong>***</strong> will appear in a this new content: <strong>---</strong>'],
-            contacto: ['El usuario: <strong>***</strong> te ha añadido de contacto, añadelo tambien para comenzar a chatear! ', 
-            'The user: <strong>***</strong> has added you as contact, add him too to start chating!'],
+            contacto: ['El usuario: <strong>***</strong> te ha añadido como contacto ¡Añádelo tambien para empezar a chatear! ', 
+            'The user: <strong>***</strong> has added you as contact, add him as well to start chating!'],
             calificar: ['Se te ha elegido como comprador del producto <strong>***</strong>, califica el servicio del vendedor <strong>---</strong>',
-            "You have been choosed as the buyer of <strong>***</strong>, rate the seller's service: <strong>---</strong>"],
+            "You have been choosen as the buyer of <strong>***</strong>, rate the seller's service: <strong>---</strong>"],
             reporte: ['Hay un nuevo reporte', "There's a new report"],
-            reporteEliminado: ['Tu reporte fue eliminado', "You report has been deleted"],
-            reporteConcedido: ['El contenido que has reportado fue eliminado', "The content you reported has been deleted"],
+            reporteEliminado: ['Tu reporte fue ignorado', "You report has been ignored"],
+            reporteConcedido: ['El contenido que haz reportado fue eliminado', "The content you reported has been deleted"],
         },
         notificaciones: []
     },

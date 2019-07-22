@@ -1,41 +1,47 @@
 <template>
-    <v-layout row wrap justify-center>
+    <v-layout row wrap>
         <v-flex>
-            <v-layout row wrap justify-center>
+            <v-layout row wrap justify-center="">
                 <v-card class="text-xs-left my-1">
-                    <v-card-text>Sagas</v-card-text>
+                    <v-card-title>{{socialNetworkTxt[currLanguaje]}}</v-card-title>
                 </v-card>
+                <v-icon @click="goToRoute('New', 'createHub')">add_circle</v-icon>
             </v-layout>
             <v-layout row wrap justify-center>
-                <v-data-table :items="sagaData" hide-actions hide-headers no-data-text="¿¡No hay nada!?">
-                    <template slot="items" slot-scope="data">
-                        <v-layout @click="goToRoute(data.item.type, data.item.id)" ma-2 style="cursor: pointer;">
-                            <td><v-img :src="data.item.thumbnail"></v-img></td>
-                            <td class="text-xs-left my-1">{{ data.item.id }}</td>
-                            <td class="text-xs-left my-1">{{ data.item.titulo }}</td>
-                            <td class="text-xs-left my-1">{{ data.item.type }}</td>
-                        </v-layout>
-                    </template>
-                </v-data-table>
-            </v-layout>
-            <v-layout row wrap justify-center>
-                <v-card class="text-xs-left my-1">
-                    <v-card-text>Personajes</v-card-text>
-                </v-card>
-            </v-layout>
-            <v-layout row wrap justify-center>
-                <v-data-table :items="personajes" hide-actions hide-headers no-data-text="¿¡No hay nada!?">
-                    <template slot="items" slot-scope="data">
-                        <v-layout @click="goToRoute(data.item.type, data.item.id)" ma-2 style="cursor: pointer;">
-                            <td class="text-xs-left my-1">{{ data.item.id }}</td>
-                            <td class="text-xs-left my-1">{{ data.item.nombre }}</td>
-                            <td class="text-xs-left my-1">{{ data.item.type }}</td>
-                        </v-layout>
-                    </template>
-                </v-data-table>
-            </v-layout>
-            <v-layout row wrap justify-center>
-                <v-btn @click="goToRoute('New', 'createHub')">New Hub</v-btn>
+                <v-flex>
+                    <v-layout row wrap justify-center>
+                        <v-card class="text-xs-left my-1">
+                            <v-card-text>Sagas</v-card-text>
+                        </v-card>
+                    </v-layout>
+                    <v-layout row wrap justify-center>
+                        <v-data-table :items="sagaData" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
+                            <template slot="items" slot-scope="data">
+                                <v-card @click="goToRoute(data.item.type, data.item.id)" min-width="1" max-width="1280" min-height="1" max-height="1920" class="text-xl-center my-1 cursorChido">
+                                    <v-img :src="data.item.thumbnail"></v-img>
+                                    <v-card-text>{{ data.item.titulo }}</v-card-text>
+                                </v-card>
+                            </template>
+                        </v-data-table>
+                    </v-layout>
+                </v-flex>
+                <v-flex>
+                    <v-layout row wrap justify-center>
+                        <v-card class="text-xs-left my-1">
+                            <v-card-text>{{personajesTxt[currLanguaje]}}</v-card-text>
+                        </v-card>
+                    </v-layout>
+                    <v-layout row wrap justify-center>
+                        <v-data-table :items="personajeData" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
+                            <template slot="items" slot-scope="data">
+                                <v-card @click="goToRoute(data.item.type, data.item.id)" min-width="1" max-width="1280" min-height="1" max-height="1920" class="text-xl-center my-1 cursorChido">
+                                    <v-img :src="data.item.thumbnail" small></v-img>
+                                    <v-card-text>{{data.item.nombre}}</v-card-text>
+                                </v-card>
+                            </template>
+                        </v-data-table>
+                    </v-layout>
+                </v-flex>
             </v-layout>
         </v-flex>
     </v-layout>
@@ -46,7 +52,9 @@ import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            
+            socialNetworkTxt: ['Red Social', 'Social Network'],
+            noDataTxt: ['¡¿No Hay nada?!', 'There is nothing?!'],
+            personajesTxt: ['Personajes', 'Characters']
         }
     },
     methods: {
@@ -78,6 +86,7 @@ export default {
     },
     computed: {
         ...mapGetters ({
+            currLanguaje: 'getUserLang',
             personajes: 'getPersonajesRed'
         }),
         sagas () {
@@ -86,7 +95,18 @@ export default {
         sagaData () {
             let aux = []
             this.sagas.forEach(elementSagas => {
-                aux.push(elementSagas)
+                if (elementSagas.titulo != null) {
+                    aux.push(elementSagas)
+                }
+            });
+            return aux
+        },
+        personajeData () {
+            let aux = []
+            this.personajes.forEach(elementPersonajes => {
+                if (elementPersonajes.nombre != null) {
+                    aux.push(elementPersonajes)
+                }
             });
             return aux
         }

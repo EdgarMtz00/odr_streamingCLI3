@@ -74,7 +74,7 @@ export default ({
                     data.sagas.forEach(elementSagas => {
                         sagas.push({
                             id: elementSagas.IdSaga,
-                            thumbnail: urlBase + '/resources/' + elementSagas.ThumbnailSaga,
+                            thumbnail: urlBase + 'resources/' + elementSagas.ThumbnailSaga,
                             titulo: elementSagas.TituloSaga,
                             url: elementSagas.URLSaga,
                             type: 'Saga',
@@ -354,10 +354,10 @@ export default ({
 
             let formData = new FormData()
             formData.set('idUsuarioDelReporte', usuario.id)
-            formData.set('idUsuarioDelComentario', postReportado.idUsuario)
-            formData.set('idComentario', postReportado.idPost)
-            formData.set('comentarioReportado', postReportado.contenidoPost)
-            formData.set('textoDelReporte', 'N/A')
+            formData.set('idUsuarioDelComentario', postReportado.content.idUsuario)
+            formData.set('idComentario', postReportado.content.idPost)
+            formData.set('comentarioReportado', postReportado.content.contenidoPost)
+            formData.set('textoDelReporte', postReportado.report)
             formData.set('urlComentario', 'N/A')
             formData.set('tipoReporte', 'Post')
 
@@ -373,10 +373,10 @@ export default ({
 
             let formData = new FormData()
             formData.set('idUsuarioDelReporte', usuario.id)
-            formData.set('idUsuarioDelComentario', topicReportado.idUsuario)
-            formData.set('idComentario', topicReportado.url)
-            formData.set('comentarioReportado', 'Topic: ' + topicReportado.titulo + ' Cont: ' + topicReportado.contenidoThread)
-            formData.set('textoDelReporte', 'N/A')
+            formData.set('idUsuarioDelComentario', topicReportado.content.idUsuario)
+            formData.set('idComentario', topicReportado.content.url)
+            formData.set('comentarioReportado', 'Topic: ' + topicReportado.content.titulo + ' Cont: ' + topicReportado.content.contenidoThread)
+            formData.set('textoDelReporte', topicReportado.report)
             formData.set('urlComentario', 'N/A')
             formData.set('tipoReporte', 'Topic')
 

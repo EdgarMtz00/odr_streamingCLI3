@@ -6,20 +6,18 @@
                     <v-card-text>Hubs</v-card-text>
                 </v-card>
             </v-layout>
-            <v-layout justify-center>
-                <v-data-table :items="redData" hide-actions hide-headers no-data-text="No hay Hubs">
+            <v-layout row wrap justify-center>
+                <v-data-table :items="redData" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
                     <template slot="items" slot-scope="data">
-                        <v-layout @click="goToRoute(data.item.type, data.item.url)" ma-2 style="cursor: pointer;">
-                            <td class="text-xs-left my-1">{{ data.item.url }}</td>
-                            <td class="text-xs-left my-1">{{ data.item.titulo }}</td>
-                            <td class="text-xs-left my-1">{{ data.item.creador }}</td>
-                            <v-btn @click="reportarHub(data.item)">Report Hub</v-btn>
-                        </v-layout>
+                            <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url)">{{ data.item.titulo }}</td>
+                            <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url)">{{ data.item.creador }}</td>
+                            <td class="text-xs-left my-1"><v-icon @click="report = !report">report</v-icon></td>
+                            <td class="text-xs-left my-1" v-if="report == true"><v-text-field :label="reportTxt[currLanguaje]" v-model="userReport"></v-text-field><v-btn @click="reportarHub(data.item)">{{enviarTxt[currLanguaje]}}</v-btn></td>
                     </template>
                 </v-data-table>
             </v-layout>
             <v-layout justify-center>
-                <v-btn @click="back()"> Return </v-btn>
+                <v-btn @click="back()">{{returnTxt[currLanguaje]}}</v-btn>
             </v-layout>
         </v-flex>
     </v-layout>
@@ -30,7 +28,13 @@ import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            
+            noDataTxt: ['No hay hubs para este contenido', 'No hubs for this content'],
+            returnTxt: ['Regresar', 'Return'],
+            confirmTxt: ['¿Quieres reportar este Hub?', 'Do you want to report this Hub?'],
+            userReport: '',
+            report: false,
+            reportTxt: ['Escribe tu reporte aquí', 'Write your report here'],
+            enviarTxt: ['Enviar Reporte', 'Send Report']
         }
     },
     methods: {
@@ -57,11 +61,20 @@ export default {
             })
         },
         reportarHub (reportedHub) {
-            this.$store.dispatch("reportarHub", reportedHub)
+            let confirmar = confirm(this.confirmTxt[this.currLanguaje])
+            if (!confirmar) {
+                return
+            }
+            let payload = {
+                report: this.userReport,
+                content: reportedHub
+            }
+            this.$store.dispatch("reportarHub", payload)
         }
     },
     computed: {
         ...mapGetters ({
+            currLanguaje: 'getUserLang',
             urlSaga: 'getIdSaga'
         }),
         redes () {

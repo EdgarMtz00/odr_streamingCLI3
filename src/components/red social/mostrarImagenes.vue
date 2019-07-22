@@ -3,26 +3,28 @@
         <v-flex>
             <v-layout row wrap justify-center>
                 <v-card class="text-xs-left my-1">
-                    <v-card-text>Imágenes del hub</v-card-text>
+                    <v-card-text>{{imagenesTxt[currLanguaje]}}</v-card-text>
                 </v-card>
             </v-layout>
             <v-layout justify-center>
-                <v-data-table :items="imagenesHub" hide-actions hide-headers no-data-text="No hay imágenes">
+                <v-data-table :items="imagenesHub" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
                     <template slot="items" slot-scope="data">
-                        <v-layout>
-                            <v-card @click="goToRoute('Image', data.item.id)" style="cursor: pointer;" class="text-xs-left my-1">
-                                <v-img :src="data.item.thumbnail"></v-img>
-                                <v-card-text v-html="data.item.titulo"></v-card-text>
-                                <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
-                                <v-btn @click="reportarImagen(data.item)">Report Image</v-btn>
-                            </v-card>
-                        </v-layout>
+                        <v-card @click="goToRoute('Image', data.item.id)" style="cursor: pointer;" class="text-xs-left my-1">
+                            <v-img :src="data.item.thumbnail"></v-img>
+                            <v-card-text v-html="data.item.titulo"></v-card-text>
+                            <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
+                        </v-card>
+                        <v-btn @click="reportBool = !reportBool">{{reportImageTxt[currLanguaje]}}</v-btn>
+                        <div v-if="reportBool == true">
+                            <v-text-field :label="labelTxt[currLanguaje]" v-model="userReport"></v-text-field>
+                            <v-btn @click="reportarImagen(data.item)">{{enviarTxt[currLanguaje]}}</v-btn>
+                        </div>
                     </template>
                 </v-data-table>
             </v-layout>
             <v-layout justify-center>
-                <v-btn @click="goToRoute('Back', '')"> Return </v-btn>
-                <v-btn @click="goToRoute('New', 'createImage')">Crear Imagen</v-btn>
+                <v-btn @click="goToRoute('Back', '')">{{returnTxt[currLanguaje]}}</v-btn>
+                <v-btn @click="goToRoute('New', 'createImage')">{{createTxt[currLanguaje]}}</v-btn>
             </v-layout>
         </v-flex>
     </v-layout>
@@ -33,7 +35,16 @@ import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            
+            imagenesTxt: ['Imágenes del Hub', 'Hub images'],
+            noDataTxt: ['No hay imágenes en este hub', 'There are no images in this hub'],
+            reportImageTxt: ['Reportar Imagen', 'Report Image'],
+            enviarTxt: ['Enviar Reporte', 'Send Report'],
+            returnTxt: ['Regresar', 'Return'],
+            createTxt: ['Crear Imagen', 'Create Image'],
+            labelTxt: ['Escribe tu reporte aquí', 'Write your report here'],
+            reportBool: false,
+            userReport: '',
+            confirmTxt: ['¿Estás seguro de reportar esta imagen?', 'Do you really want to report this image?']
         }
     },
     methods: {
@@ -73,11 +84,20 @@ export default {
             }
         },
         reportarImagen (reportedImage) {
-            this.$store.dispatch("reportarImagen", reportedImage)
+            let confirmar = confirm(this.confirmTxt[this.currLanguaje])
+            if (!confirmar) {
+                return
+            }
+            let payload = {
+                report: this.userReport,
+                content: reportedImage
+            }
+            this.$store.dispatch("reportarImagen", payload)
         }
     },
     computed: {
         ...mapGetters ({
+            currLanguaje: 'getUserLang',
             imagenes: 'getImagenes',
             urlSaga: 'getIdSaga',
             urlHub: 'getIdHub',

@@ -2,14 +2,14 @@
     <v-card>
         <v-card>
             <v-card-title primary-title text-xs-center>
-                <div class="headline">Informacion del contenido</div>
+                <div class="headline">{{titleTxt[currLanguaje]}}</div>
             </v-card-title>
             <v-card-text>
-                <v-text-field v-model="newContent.description" label="Descripcion de la imagen"></v-text-field>
+                <v-text-field v-model="newContent.description" :label="descriptionTxt[currLanguaje]"></v-text-field>
             </v-card-text>
         </v-card>
         <v-card-title primary-title text-xs-center>
-            <div class="headline">Elegir archivo</div>
+            <div class="headline">{{filesTxt[currLanguaje]}}</div>
         </v-card-title>
         <v-card-text>
             <images-selector-carousel :preview="true" v-on:passImages="getImages($event)">
@@ -17,7 +17,7 @@
         </v-card-text>
         <v-card-actions>
             <v-btn color="success" :disabled="!uploadBtnEnabled" @click="uploadContent">{{btnText}}</v-btn>
-            <v-btn @click="goToRoute('Back', '')"> Return </v-btn>
+            <v-btn @click="goToRoute('Back', '')">{{returnTxt[currLanguaje]}}</v-btn>
         </v-card-actions>
     </v-card>
 </template>
@@ -34,6 +34,10 @@ export default {
             },
             uploadBtnEnabled: true,
             btnText: 'Subir contenido',
+            titleTxt: ['Subir una imagen', 'Upload an image'],
+            descriptionTxt: ['Descripción de la imagen', 'Image descrption'],
+            filesTxt: ['Elige el archivo', 'Choose your file'],
+            returnTxt: ['Regresar', 'Return']
         }
     },
     methods: {
@@ -105,6 +109,7 @@ export default {
     },
     computed: {
         ...mapGetters({
+            currLanguaje: 'getUserLang',
             user: 'getUserData',
             urlHub: 'getIdHub',
             urlSaga: 'getIdSaga',

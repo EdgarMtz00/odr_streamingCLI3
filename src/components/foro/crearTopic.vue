@@ -6,24 +6,19 @@
                     <v-card>
                         <v-btn @click="formatearTexto('Italic')"><i>I</i></v-btn>
                         <v-btn @click="formatearTexto('Bold')"><b>B</b></v-btn>
-                        <v-btn @click="formatearTexto('Link')"> Link </v-btn>
-                        <v-btn @click="formatearTexto('Align')"> Align </v-btn>
-                        <v-btn @click="formatearTexto('Font')"> Change font </v-btn>
-                        <v-btn @click="formatearTexto('Underline')"> Underline </v-btn>
-                        <v-btn @click="formatearTexto('Cross')"> Cross </v-btn>
-                        <v-btn @click="formatearTexto('Bullet')"> Bullet </v-btn>
-                        <v-btn @click="formatearTexto('Break')"> Line break </v-btn>
+                        <v-btn @click="formatearTexto('Link')">{{linkTxt[currLanguaje]}}</v-btn>
+                        <v-btn @click="formatearTexto('Align')">{{alignTxt[currLanguaje]}}</v-btn>
+                        <v-btn @click="formatearTexto('Font')">{{changeFontTxt[currLanguaje]}}</v-btn>
+                        <v-btn @click="formatearTexto('Underline')">{{underlineTxt[currLanguaje]}}</v-btn>
+                        <v-btn @click="formatearTexto('Cross')">{{crossTxt[currLanguaje]}}</v-btn>
+                        <v-btn @click="formatearTexto('Bullet')">{{bulletTxt[currLanguaje]}}</v-btn>
+                        <v-btn @click="formatearTexto('Break')">{{lineBreakTxt[currLanguaje]}}</v-btn>
                     </v-card>
                     <v-card>
-                        <v-text-field v-model="newTopic.title" label="Title" outline></v-text-field>
+                        <v-text-field v-model="newTopic.title" label="Topic" outline></v-text-field>
                         <v-text-field v-model="newTopic.post" label="Post" outline></v-text-field>
-                        <div>
-                            <p>Preview post: </p>
-                            <p>{{newTopic.title}}</p>
-                            <p v-html="newTopic.post"></p>
-                        </div>
-                        <v-btn @click="createTopic"> Create Post </v-btn>
-                        <v-btn @click="back()"> Return </v-btn>
+                        <v-btn @click="createTopic">{{createPostTxt[currLanguaje]}}</v-btn>
+                        <v-btn @click="back()">{{returnTxt[currLanguaje]}}</v-btn>
                     </v-card>
                 </v-card>
             </v-layout>
@@ -40,7 +35,26 @@ export default {
                 title: "",
                 post: "",
                 fecha: ""
-            }
+            },
+            linkTxt: ['Enlace', 'Link'],
+            alignTxt: ['Alineación', 'Align'],
+            changeFontTxt: ['Cambiar fuente', 'Change font'],
+            underlineTxt: ['Subrayar', 'Underline'],
+            crossTxt: ['Tachar texto', 'Cross text'],
+            bulletTxt: ['Viñetas', 'Bullets'],
+            lineBreakTxt: ['Salto de línea', 'Line break'],
+            quotedMsgTxt: ['Mensaje citado: ', 'Quoted Message: '],
+            createPostTxt: ['Crear topic', 'Create topic'],
+            returnTxt: ['Regresar', 'Return'],
+            boldMsgTxt: [' *escribe tu mensaje entre los asteriscos*', ' *write your message between the asterisks*'],
+            italicMsgTxt: [' _escribe tu mensaje entre los guiones bajos_', ' _write your message between the underscores_'],
+            linkMsgTxt: [' <a href="URL">escribe tu mensaje aqui y la url donde dice URL</a>', ' <a href="URL">write your message here and the url where it says URL</a>'],
+            alignMsgTxt: [' "jtf/lft/ctr/rgt"escribe tu mensaje aquí y elije el mismo de cada lado, no borres las comillas"jtf/lft/ctr/rgt"', ' "jtf/lft/ctr/rgt"write your message here and choose one in both sides (must be the same), leave the quotes"jtf/lft/ctr/rgt"'],
+            fontMsgTxt: [' "a3/a6/t3/t6"escribe tu mensaje aquí y elije el mismo de cada lado, no borres las comillas"a3/a6/t3/t6"', ' "a3/a6/t3/t6"write your message here and choose one in both sides (must be the same), leave the quotes"a3/a6/t3/t6"'],
+            underlineMsgTxt: [' $escribe tu mensaje entre los signos de dinero$', ' $write your message between the money signs$'],
+            crossMsgTxt: [' ~escribe tu mensaje entre las líneas curvas~', ' ~write your message between the curly lines~'],
+            bulletMsgTxt: [' |°escribe los elementos de la lista entre los circulos, la lista tiene que estar rodeada de signos de valor absoluto°°elemento 2°°elemento 3°|', ' |°write your list elements between the circles, the list must be surrounded by absolute value symbols°°element 2°°element 3°|'],
+            breakMsgTxt: [' #escribe tu mensaje entre los gatos, aparecerá en una nueva línea#', ' #write your message between the sharp symbols, it will appear in a new line#']
         }
     },
     methods: {
@@ -72,31 +86,31 @@ export default {
         formatearTexto (type) {
             switch (type) {
                 case 'Bold':
-                    this.newTopic.post = this.newTopic.post + ' *write your message between the asterisks*'
+                    this.newTopic.post = this.newTopic.post + this.boldMsgTxt[this.currLanguaje]
                     break;
                 case 'Italic':
-                    this.newTopic.post = this.newTopic.post + ' _write your message between the underscores_'
+                    this.newTopic.post = this.newTopic.post + this.italicMsgTxt[this.currLanguaje]
                     break;
                 case 'Link':
-                    this.newTopic.post = this.newTopic.post + '<a href="URL">write your message here and the url where it says URL</a>'
+                    this.newTopic.post = this.newTopic.post + this.linkMsgTxt[this.currLanguaje]
                     break;
                 case 'Align':
-                    this.newTopic.post = this.newTopic.post + ' "jtf/lft/ctr/rgt"write your message here and choose one in both sides (must be the same), leave the quotes"jtf/lft/ctr/rgt"'
+                    this.newTopic.post = this.newTopic.post + this.alignMsgTxt[this.currLanguaje]
                     break;
                 case 'Font':
-                    this.newTopic.post = this.newTopic.post + ' "a3/a6/t3/t6"write your message here and choose one in both sides (must be the same), leave the quotes"a3/a6/t3/t6"'
+                    this.newTopic.post = this.newTopic.post + this.fontMsgTxt[this.currLanguaje]
                     break;
                 case 'Underline':
-                    this.newTopic.post = this.newTopic.post + ' $write your message between the money signs$'
+                    this.newTopic.post = this.newTopic.post + this.underlineMsgTxt[this.currLanguaje]
                     break;
                 case 'Cross':
-                    this.newTopic.post = this.newTopic.post + ' ~write your message between the curly lines~'
+                    this.newTopic.post = this.newTopic.post + this.crossMsgTxt[this.currLanguaje]
                     break;
                 case 'Bullet':
-                    this.newTopic.post = this.newTopic.post + ' |°write your list elements between the circles, the list must be surrounded by absolute value symbols°°element 2°°element 3°|'
+                    this.newTopic.post = this.newTopic.post + this.bulletMsgTxt[this.currLanguaje]
                     break;
                 case 'Break':
-                    this.newTopic.post = this.newTopic.post + ' #write your message between the sharp symbols, it will appear in a new line#'
+                    this.newTopic.post = this.newTopic.post + this.breakMsgTxt[this.currLanguaje]
                     break;
             }
         }
@@ -104,6 +118,7 @@ export default {
     computed: {
         ...mapGetters({
             user: 'getUserData',
+            currLanguaje: 'getUserLang'
         }),
         sagaElegida () {
             return this.$store.getters.getSagaElegida

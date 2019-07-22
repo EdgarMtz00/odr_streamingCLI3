@@ -3,35 +3,40 @@
         <v-flex>
             <v-layout row wrap justify-center>
                 <v-card class="text-xs-left my-1">
-                    <v-card-text>Respuestas del topic:</v-card-text>
+                    <v-card-text>{{respuestasTxt[currLanguaje]}}</v-card-text>
                     <v-card-title primary-title>{{ threadElegido.titulo }}</v-card-title>
                     <v-card-text v-html="threadElegido.contenidoThread"></v-card-text>
                     <v-card-text>{{ threadElegido.nickname }} {{ threadElegido.fecha }}</v-card-text>
                 </v-card>
             </v-layout>
             <v-layout justify-center>
-                <v-data-table :items="postData" hide-actions hide-headers no-data-text="No hay respuestas">
+                <v-data-table :items="postData" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
                     <template slot="items" slot-scope="data">
                         <v-layout row wrap justify-center>
                             <v-card class="text-xs-left my-1">
                                 <v-card-text v-html="data.item.contenidoPost"></v-card-text>
                                 <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
-                                <v-btn @click="citarPost(data.item.contenidoPost, data.item.nickname, data.item.fecha)">Quote post</v-btn>
-                                <v-btn @click="reportarPost(data.item)">Report Post</v-btn>
+                                <v-btn @click="citarPost(data.item.contenidoPost, data.item.nickname, data.item.fecha)">{{quoteTxt[currLanguaje]}}</v-btn>
+                                <v-btn @click="reportarBool = !reportarBool">{{reportTxt[currLanguaje]}}</v-btn>
+                            </v-card>
+                            <v-card v-if="reportarBool == true">
+                                <v-text-field :label="reportLabelTxt[currLanguaje]" v-model="userReport"></v-text-field>
+                                <v-btn @click="reportarPost(data.item)">{{enviarTxt[currLanguaje]}}</v-btn>
                             </v-card>
                         </v-layout>
                     </template>
                 </v-data-table>
             </v-layout>
             <v-layout justify-center>
-                <v-btn @click="back()"> Return </v-btn>
-                <v-btn @click="goToRoute('New', 'createPost')"> New Post </v-btn>
+                <v-btn @click="back()">{{returnTxt[currLanguaje]}}</v-btn>
+                <v-btn @click="goToRoute('New', 'createPost')">{{newTxt[currLanguaje]}}</v-btn>
             </v-layout>
         </v-flex>
     </v-layout>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -40,7 +45,18 @@ export default {
                 nickname: '',
                 date: '',
                 status: false
-            }
+            },
+            reportarBool: false,
+            userReport: '',
+            respuestasTxt: ['Repuestas del Topic: ', 'Topic replies: '],
+            quoteTxt: ['Citar Post', 'Quote Post'],
+            reportTxt: ['Reportar Post', 'Report Post'],
+            enviarTxt: ['Enviar Reporte', 'Send Report'],
+            reportLabelTxt: ['Escribe tu reporte aquí', 'Write your report here'],
+            returnTxt: ['Regresar', 'Return'],
+            newTxt: ['Nuevo Post', 'New Post'],
+            confirmTxt: ['¿Deseas reportar este Post?', 'Do you want to report this Post?'],
+            noDataTxt: ['No hay respuestas (aún)', 'There are no replies (yet)']
         }
     },
     methods: {
@@ -68,10 +84,21 @@ export default {
             this.goToRoute('New', 'createPost')
         },
         reportarPost (reportedPost) {
-            this.$store.dispatch("reportarPost", reportedPost)
+            let confirmar = confirm(this.confirmTxt[this.currLanguaje])
+            if (!confirmar) {
+                return
+            }
+            let payload = {
+                report: this.userReport,
+                content: reportedPost
+            }
+            this.$store.dispatch("reportarPost", payload)
         }
     },
     computed: {
+        ...mapGetters({
+            currLanguaje: 'getUserLang'
+        }),
         posts () {
             return this.$store.getters.getPostsTopic
         },

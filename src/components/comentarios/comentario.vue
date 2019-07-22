@@ -39,9 +39,9 @@
 
             <v-flex xs10 md11 class="pl-2 pa-2 mb-2" style="background-color: rgba(0,0,0,0.3); border-radius: 10px;" v-if="reportComment">
                     <div>
-                        <h2>Formulario de reporte: </h2>
-                        <v-text-field name="reporte" label="Escribe tu reporte" v-model="reporte"></v-text-field>
-                        <v-btn color="success" @click="reportarComentario">Enviar reporte</v-btn>
+                        <h2>{{formularioTxt[currLanguaje]}}</h2>
+                        <v-text-field name="reporte" :label="reportTxt[currLanguaje]" v-model="reporte"></v-text-field>
+                        <v-btn color="success" @click="reportarComentario">{{sendReportTxt[currLanguaje]}}</v-btn>
                     </div>
             </v-flex>
         </v-layout>
@@ -66,6 +66,9 @@ export default {
             verMenos: ['Ver menos...', 'Show less...'],
             reportar: ['Reportar', 'Report'],
             eliminar: ['Eliminar', 'Remove'],
+            formularioTxt: ['Formulario de reporte: ', 'Report text: '],
+            reportTxt: ['Escribe tu reporte', 'Write your report'],
+            sendReportTxt: ['Enviar reporte', 'Send report'],
             confirmEliminar: ['¿Estas seguro de que deseas eliminar tu comentario?', 'Do you want to delete your comment?'],
             confirmReportar: ['¿Estas seguro de que deseas reportar este comentario?', 'Do you want to report this comment?']
         }

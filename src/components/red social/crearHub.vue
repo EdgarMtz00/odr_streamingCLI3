@@ -3,16 +3,16 @@
         <v-flex>
             <v-layout row wrap justify-center>
                 <v-card class="text-xs-left my-1">
-                    <v-card-text>Crear un Hub</v-card-text>
+                    <v-card-text>{{crearTxt[currLanguaje]}}</v-card-text>
                 </v-card>
             </v-layout>
             <v-layout row wrap justify-center>
                 <v-card class="text-xs-left my-1">
-                    <v-text-field v-model="newHub.title" label="Title"></v-text-field>
+                    <v-text-field v-model="newHub.title" :label="titleTxt[currLanguaje]"></v-text-field>
                     <v-select :items="this.sagas" item-text="titulo" item-value="id" v-model="newHub.idSaga" label="Saga"></v-select>
-                    <v-select :items="this.personajes" item-text="nombre" item-value="id" v-model="newHub.idPersonaje" label="Personaje"></v-select>
-                    <v-btn @click="back()"> Return </v-btn>
-                    <v-btn @click="createHub()"> Create Hub </v-btn>
+                    <v-select :items="this.personajes" item-text="nombre" item-value="id" v-model="newHub.idPersonaje" :label="personajeTxt[currLanguaje]"></v-select>
+                    <v-btn @click="back()">{{returnTxt[currLanguaje]}}</v-btn>
+                    <v-btn @click="createHub()">{{botonTxt[currLanguaje]}}</v-btn>
                 </v-card>
             </v-layout>
         </v-flex>
@@ -28,7 +28,12 @@ export default {
                 title: "",
                 idSaga: "",
                 idPersonaje: ""
-            }
+            },
+            crearTxt: ['Crear un Hub', 'Create a Hub'],
+            titleTxt: ['Título', 'Title'],
+            personajeTxt: ['Personaje', 'Character'],
+            returnTxt: ['Regresar', 'Return'],
+            botonTxt: ['Crear Hub', 'Create Hub']
         }
     },
     methods: {
@@ -50,13 +55,11 @@ export default {
             this.$nextTick(() => {
                 this.$router.push('/social/')
             })
-        },
-        print () {
-            console.log ("Lo de las sagas y personajes", this.sagas, this.personajes)
         }
     },
     computed: {
         ...mapGetters({
+            currLanguaje: 'getUserLang',
             user: 'getUserData',
             urlSaga: 'getIdSaga',
             sagas: 'getSagasRed',

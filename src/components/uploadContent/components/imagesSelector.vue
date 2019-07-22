@@ -8,7 +8,7 @@
             </v-img>
         </v-flex>
         <v-flex xs12>
-            <v-btn raised block color="primary" @click="onPickFile">Choose Files</v-btn>
+            <v-btn raised block color="primary" @click="onPickFile">{{chooseTxt[currLanguaje]}}</v-btn>
             <input multiple type="file" ref="fileInput" style="display: none;" accept="image/*" @change="onFilePicked">
         </v-flex>
         <v-flex xs12>
@@ -28,14 +28,14 @@
                                             @click="removeImage (getImageByIndex(aux, i))">
                                                 <v-icon small>remove</v-icon>
                                             </v-btn>
-                                            <span>Remove</span>
+                                            <span>{{removeTxt[currLanguaje]}}</span>
                                         </v-tooltip>
                                         <v-tooltip attach="#btnSetCover" bottom v-if="(getImageByIndex(aux, i).src.length > 0)">
                                             <v-btn fab small :color="imagesIndexModel[getImageIndex(aux, i)].color"
                                             slot="activator" id="btnSetCover" @click="setAsThumbnail (getImageIndex(aux, i))">
                                                 <v-icon small>star</v-icon>
                                             </v-btn>
-                                            <span>Set as cover</span>
+                                            <span>{{coverTxt[currLanguaje]}}</span>
                                         </v-tooltip>
                                     </v-layout>
                                     <v-layout row wrap justify-center align-content-start v-if="hasSource(aux, i)" class="">
@@ -59,14 +59,15 @@
                 </v-carousel-item>
             </v-carousel>
             <v-layout row wrap justify-center v-if=(selected)>
-                <v-btn color="error" @click="resetImages()">Remove all images</v-btn>
-                <v-btn color="info" @click="passImagesToParent">Load images</v-btn>
+                <v-btn color="error" @click="resetImages()">{{removeAllTxt[currLanguaje]}}</v-btn>
+                <v-btn color="info" @click="passImagesToParent">{{loadTxt[currLanguaje]}}</v-btn>
             </v-layout>
         </v-flex>
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     props: {
         preview: {
@@ -91,7 +92,12 @@ export default {
             ],
             imgsIndex: 0,
             selected: false,
-            showCoverTooltip: true
+            showCoverTooltip: true,
+            chooseTxt: ['Elegir archivos', 'Choose files'],
+            removeTxt: ['Remover', 'Remove'],
+            coverTxt: ['Elegir como cover', 'Choose as cover'],
+            removeAllTxt: ['Remover todas las imágenes', 'Remove all images'],
+            loadTxt: ['Cargar imágenes', 'Load images']
         }
     },
     methods: {
@@ -237,6 +243,9 @@ export default {
         }
     },
     computed: {
+        ...mapGetters({
+            currLanguaje: 'getUserLang',
+        }),
         paginas () {
             return Math.ceil((this.newCharacter.images.length / this.itemsPerPage))
         },

@@ -10,6 +10,12 @@
                     <v-list-tile-content><v-list-tile-title>{{todosLosMedios[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
                 </v-list-tile>
 
+                <v-list-tile avatar @click="gotoToPage('report')" v-show="(user.cuenta === 'Moderador') || (user.cuenta === 'Dios')">
+                    <v-list-tile-avatar><v-icon>airplay</v-icon></v-list-tile-avatar>
+                    <v-list-tile-content><v-list-tile-title>{{reportes[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
+                </v-list-tile>
+
+
                 <div v-if="isUserLogged">
                     <v-divider></v-divider>
                     <!-- --------------------------------------------------- -->
@@ -39,7 +45,7 @@
                     <v-list-tile-avatar><v-icon>exit_to_app</v-icon></v-list-tile-avatar>
                     <v-list-tile-content><v-list-tile-title>{{cerrarSesion[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
                 </v-list-tile>
-
+                
             </v-list>
         </v-navigation-drawer>
 
@@ -146,7 +152,8 @@ export default {
             iniciarSesion: ['Iniciar sesion', 'Sign in'],
             notifLabel: ['Notificaciones', 'Notifications'],
             shortLogoutLabel: ['Salir', 'Logout'],
-            shortSignInLabel: ['Entrar', 'Sign in']
+            shortSignInLabel: ['Entrar', 'Sign in'],
+            reportes: ['Reportes', 'Reports']
 
         }
     },
