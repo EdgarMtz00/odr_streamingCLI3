@@ -31,6 +31,7 @@ import RowContent from './components/streaming main page/rowContent.vue'
 import Toolbar from './components/common/toolbar.vue'
 import TabsPerfil from './components/profile/tabsPerfil.vue'
 import Comment from './components/comentarios/comentario.vue'
+import TerminosYCondiciones from './components/terminosYCondiciones.vue'
 
 import Producto from "./components/tienda/producto.vue";
 import MarcarVendido from "./components/tienda/marcarVendido.vue";
@@ -57,6 +58,7 @@ Vue.component('unity', Unity)
 Vue.component('toolbar-component', Toolbar)
 Vue.component('tabs-perfil-component', TabsPerfil)
 Vue.component('comentario-component', Comment)
+Vue.component('terminos-y-condiciones', TerminosYCondiciones)
 
 Vue.component("producto-component", Producto);
 Vue.component("marcar-vendido-component", MarcarVendido);

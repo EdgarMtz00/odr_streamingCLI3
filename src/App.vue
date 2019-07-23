@@ -2,6 +2,9 @@
   <v-app class='secondary'>
     <toolbar-component></toolbar-component>
 
+    <terminos-y-condiciones v-show="false" :mostrar="!terminosYCondiciones">
+    </terminos-y-condiciones>
+
     <v-content>
       <router-view :key="$route.fullPath"></router-view>
     </v-content>
@@ -21,6 +24,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import * as firebase from 'firebase'
+
 export default {
   data () {
     return  {
@@ -62,21 +68,20 @@ export default {
           color: 'teal',
           url: 'social'
         }
-      ]
+      ],
+      terminosYCondiciones: true,
     }
   },
   name: 'App',
   created () {
-    // let auxNav = sessionStorage.getItem("bottomNav")
-    // if (auxNav == "login")
-    //   auxNav = ""
-    // console.log("[App.vue] auxNav", auxNav)
-    // if (auxNav) {
-    //   this.bottomNav = auxNav
-    //   this.gotoToPage (auxNav)
-    // } else {
-    //   this.gotoToPage ('')
-    // }
+    firebase.database().ref("terminosYCondiciones/" + this.usuario.id + "/").on("value", snapshot => {
+      let aceptado = snapshot.val()
+      if (!aceptado && this.isUserLogged) { // Si no se han aceptado o es null y si hay algun usuario logeado
+        this.terminosYCondiciones = false
+      } else {
+        this.terminosYCondiciones = true
+      }
+    })
   },
   methods: {
     setFontLoaded () {
@@ -92,6 +97,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+        usuario: 'getUserData',
+    }),
     isUserLogged () {
       let id = this.$store.getters.getUserData.id
       if (id !== '' && id !== undefined) {
@@ -119,7 +127,6 @@ export default {
           case 'hub': return 'orange lighten-3'
         }
     },
-    
   },
   watch: { 
      '$route.fullPath': {
