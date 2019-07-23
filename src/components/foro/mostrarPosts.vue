@@ -2,27 +2,50 @@
     <v-layout row wrap justify-center>
         <v-flex>
             <v-layout row wrap justify-center>
-                <v-card class="text-xs-left my-1">
-                    <v-card-text>{{respuestasTxt[currLanguaje]}}</v-card-text>
-                    <v-card-title primary-title>{{ threadElegido.titulo }}</v-card-title>
-                    <v-card-text v-html="threadElegido.contenidoThread"></v-card-text>
-                    <v-card-text>{{ threadElegido.nickname }} {{ threadElegido.fecha }}</v-card-text>
-                </v-card>
+                <v-flex xs12 md10 lg6>
+                    <v-card class="text-xs-left my-1">
+                        <v-card-text>{{respuestasTxt[currLanguaje]}}</v-card-text>
+                        <v-card-title primary-title>{{ threadElegido.titulo }}</v-card-title>
+                        <v-card-text v-html="threadElegido.contenidoThread"></v-card-text>
+                        <v-card-text>{{ threadElegido.nickname }} {{ threadElegido.fecha }}</v-card-text>
+                        <v-card-actions v-show="hayUsuario">
+                            <v-btn color="red" icon @click="reputacionDown (threadElegido)">
+                                <v-icon>thumb_down</v-icon>
+                            </v-btn>
+                            <v-btn color="success" icon @click="reputacionUp (threadElegido)">
+                                <v-icon>thumb_up</v-icon>
+                            </v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-flex>
             </v-layout>
             <v-layout justify-center>
                 <v-data-table :items="postData" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
                     <template slot="items" slot-scope="data">
                         <v-layout row wrap justify-center>
-                            <v-card class="text-xs-left my-1">
-                                <v-card-text v-html="data.item.contenidoPost"></v-card-text>
-                                <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
-                                <v-btn @click="citarPost(data.item.contenidoPost, data.item.nickname, data.item.fecha)">{{quoteTxt[currLanguaje]}}</v-btn>
-                                <v-btn @click="reportarBool = !reportarBool">{{reportTxt[currLanguaje]}}</v-btn>
-                            </v-card>
-                            <v-card v-if="reportarBool == true">
-                                <v-text-field :label="reportLabelTxt[currLanguaje]" v-model="userReport"></v-text-field>
-                                <v-btn @click="reportarPost(data.item)">{{enviarTxt[currLanguaje]}}</v-btn>
-                            </v-card>
+                            <v-flex xs12 md10 lg6>
+                                <v-card class="text-xs-left my-1">
+                                    <v-card-text v-html="data.item.contenidoPost"></v-card-text>
+                                    <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
+                                    
+                                    <v-card-actions>
+                                        <v-btn @click="citarPost(data.item.contenidoPost, data.item.nickname, data.item.fecha)">{{quoteTxt[currLanguaje]}}</v-btn>
+                                        <v-btn @click="reportarBool = !reportarBool">{{reportTxt[currLanguaje]}}</v-btn>
+                                        <v-btn color="red" icon @click="reputacionDown (data.item)"
+                                        v-show="hayUsuario">
+                                            <v-icon>thumb_down</v-icon>
+                                        </v-btn>
+                                        <v-btn color="success" icon @click="reputacionUp (data.item)"
+                                        v-show="hayUsuario">
+                                            <v-icon>thumb_up</v-icon>
+                                        </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                                <v-card v-if="reportarBool == true">
+                                    <v-text-field :label="reportLabelTxt[currLanguaje]" v-model="userReport"></v-text-field>
+                                    <v-btn @click="reportarPost(data.item)">{{enviarTxt[currLanguaje]}}</v-btn>
+                                </v-card>
+                            </v-flex>
                         </v-layout>
                     </template>
                 </v-data-table>
@@ -59,6 +82,10 @@ export default {
             noDataTxt: ['No hay respuestas (aún)', 'There are no replies (yet)']
         }
     },
+    created () {
+        // Cargar la reputacion desde que se crea el componente
+        this.$store.dispatch('loadReputacion', this.usuario.id)
+    },
     methods: {
         goToRoute (type, route) {
             switch (type){
@@ -93,11 +120,42 @@ export default {
                 content: reportedPost
             }
             this.$store.dispatch("reportarPost", payload)
+        },
+        reputacionUp (publicacion) {
+            let payload
+            let id
+            if (publicacion.type == "Topic") { // Es el hilo principal
+                id = publicacion.url + "-" + publicacion.idUsuario + "-" + this.usuario.id
+            } else if (publicacion.type == "Post") { // Son repsuestas al hilo
+                id = publicacion.idPost + "-" + publicacion.idUsuario + "-" + this.usuario.id
+            }
+            payload = {
+                thumbup: true, // Para decirle que va a ser un thumbup
+                idUsuario: publicacion.idUsuario,
+                id: id
+            }
+            this.$store.dispatch('reputacion', payload)
+        },
+        reputacionDown (publicacion) {
+            let payload
+            let id
+            if (publicacion.type == "Topic") { // Es el hilo principal
+                id = publicacion.url + "-" + publicacion.idUsuario + "-" + this.usuario.id
+            } else if (publicacion.type == "Post") { // Son repsuestas al hilo
+                id = publicacion.idPost + "-" + publicacion.idUsuario + "-" + this.usuario.id
+            }
+            payload = {
+                thumbdown: true, // Para decirle que va a ser un thumbdown
+                idUsuario: publicacion.idUsuario,
+                id: id
+            }
+            this.$store.dispatch('reputacion', payload)
         }
     },
     computed: {
         ...mapGetters({
-            currLanguaje: 'getUserLang'
+            currLanguaje: 'getUserLang',
+            usuario: 'getUserData'
         }),
         posts () {
             return this.$store.getters.getPostsTopic
@@ -116,6 +174,9 @@ export default {
         },
         threadElegido () {
             return this.$store.getters.getThread
+        },
+        hayUsuario () {
+            return (this.usuario.id != null)
         }
     },
     watch: {

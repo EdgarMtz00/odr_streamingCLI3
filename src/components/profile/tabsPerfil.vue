@@ -74,8 +74,8 @@
             <v-tab-item value="tab-estadisticas">
                 <v-card>
                     <v-card-text>
-                        crudo: {{reput}} <br>
                         {{tabsLabels.reputacionText[lang]}}: {{reputacion}}% {{tabsLabels.from[lang]}} ({{reput.thumbsup + reput.thumbsdown}}  {{tabsLabels.personas[lang]}})
+                        <br> <v-icon :color="starColor">star</v-icon> {{tabsLabels.reputacionForoText[lang]}}: {{reputForo}} 
                     </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -85,6 +85,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import * as firebase from 'firebase'
 export default {
     props: {
         idProfile: {
@@ -99,7 +100,8 @@ export default {
                 watchlist: ['Watchlist', 'Watchlist'],
                 estadisticas: ['Estadisticas', 'Statistics'],
                 emptyWatchlist: ['Watchlist vacia', 'Empty watchlist'],
-                reputacionText: ['Reputacion', 'Reputation'],
+                reputacionText: ['Reputacion [Tienda]', 'Reputation [Shop]'],
+                reputacionForoText: ['Reputacion [Foro]', 'Reputation [Forum]'],
                 personas: ['Personas', 'People'],
                 from: ['De', 'From']
             },
@@ -108,6 +110,7 @@ export default {
     created () {
         this.$store.dispatch('loadWatchlist', this.idProfile)
         this.$store.dispatch('loadReputacion', this.idProfile)
+        this.$store.dispatch('loadReputacionForo', this.idProfile)
     },
     methods: {
         cambiarOrdenMenos (elemento) {
@@ -157,7 +160,8 @@ export default {
         ...mapGetters({
             lang: 'getUserLang',
             user: 'getUserData',
-            reput: 'getReputacion'
+            reput: 'getReputacion',
+            reputForo: 'getReputacionForo',
         }),
         watchlist () {
             let aux = this.$store.getters.getWatchlist
@@ -187,6 +191,20 @@ export default {
         reputacion () {
             let reputacion = this.$store.getters.getReputacion
             return ((reputacion.thumbsup / (reputacion.thumbsup + reputacion.thumbsdown)) * 100)
+        },
+        starColor () {
+            let reputacion = this.reputForo
+            if (reputacion < 20) {
+                return "#e8170c" // Rojo
+            } else if (reputacion > 20 && reputacion < 40) {
+                return "#000" // Negro
+            }  else if (reputacion < 40  && reputacion < 60) {
+                return "#1d1ac9" // Azul
+            }  else if (reputacion < 60  && reputacion < 80) {
+                return "#10e01e" // Verde
+            }  else if (reputacion > 80) {
+                return "#fffb00" // Amarillo
+            }
         }
     }
 }

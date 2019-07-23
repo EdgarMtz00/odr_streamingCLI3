@@ -9,6 +9,7 @@ export default({
         user: {},
         manualLogin: false,
         reputacion: 0,
+        reputacionForo: {},
     },
     mutations: {
         setUserData (state, payload) {
@@ -53,6 +54,9 @@ export default({
         },
         setReputacion (state, payload) {
             state.reputacion = payload
+        },
+        setReputacionForo (state, payload) {
+            state.reputacionForo = payload
         }
     },
     actions: {
@@ -350,6 +354,24 @@ export default({
                     })
                 }
             })
+        },
+        loadReputacionForo ({commit, getters}, idProfile) {
+            let reputacion = { // Inicializacion
+                thumbsup: 0,
+                thumbsdown: 0,
+            }
+            firebase.database().ref("reputacion/" + idProfile).on("value", snapshot => {
+                console.log('aca, ira nomas', "reputacion/" + idProfile)
+                snapshot.forEach(childSnapshot => {
+                    let item = childSnapshot.val();
+                    if (item) {
+                        reputacion.thumbsup++
+                    } else {
+                        reputacion.thumbsdown++
+                    }
+                });
+            })
+            commit ("setReputacionForo", reputacion)
         }
     },
     getters: {
@@ -376,6 +398,10 @@ export default({
         },
         getReputacion (state) {
             return state.reputacion
+        },
+        getReputacionForo (state) {
+            let reput = state.reputacionForo
+            return ( (reput.thumbsup) / (reput.thumbsup + reput.thumbsdown) )
         }
     }
 })

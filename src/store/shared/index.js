@@ -13,9 +13,22 @@ export default({
         },
         setNotificationsDrawer (state, payload) {
             state.notificationsDrawer = payload
-        }
+        },
     },
     actions: {
+        reputacion ({commit, getters}, payload) {
+            let idUsuario = payload.idUsuario
+            let idThumb = payload.id
+            if (payload.thumbup) {
+                firebase.database().ref("reputacion/" + idUsuario + "/" + idThumb).set(true).then(res => {
+                    alert("reputacion guardada")
+                })
+            } else if (payload.thumbdown) {
+                firebase.database().ref("reputacion/" + idUsuario + "/" + idThumb).set(false).then(res => {
+                    alert("reputacion guardada")
+                })
+            }
+        }
     },
     getters: {
         getLoading (state) {
@@ -26,6 +39,6 @@ export default({
         },
         getNotificationsDrawer (state) {
             return state.notificationsDrawer
-        }
+        },
     }
 })

@@ -2,10 +2,19 @@
     <v-layout row wrap justify-center>
         <v-flex>
             <v-layout row wrap justify-center>
+                {{imagen[0]}}
                 <v-card height="600" width="400" max-height="auto" max-width="auto" class="text-xs-left my-1">
                     <v-img :src="imagen[0].imagenes[0].src"></v-img>
                     <v-card-text>{{imagen[0].titulo}}</v-card-text>
                     <v-card-text>{{imagen[0].nickname}} {{imagen[0].fecha}}</v-card-text>
+                    <v-card-actions v-show="hayUsuario">
+                        <v-btn color="red" icon @click="reputacionDown (imagen[0])">
+                            <v-icon>thumb_down</v-icon>
+                        </v-btn>
+                        <v-btn color="success" icon @click="reputacionUp (imagen[0])">
+                            <v-icon>thumb_up</v-icon>
+                        </v-btn>
+                    </v-card-actions>
                 </v-card>    
             </v-layout>
             <v-layout justify-center>
@@ -43,6 +52,24 @@ export default {
                     break;
                 }
             }
+        },
+        reputacionUp (publicacion) {
+            let id = publicacion.id + "-" + publicacion.idHub + "-" + publicacion.idUsuario + "-" + this.usuario.id
+            let payload = {
+                thumbup: true, // Para decirle que va a ser un thumbup
+                idUsuario: publicacion.idUsuario,
+                id: id
+            }
+            this.$store.dispatch('reputacion', payload)
+        },
+        reputacionDown (publicacion) {
+            let id = publicacion.id + "-" + publicacion.idHub + "-" + publicacion.idUsuario + "-" + this.usuario.id
+            let payload = {
+                thumbdown: true, // Para decirle que va a ser un thumbdown
+                idUsuario: publicacion.idUsuario,
+                id: id
+            }
+            this.$store.dispatch('reputacion', payload)
         }
     },
     computed: {
@@ -52,7 +79,8 @@ export default {
             urlSaga: 'getIdSaga',
             urlHub: 'getIdHub',
             urlImage: 'getIdImage',
-            urlPersonaje: 'getIdPersonaje'
+            urlPersonaje: 'getIdPersonaje',
+            usuario: 'getUserData'
         }),
         imagen () {
             let resultado = []
@@ -62,6 +90,9 @@ export default {
                 }
             });
             return resultado
+        },
+        hayUsuario () {
+            return (this.usuario.id != null)
         }
     },
     watch: {
