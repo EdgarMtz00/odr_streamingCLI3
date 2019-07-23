@@ -75,7 +75,7 @@
                 <v-card>
                     <v-card-text>
                         {{tabsLabels.reputacionText[lang]}}: {{reputacion}}% {{tabsLabels.from[lang]}} ({{reput.thumbsup + reput.thumbsdown}}  {{tabsLabels.personas[lang]}})
-                        <br> <v-icon :color="starColor">star</v-icon> {{tabsLabels.reputacionForoText[lang]}}: {{reputForo}} 
+                        <br> <v-icon :color="starColor">star</v-icon> {{tabsLabels.reputacionForoText[lang]}}: {{reputForo * 100}}%
                     </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -194,15 +194,15 @@ export default {
         },
         starColor () {
             let reputacion = this.reputForo
-            if (reputacion < 20) {
+            if (reputacion < .20) {
                 return "#e8170c" // Rojo
-            } else if (reputacion > 20 && reputacion < 40) {
+            } else if (reputacion > .20 && reputacion < .40) {
                 return "#000" // Negro
-            }  else if (reputacion < 40  && reputacion < 60) {
+            }  else if (reputacion < .40  && reputacion < .60) {
                 return "#1d1ac9" // Azul
-            }  else if (reputacion < 60  && reputacion < 80) {
+            }  else if (reputacion < .60  && reputacion < .80) {
                 return "#10e01e" // Verde
-            }  else if (reputacion > 80) {
+            }  else if (reputacion > .80) {
                 return "#fffb00" // Amarillo
             }
         }
