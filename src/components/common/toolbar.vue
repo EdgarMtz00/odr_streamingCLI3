@@ -83,7 +83,7 @@
                 <div v-show="!xsOnly">{{userData.nickname}}</div>
                 </v-btn>
 
-                <carrito-component class="mt-2 ml-3" v-show="isUserLogged && tiendaActive"></carrito-component>
+                <!-- <carrito-component class="mt-2 ml-3" v-show="isUserLogged && tiendaActive"></carrito-component> -->
 
                 <crear-producto-component ref="AddProduct" class="mt-2" v-show="isUserLogged && tiendaActive"></crear-producto-component>
 
@@ -178,12 +178,16 @@ export default {
             this.$store.commit('setNotificacion', payload)
         },
         logout () {
+            const idUsuario = this.user.id
             this.$store.dispatch('logout')
-            this.actualizarEstado('Offline')
+
+            setTimeout(() => {
+                this.actualizarEstado("Offline", idUsuario)
+            }, 1000);
         },
-        actualizarEstado (newEstado) {
+        actualizarEstado (newEstado, idUsuario) {
             let auxFind = this.estados.find(iterator => {
-                return this.user.id == iterator.idUsuario
+                return idUsuario == iterator.idUsuario
             })
             let payload = {
                 key: auxFind.key, // key del firebase
