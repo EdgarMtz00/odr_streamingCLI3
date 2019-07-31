@@ -365,7 +365,6 @@ export default {
             data.Categorias.forEach(elementCateg => {
                 this.categoriasInfo.push(elementCateg)
             });
-            console.log("Categorias obtenidas:", data.Categorias)
 
             data.Sagas.forEach(elementSaga => {
                 if (Array.isArray(elementSaga.Holders)) {
@@ -385,7 +384,9 @@ export default {
                     idSaga: elementSaga.IdSaga,
                     holders: holders
                 } 
+                //console.log("Saga push", saga, "Element saga", elementSaga)
                 this.sagasInfo.push(saga)
+                holders = []
             });
         }).catch(error => {
             console.log(error);

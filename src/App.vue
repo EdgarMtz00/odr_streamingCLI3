@@ -31,7 +31,6 @@ export default {
   data () {
     return  {
       bottomNav: 'content',
-      preferedLang: 0,
       bottomBtns: [
         {
           name: ['Chat','Chat'],
@@ -99,6 +98,7 @@ export default {
   computed: {
     ...mapGetters({
         usuario: 'getUserData',
+        preferedLang: 'getUserLang',
     }),
     isUserLogged () {
       let id = this.$store.getters.getUserData.id
