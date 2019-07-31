@@ -82,6 +82,7 @@ export default {
                 console.log(response.data)
                 alert(response.data)
                 this.btnText = "Subido"
+                this.goToRoute('Back', '')
             }).catch(error => {
                 console.log("Hubo un error en el POST a /socialNetwork/createImage", error)
                 this.btnText = "ERROR!!!"

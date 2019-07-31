@@ -9,18 +9,20 @@
             <v-layout justify-center>
                 <v-data-table :items="topicData" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
                     <template slot="items" slot-scope="data">
+                        <td>
                             <v-card class="text-xs-left cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item)">
                                 <v-card-title>{{ data.item.titulo }}</v-card-title>
                                 <v-card-text v-html="data.item.contenidoThread"></v-card-text>
                                 <v-card-text>{{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
                             </v-card>
-                            <v-card>
-                                <v-btn @click="reportarBool = !reportarBool">{{reportTopicTxt[currLanguaje]}}</v-btn>
-                                <div v-if="reportarBool == true">
+                            <v-card v-if="user.id != data.item.idUsuario">
+                                <v-btn @click="data.item.report = !data.item.report">{{reportTopicTxt[currLanguaje]}}</v-btn>
+                                <div v-if="data.item.report == true">
                                     <v-text-field :label="reportLabelTxt[currLanguaje]" v-model="userReport"></v-text-field>
                                     <v-btn @click="reportarTopic(data.item)">{{enviarTxt[currLanguaje]}}</v-btn>
                                 </div>
                             </v-card>
+                        </td>
                     </template>
                 </v-data-table>
             </v-layout>
@@ -37,7 +39,6 @@ import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
-            reportarBool: false,
             userReport: '',
             reportLabelTxt: ['Escribe tu reporte aquí', 'Write your report here'],
             enviarTxt: ['Enviar Reporte', 'Send Report'],
@@ -86,7 +87,8 @@ export default {
     },
     computed: {
         ...mapGetters({
-            currLanguaje: 'getUserLang'
+            currLanguaje: 'getUserLang',
+            user: 'getUserData'
         }),
         topics () {
             return this.$store.getters.getTopicsCategoria
@@ -105,7 +107,7 @@ export default {
         },
         categoriaElegida () {
             return this.$store.getters.getCategoriaElegida
-        },
+        }
     },
     watch: {
 

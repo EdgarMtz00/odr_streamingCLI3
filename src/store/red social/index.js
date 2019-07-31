@@ -83,6 +83,7 @@ export default ({
                             idPersonaje: elementHubs.IdPersonaje,
                             idUsuario: elementHubs.IdUsuario,
                             creador: elementHubs.Nickname,
+                            report: false,
                             type: 'Hub',
                         })
                     });
@@ -124,6 +125,7 @@ export default ({
                         nickname: imagen.Nickname,
                         idHub: imagen.IdHub,
                         thumbnail: urlBase + 'Hub/' + state.idHub + '/' + imagen.URLImagen + '/' + 'thumbnail.jpg',
+                        report: false,
                         url: imagen.URLImagen
                     }
                     newImagenes.push(aux)

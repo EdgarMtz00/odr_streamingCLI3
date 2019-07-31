@@ -234,6 +234,7 @@ export default({
                 // Quitar la informacion de sus sucripciones
                 commit ('clearSubsData')
                 commit ('setLoading', false)
+                window.location.reload()
             })
         },
         cambiarTipoDeCuenta ({commit, getters}, payload) {

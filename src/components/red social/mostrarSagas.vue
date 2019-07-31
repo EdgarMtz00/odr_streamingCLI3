@@ -15,12 +15,14 @@
                         </v-card>
                     </v-layout>
                     <v-layout row wrap justify-center>
-                        <v-data-table :items="sagaData" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
+                        <v-data-table :items="sagaData" hide-headers :no-data-text="noDataTxt[currLanguaje]">
                             <template slot="items" slot-scope="data">
-                                <v-card @click="goToRoute(data.item.type, data.item.id)" min-width="1" max-width="1280" min-height="1" max-height="1920" class="text-xl-center my-1 cursorChido">
+                                <td>
+                                <v-card @click="goToRoute(data.item.type, data.item.id)" class="my-1 cursorChido">
                                     <v-img :src="data.item.thumbnail"></v-img>
                                     <v-card-text>{{ data.item.titulo }}</v-card-text>
                                 </v-card>
+                                </td>
                             </template>
                         </v-data-table>
                     </v-layout>
@@ -32,12 +34,14 @@
                         </v-card>
                     </v-layout>
                     <v-layout row wrap justify-center>
-                        <v-data-table :items="personajeData" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
+                        <v-data-table :items="personajeData" hide-headers :no-data-text="noDataTxt[currLanguaje]">
                             <template slot="items" slot-scope="data">
-                                <v-card @click="goToRoute(data.item.type, data.item.id)" min-width="1" max-width="1280" min-height="1" max-height="1920" class="text-xl-center my-1 cursorChido">
+                                <td>
+                                <v-card @click="goToRoute(data.item.type, data.item.id)" class="my-1 cursorChido">
                                     <v-img :src="data.item.thumbnail" small></v-img>
                                     <v-card-text>{{data.item.nombre}}</v-card-text>
                                 </v-card>
+                                </td>
                             </template>
                         </v-data-table>
                     </v-layout>

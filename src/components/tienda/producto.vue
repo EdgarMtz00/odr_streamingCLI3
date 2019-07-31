@@ -105,7 +105,13 @@
                     :color="colorStatus" @click="añadirCarrito ()" :disabled="!disponibilidad">
                         <v-icon class="mr-1">{{iconStatus}}</v-icon>{{productoStatus[lang]}}
                     </v-btn> -->
-                    <v-btn @click="reportarProducto()">Report Object</v-btn>
+                    <v-flex v-if="!sameUser" xs12 md4>
+                        <v-btn @click="reportBool = !reportBool">{{reportButttonTxt[lang]}}</v-btn>
+                        <v-card v-if="reportBool == true">
+                            <v-text-field :label="reportLabelTxt[lang]" v-model="userReport"></v-text-field>
+                            <v-btn @click="reportarProducto()">{{enviarTxt[lang]}}</v-btn>
+                        </v-card>
+                    </v-flex>
                 </v-layout>
             </v-card-actions>
         </v-card>
@@ -168,6 +174,11 @@ export default {
             iconStatus: 'add',
             colorStatus: 'success',
             contanctUser: ['Contactar usuario', 'Contact user'],
+            reportBool: false,
+            reportButttonTxt: ['Reportar objeto', 'Report object'],
+            reportLabelTxt: ['Escribe tu reporte aquí', 'Write your report here'],
+            enviarTxt: ['Enviar reporte', 'Send report'],
+            userReport: ''
         }
     },
     methods: {
@@ -230,6 +241,7 @@ export default {
                 idUsuario: this.idUsuario,
                 idContenido: this.id,
                 contenido: 'Titulo: ' + this.titulo + ' Descripcion: ' + this.descripcion + ' Imagen: ' + this.imagen,
+                reporte: this.userReport
             }
             this.$store.dispatch('reportProduct', productReport)
         }
@@ -237,6 +249,7 @@ export default {
     computed: {
         ...mapGetters({
             lang: 'getUserLang',
+            user: 'getUserData'
         }),
         xsResPenalty () {
             if (this.$vuetify.breakpoint.smAndDown)

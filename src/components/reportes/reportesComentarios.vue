@@ -14,10 +14,8 @@
                                 <v-card-text>{{contenidoReportadoTxt[currLanguaje]}}</v-card-text>
                                 <v-card-text v-html="data.item.comentarioReportado"></v-card-text>
                                 <v-img v-if="data.item.type == 'Imagen'" :src="data.item.thumbnail"></v-img>
-                                <v-card-text>{{idUsuarioContenidoTxt[currLanguaje]}}{{data.item.idUsuarioDelComentario}}</v-card-text>
                                 <v-card-text>{{detallesTxt[currLanguaje]}}</v-card-text>
                                 <v-card-text>{{data.item.textoDelReporte}}</v-card-text>
-                                <v-card-text>{{idUsuarioReporteTxt[currLanguaje]}}{{data.item.idUsuarioDelReporte}}</v-card-text>
                                 <v-card-actions><v-btn @click="eliminarContenido (data.item)">{{eliminarTxt[currLanguaje]}}</v-btn><v-btn @click="ignorarReporte (data.item)">{{ignorarTxt[currLanguaje]}}</v-btn></v-card-actions>
                             </v-card>
                         </v-layout>
@@ -40,9 +38,7 @@ export default {
             ignorarTxt: ['Ignorar reporte', 'Ignore report'],
             noReportTxt: ['No hay más reportes por mostrar', 'There are no reports left to show'],
             confirmEliminar: ['¿Deseas eliminar este contenido?', 'Do you want to delete this content?'],
-            confirmIgnorar: ['¿Deseas ignorar este reporte?', 'Do you want to ignore this report?'],
-            idUsuarioContenidoTxt: ['ID del usuario reportado: ', 'ID of the reported user: '],
-            idUsuarioReporteTxt: ['ID del usuario que generó el reporte: ', 'ID of the user who reported the content: ']
+            confirmIgnorar: ['¿Deseas ignorar este reporte?', 'Do you want to ignore this report?']
         }
     },
     methods: {

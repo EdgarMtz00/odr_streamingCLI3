@@ -8,7 +8,7 @@
                         <img :src="comentario.urlImagen">
                     </v-avatar>
                     <v-tooltip bottom>
-                        <v-btn color="red" icon slot="activator" @click="reportComment = !reportComment"><v-icon>report</v-icon></v-btn>
+                        <v-btn v-if="!isOwner" color="red" icon slot="activator" @click="reportComment = !reportComment"><v-icon>report</v-icon></v-btn>
                         <span>{{reportar[currLanguaje]}}</span>
                     </v-tooltip>
                     <v-tooltip bottom v-if="isOwner">

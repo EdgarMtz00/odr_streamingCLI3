@@ -39,6 +39,7 @@ export default {
     methods: {
         createHub () {
             let formData = new FormData();
+            var self = this
 
             formData.set('TituloHub', this.newHub.title)
             formData.set('IdUsuario', this.user.id)
@@ -47,6 +48,7 @@ export default {
 
             this.axios.post("http://localhost/Odr/connections/socialNetwork/createHub.php", formData).then(function (response) {
                 console.log("Lo que se envia al server: ", response)
+                self.back()
             }).catch(function (error) {
                 console.log("Ocurrio un error enviando al server: ", error)
             })

@@ -7,12 +7,14 @@
                 </v-card>
             </v-layout>
             <v-layout row wrap justify-center>
-                <v-data-table :items="foroData" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
+                <v-data-table :items="foroData" hide-headers :no-data-text="noDataTxt[currLanguaje]">
                     <template slot="items" slot-scope="data">
+                        <td>
                         <v-card @click="goToRoute(data.item.type, data.item.url, data.item.id)" min-width="1" max-width="1280" min-height="1" max-height="1920">
                             <v-img :src="data.item.thumbnail" class="cursorChido"></v-img>
                             <v-card-title class="text-xl-center my-1 cursorChido">{{data.item.titulo}}</v-card-title>
                         </v-card>
+                        </td>
                     </template>
                 </v-data-table>
             </v-layout>

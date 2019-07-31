@@ -131,6 +131,7 @@ export default ({
                             url: elementTopics.IdThread,
                             idUsuario: elementTopics.IdUsuario,
                             nickname: elementTopics.Nickname,
+                            report: false,
                             type: 'Topic'
                         })       
                     });
@@ -158,6 +159,7 @@ export default ({
                             idThread: elementPosts.IdThread,
                             idUsuario: elementPosts.IdUsuario,
                             nickname: elementPosts.Nickname,
+                            report: false,
                             type: 'Post'
                         })       
                     });

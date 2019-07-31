@@ -22,15 +22,11 @@
             <v-layout justify-center>
                 <v-data-table :items="postData" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
                     <template slot="items" slot-scope="data">
+                        <td>
                         <v-layout row wrap justify-center>
-                            <v-flex xs12 md10 lg6>
+                            <v-flex xs12>
                                 <v-card class="text-xs-left my-1">
-                                    <v-card-text v-html="data.item.contenidoPost"></v-card-text>
-                                    <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
-                                    
                                     <v-card-actions>
-                                        <v-btn @click="citarPost(data.item.contenidoPost, data.item.nickname, data.item.fecha)">{{quoteTxt[currLanguaje]}}</v-btn>
-                                        <v-btn @click="reportarBool = !reportarBool">{{reportTxt[currLanguaje]}}</v-btn>
                                         <v-btn color="red" icon @click="reputacionDown (data.item)"
                                         v-show="hayUsuario">
                                             <v-icon>thumb_down</v-icon>
@@ -40,13 +36,22 @@
                                             <v-icon>thumb_up</v-icon>
                                         </v-btn>
                                     </v-card-actions>
+
+                                    <v-card-text v-html="data.item.contenidoPost"></v-card-text>
+                                    <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
+                                    
+                                    <v-card-actions>
+                                        <v-btn @click="citarPost(data.item.contenidoPost, data.item.nickname, data.item.fecha)">{{quoteTxt[currLanguaje]}}</v-btn>
+                                        <v-btn v-if="usuario.id != data.item.idUsuario" @click="data.item.report = !data.item.report">{{reportTxt[currLanguaje]}}</v-btn>
+                                    </v-card-actions>
                                 </v-card>
-                                <v-card v-if="reportarBool == true">
+                                <v-card v-if="data.item.report == true">
                                     <v-text-field :label="reportLabelTxt[currLanguaje]" v-model="userReport"></v-text-field>
                                     <v-btn @click="reportarPost(data.item)">{{enviarTxt[currLanguaje]}}</v-btn>
                                 </v-card>
                             </v-flex>
                         </v-layout>
+                        </td>
                     </template>
                 </v-data-table>
             </v-layout>
@@ -69,7 +74,6 @@ export default {
                 date: '',
                 status: false
             },
-            reportarBool: false,
             userReport: '',
             respuestasTxt: ['Repuestas del Topic: ', 'Topic replies: '],
             quoteTxt: ['Citar Post', 'Quote Post'],
