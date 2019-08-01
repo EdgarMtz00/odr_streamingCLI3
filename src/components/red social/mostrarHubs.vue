@@ -7,12 +7,12 @@
                 </v-card>
             </v-layout>
             <v-layout row wrap justify-center>
-                <v-data-table :items="redData" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
+                <v-data-table :items="redData" hide-headers :no-data-text="noDataTxt[currLanguaje]">
                     <template slot="items" slot-scope="data">
                             <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url)">{{ data.item.titulo }}</td>
                             <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url)">{{ data.item.creador }}</td>
-                            <td class="text-xs-left my-1"><v-icon @click="report = !report">report</v-icon></td>
-                            <td class="text-xs-left my-1" v-if="report == true"><v-text-field :label="reportTxt[currLanguaje]" v-model="userReport"></v-text-field><v-btn @click="reportarHub(data.item)">{{enviarTxt[currLanguaje]}}</v-btn></td>
+                            <td v-if="user.id != data.item.idUsuario" class="text-xs-left my-1"><v-icon @click="data.item.report = !data.item.report">report</v-icon></td>
+                            <td class="text-xs-left my-1" v-if="data.item.report == true"><v-text-field :label="reportTxt[currLanguaje]" v-model="userReport"></v-text-field><v-btn @click="reportarHub(data.item)">{{enviarTxt[currLanguaje]}}</v-btn></td>
                     </template>
                 </v-data-table>
             </v-layout>
@@ -32,7 +32,6 @@ export default {
             returnTxt: ['Regresar', 'Return'],
             confirmTxt: ['¿Quieres reportar este Hub?', 'Do you want to report this Hub?'],
             userReport: '',
-            report: false,
             reportTxt: ['Escribe tu reporte aquí', 'Write your report here'],
             enviarTxt: ['Enviar Reporte', 'Send Report']
         }
@@ -75,7 +74,8 @@ export default {
     computed: {
         ...mapGetters ({
             currLanguaje: 'getUserLang',
-            urlSaga: 'getIdSaga'
+            urlSaga: 'getIdSaga',
+            user: 'getUserData'
         }),
         redes () {
             return this.$store.getters.getRedes

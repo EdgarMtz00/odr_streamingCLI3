@@ -74,8 +74,8 @@
             <v-tab-item value="tab-estadisticas">
                 <v-card>
                     <v-card-text>
-                        {{tabsLabels.reputacionText[lang]}}: {{reputacion}}% {{tabsLabels.from[lang]}} ({{reput.thumbsup + reput.thumbsdown}}  {{tabsLabels.personas[lang]}})
-                        <br> <v-icon :color="starColor">star</v-icon> {{tabsLabels.reputacionForoText[lang]}}: {{reputForo * 100}}%
+                        {{tabsLabels.reputacionText[lang]}}: {{reputacion}}% {{tabsLabels.from[lang]}} ({{(reput.thumbsup + reput.thumbsdown).toFixed(2)}}  {{tabsLabels.personas[lang]}})
+                        <br> <v-icon :color="starColor">star</v-icon> {{tabsLabels.reputacionForoText[lang]}}: {{(reputForo * 100).toFixed(2)}}%
                     </v-card-text>
                 </v-card>
             </v-tab-item>
@@ -100,8 +100,8 @@ export default {
                 watchlist: ['Watchlist', 'Watchlist'],
                 estadisticas: ['Estadisticas', 'Statistics'],
                 emptyWatchlist: ['Watchlist vacia', 'Empty watchlist'],
-                reputacionText: ['Reputacion [Tienda]', 'Reputation [Shop]'],
-                reputacionForoText: ['Reputacion [Foro]', 'Reputation [Forum]'],
+                reputacionText: ['Puntos de reputacion [Tienda]', 'Reputation points [Shop]'],
+                reputacionForoText: ['Puntos de reputacion [Social]', 'Reputation points [Social]'],
                 personas: ['Personas', 'People'],
                 from: ['De', 'From']
             },

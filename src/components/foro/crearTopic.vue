@@ -62,6 +62,7 @@ export default {
             let formData = new FormData();
             let today = new Date();
             let date = today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate();
+            var self = this
 
             this.$store.dispatch("formatoAlTexto", this.newTopic.post)
 
@@ -74,6 +75,7 @@ export default {
 
             this.axios.post("http://localhost/Odr/connections/forum/createTopic.php", formData).then(function (response) {
                 console.log("Lo que se envia al server: ", response)
+                self.back()
             }).catch(function (error) {
                 console.log("Ocurrio un error enviando al server: ", error)
             })

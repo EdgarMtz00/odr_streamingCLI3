@@ -2,7 +2,6 @@
     <v-layout row wrap justify-center>
         <v-flex>
             <v-layout row wrap justify-center>
-                {{imagen[0]}}
                 <v-card height="600" width="400" max-height="auto" max-width="auto" class="text-xs-left my-1">
                     <v-img :src="imagen[0].imagenes[0].src"></v-img>
                     <v-card-text>{{imagen[0].titulo}}</v-card-text>

@@ -9,7 +9,7 @@
                         </v-card>
                     </v-layout>
                     <v-layout row wrap justify-center>
-                        <v-data-table :items="categoriaData" hide-actions hide-headers :no-data-text="noCategoryTxt[currLanguaje]">
+                        <v-data-table :items="categoriaData" hide-headers :no-data-text="noCategoryTxt[currLanguaje]">
                             <template slot="items" slot-scope="data">
                                 <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.nombre }}</td>
                                 <td class="text-xs-left my-1 cursorChido" @click="goToRoute(data.item.type, data.item.url, data.item.id)">{{ data.item.descripcion }}</td>

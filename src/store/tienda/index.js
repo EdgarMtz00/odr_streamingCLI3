@@ -478,7 +478,7 @@ export default({
         formData.set('urlComentario', 'N/A')
         formData.set('idComentario', productoReportado.idContenido)
         formData.set('tipoReporte', 'Producto')
-        formData.set('textoDelReporte', 'N/A')
+        formData.set('textoDelReporte', productoReportado.reporte)
 
         axios.post(urlBase + "connections/comments/sendReport.php", formData).then(function (response) {
             console.log("Lo que se envia al server: ", response)

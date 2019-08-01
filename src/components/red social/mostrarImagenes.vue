@@ -9,16 +9,18 @@
             <v-layout justify-center>
                 <v-data-table :items="imagenesHub" hide-actions hide-headers :no-data-text="noDataTxt[currLanguaje]">
                     <template slot="items" slot-scope="data">
+                        <td>
                         <v-card @click="goToRoute('Image', data.item.id)" style="cursor: pointer;" class="text-xs-left my-1">
                             <v-img :src="data.item.thumbnail"></v-img>
                             <v-card-text v-html="data.item.titulo"></v-card-text>
                             <v-card-text> {{ data.item.nickname }} {{ data.item.fecha }}</v-card-text>
                         </v-card>
-                        <v-btn @click="reportBool = !reportBool">{{reportImageTxt[currLanguaje]}}</v-btn>
-                        <div v-if="reportBool == true">
+                        <v-btn v-if="user.id != data.item.idUsuario" @click="data.item.report = !data.item.report">{{reportImageTxt[currLanguaje]}}</v-btn>
+                        <div v-if="data.item.report == true">
                             <v-text-field :label="labelTxt[currLanguaje]" v-model="userReport"></v-text-field>
                             <v-btn @click="reportarImagen(data.item)">{{enviarTxt[currLanguaje]}}</v-btn>
                         </div>
+                        </td>
                     </template>
                 </v-data-table>
             </v-layout>
@@ -101,7 +103,8 @@ export default {
             imagenes: 'getImagenes',
             urlSaga: 'getIdSaga',
             urlHub: 'getIdHub',
-            urlPersonaje: 'getIdPersonaje'
+            urlPersonaje: 'getIdPersonaje',
+            user: 'getUserData'
         }),
         imagenesHub () {
             let resultado = []
