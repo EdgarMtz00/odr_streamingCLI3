@@ -155,6 +155,7 @@ firebase.auth().onAuthStateChanged(user => {
       ...mapGetters({
             estados: 'getEstados',
             user: 'getUserData',
+            reproduccion: 'getReproduccion',
         }),
     },
     watch: {
@@ -187,26 +188,30 @@ firebase.auth().onAuthStateChanged(user => {
         },
         deep: true
       },
-      '$route.path': {
+      /*'$route.path'*/
+      reproduccion: {
         handler: function (val, oldVal) {
           // Cuando carguen se obtiene la referencia dle estado del usuario
+          console.log("estados aca", this.estados)
           let auxFind = this.estados.find(iterator => {
               return this.user.id == iterator.idUsuario
           })
 
           // Si entra a reproducir un medio...
-          if (val.includes("/sagas/")) {
+          if (val) {
             let payload = {
                 key: auxFind.key, // key del firebase
                 newEstado: 'Reproduciendo medios'
             }
             store.dispatch('actualizarEstado', payload)
-          } else if (oldVal.includes("/sagas/") && !val.includes("/sagas/")) {
+            // alert('reproduciendo medios!')
+          } else {
             let payload = {
                 key: auxFind.key, // key del firebase
                 newEstado: 'Online' // Se pone como online
             }
             store.dispatch('actualizarEstado', payload)
+            // alert('online')
           }
           // SI salio de reproducir un mdio
         }

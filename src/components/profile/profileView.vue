@@ -13,6 +13,9 @@
                                 <v-flex xs12>
                                     <v-layout row wrap align-center>
                                         <div class="headline">{{profileData.Nickname}}</div>
+                                        <v-btn color="primary" small v-if="sameAsUser" @click="configPerfil ()">
+                                            {{labels.configCuenta[lang]}}
+                                        </v-btn>
                                         <!-- <span class="ml-2">(El webos)</span> -->
                                         <v-spacer></v-spacer>
                                         
@@ -129,6 +132,7 @@ export default {
                 agregarAmigoCorto: ['Añadir', 'Add'],
                 removerAmigo: ['Quitar contacto', 'Remove contact'],
                 removerAmigoCorto: ['Quitar', 'Remove'],
+                configCuenta: ['Configurar perfil', 'Profile configuration']
             },
             profileData: {
 
@@ -153,6 +157,9 @@ export default {
                 idProfile: this.idProfile
             }
             this.$store.dispatch('removeFriend', friend)
+        },
+        configPerfil () {
+            this.$router.push("/profileConfiguration")
         }
     },
     created () {

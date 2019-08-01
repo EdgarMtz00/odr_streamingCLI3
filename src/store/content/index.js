@@ -7,6 +7,7 @@ export default({
         saga: {},
         categorys: [],
         tags: [],
+        reproduccion: false,
     },
     mutations: {
         setSagaData (state, payload) {
@@ -29,6 +30,9 @@ export default({
         clearSagas (state) {
             state.sagas = []
         },
+        setReproduccion (state, payload) {
+            state.reproduccion = payload
+        }
     },
     actions: {
         loadSagasInfo ({commit, getters}) {
@@ -170,5 +174,8 @@ export default({
         getTags (state) {
             return state.tags
         },
+        getReproduccion (state) {
+            return state.reproduccion
+        }
     }
 })

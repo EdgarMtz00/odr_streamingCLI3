@@ -62,6 +62,12 @@ export default {
         // Que cargue los comentarios
         let url = this.$route.fullPath
         this.$store.dispatch('loadComentarios', url)
+        // Cambiar el valor de 'reproduccion' a true para cambiar el estado del usuario a reproduciendo medios
+        this.$store.commit('setReproduccion', true)
+    },
+    beforeDestroy () {
+        // Cambiar el valor de 'reproduccion' a false para cambiar el estado del usuario a reproduciendo medios
+        this.$store.commit('setReproduccion', false)
     },
     computed: {
         saga () {

@@ -217,6 +217,7 @@ export default({
             axios.post(urlBase + "connections/userConnections/saveConfiguration.php", bodyFormData).then(response => {
                 firebase.database().ref('correo/' + user.id).set(configCorreo).then(response => {
                     alert("Actualizado correctamente")
+                    router.push('profileView/' + user.id)
                 })
                 commit ('setLoading', false)
             }).catch(error => {

@@ -168,6 +168,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
     data () {
         return {
@@ -207,7 +208,6 @@ export default {
         uploadContent () {
             this.btnText = "Subiendo"
             this.uploadBtnEnabled = false
-            alert('Subir contenido')
             console.log("Nuevo contenido", this.newContent)
             this.crearNotificacion()
             switch (this.contentType) {
@@ -267,7 +267,11 @@ export default {
 
             this.axios.post(urlBase + 'connections/streamingContent/content/saveScans.php', bodyFormData).then(response => {
                 console.log(response.data)
-                alert(response.data)
+                if (this.lang == 0) {
+                    alert("Contenido subido correctamente")
+                } else {
+                    alert("Content successfully uploaded")
+                }
                 this.btnText = "Subido"
             }).catch(error => {
                 console.log(error)
@@ -328,6 +332,9 @@ export default {
         }
     },
     computed: {
+        ...mapGetters({
+            user: 'getUserData',
+        }),
         // Filtrar holders por categoria
         holdersByCateg () {
             let holders = []

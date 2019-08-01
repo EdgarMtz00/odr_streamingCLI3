@@ -35,9 +35,9 @@ export default({
                     item.key = childSnapshot.key;
                     // Si el id del usuario coincide con alguno de los amigos del usuario logeado
                     let aux = amigos.find(auxFind => {
-                        return (item.idUsuario == auxFind.IdAmigo || item.idUsuario == idUsuario)
+                        return (item.idUsuario == auxFind.IdAmigo)
                     })
-                    if (aux)
+                    if (aux || (item.idUsuario == idUsuario))
                         returnArr.push(item);
                 });
                 commit('setEstados', returnArr)

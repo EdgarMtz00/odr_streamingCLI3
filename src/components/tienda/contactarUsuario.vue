@@ -49,36 +49,38 @@
                                 </v-flex>
                             </v-layout>
                         </v-sheet>
-                        <v-text-field
-                            :label="labels[0].nombre[currLanguaje]"
-                            :rules="[rules.required]"
-                            box solo clearable
-                            v-model="values[0].nombre"
-                            id="id"
-                        ></v-text-field>
-                        <v-text-field
-                            :label="labels[1].correo[currLanguaje]"
-                            :rules="[rules.required]"
-                            box solo clearable
-                            v-model="values[1].correo"
-                            id="id"
-                        ></v-text-field>
-                        <v-text-field
-                            :label="labels[2].numero[currLanguaje]"
-                            :rules="[rules.required]"
-                            box solo clearable
-                            v-model="values[2].numero"
-                            id="id"
-                        ></v-text-field>
-                        <v-textarea
-                            :label="labels[3].descripcion[currLanguaje]"
-                            :rules="[rules.required]"
-                            box solo rows="4"
-                            resizable clearable
-                            v-model="values[3].descripcion"
-                            id="id"
-                        ></v-textarea>
-                        <v-btn color="success" @click="contactarUsuario">
+                        <v-form v-model="validForm">
+                            <v-text-field
+                                :label="labels[0].nombre[currLanguaje]"
+                                :rules="[rules.required]"
+                                box solo clearable
+                                v-model="values[0].nombre"
+                                id="id"
+                            ></v-text-field>
+                            <v-text-field
+                                :label="labels[1].correo[currLanguaje]"
+                                :rules="[rules.required]"
+                                box solo clearable
+                                v-model="values[1].correo"
+                                id="id"
+                            ></v-text-field>
+                            <v-text-field
+                                :label="labels[2].numero[currLanguaje]"
+                                :rules="[rules.required]"
+                                box solo clearable
+                                v-model="values[2].numero"
+                                id="id"
+                            ></v-text-field>
+                            <v-textarea
+                                :label="labels[3].descripcion[currLanguaje]"
+                                :rules="[rules.required]"
+                                box solo rows="4"
+                                resizable clearable
+                                v-model="values[3].descripcion"
+                                id="id"
+                            ></v-textarea>
+                        </v-form>
+                        <v-btn color="success" @click="contactarUsuario" :disabled="!validForm">
                             <v-icon class="mr-2">message</v-icon> {{button[currLanguaje]}}
                         </v-btn>
                     </v-flex>
@@ -122,6 +124,7 @@ export default {
                 {numero: ''},
                 {descripcion: ''}
             ],
+            validForm: false,
             dialog: false,
             rules: {
                 required: value => !!value || 'Required.',

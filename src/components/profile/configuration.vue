@@ -17,6 +17,10 @@
                             <v-btn color="primary" @click="gotoToPage ('avatar')">
                                 {{placeholders.editorAvatar[currConfig.idioma]}}
                             </v-btn>
+                            <v-layout row wrap justify-center>
+                                <v-icon>info</v-icon>
+                                <div>{{placeholders.noImagen[currConfig.idioma]}}</div>
+                            </v-layout> 
                         </v-flex>
 
                         <v-flex xs12>
@@ -111,6 +115,7 @@ export default {
     data () {
         return {
             placeholders: {
+                noImagen: ['Si su imagen de perfil no es visible, favor de visitar el editor de avatar y cree su imagen', 'If your profile picture is not visible, please visit the Avatar editor and set your picture'],
                 nombre: ['Nombre real', 'Real name'],
                 nickname: ['Nickname', 'Nickname'],
                 descripcion: ['Descripcion', 'Description'],
