@@ -18,6 +18,7 @@ import Estado from './Estado'
 import Comentarios from './Comentarios'
 import RedSocial from './red social'
 import Reportes from './Reportes'
+import Logros from './logros'
 
 Vue.use(Vuex)
 
@@ -38,6 +39,7 @@ export const store = new Vuex.Store({
         estado: Estado,
         comentarios: Comentarios,
         redSocial: RedSocial,
-        reportes: Reportes
+        reportes: Reportes,
+        logros: Logros
     }
 })

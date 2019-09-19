@@ -30,6 +30,14 @@
                         <v-list-tile-avatar><v-icon>create</v-icon></v-list-tile-avatar>
                         <v-list-tile-content><v-list-tile-title>{{nuevoProducto[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
                     </v-list-tile>
+                    <v-divider></v-divider>
+                    <!-- --------------------------------------------------- -->
+                    <v-subheader>{{logros[prefLanguaje]}}</v-subheader>
+
+                    <v-list-tile avatar @click="gotoToPage('logros')" v-if="isUserLogged">
+                        <v-list-tile-avatar><v-icon>event</v-icon></v-list-tile-avatar>
+                        <v-list-tile-content><v-list-tile-title>{{logros[prefLanguaje]}}</v-list-tile-title></v-list-tile-content>
+                    </v-list-tile>
                 </div>
 
                 <v-divider></v-divider>
@@ -146,7 +154,8 @@ export default {
             todosLosMedios: ['Todos los medios', 'All stream media'],
             crearSub: ["Crear", "Create"],
             nuevoMedio: ['Nuevo medio', 'New stream media'],
-            nuevoProducto: ['Nuevo producto', 'New producto'],
+            nuevoProducto: ['Nuevo producto', 'New product'],
+            logros:['Logros', 'Achievements'],
             cuentaSub: ["Cuenta", "Account"],
             cerrarSesion: ['Cerrar sesion', 'Logout'],
             iniciarSesion: ['Iniciar sesion', 'Sign in'],

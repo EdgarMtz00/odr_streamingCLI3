@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-09-2019 a las 03:53:52
+-- Tiempo de generación: 19-09-2019 a las 04:33:39
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.2.2
 
@@ -355,8 +355,16 @@ CREATE TABLE `logros` (
   `IdLogro` smallint(6) NOT NULL,
   `Recompensa` smallint(6) NOT NULL,
   `Descripcion` text NOT NULL,
-  `Titulo` varchar(20) NOT NULL
+  `Titulo` varchar(20) NOT NULL,
+  `repeticiones` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `logros`
+--
+
+INSERT INTO `logros` (`IdLogro`, `Recompensa`, `Descripcion`, `Titulo`, `repeticiones`) VALUES
+(1, 10, 'Ver 5 videos', 'Ver 5 videos', 5);
 
 -- --------------------------------------------------------
 
@@ -399,7 +407,8 @@ CREATE TABLE `personalizacion` (
 --
 
 INSERT INTO `personalizacion` (`IdPersonalizacion`, `IdUsuario`, `NombreUsuario`, `Descripcion`, `Sexo`, `Ubicacion`, `Imagen`, `FechaDeRegistro`, `IdiomaPreferido`, `Edad`, `NotificacionCorreo`, `Nickname`, `ConfiguracionInicial`) VALUES
-(8, 'AWB6wjwgZgVIv70pNzsWgMUiaqB2', ' ', '', ' ', ' ', '', '2019-03-08', 1, ' ', 0, 'El Madoko', 1);
+(8, 'AWB6wjwgZgVIv70pNzsWgMUiaqB2', ' ', '', ' ', ' ', '', '2019-03-08', 1, ' ', 0, 'El Madoko', 1),
+(9, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 'edgar', '.', ' hombre', ' gdl', '', '2019-09-18', 1, ' 19', 0, ' edgarmtz00', 1);
 
 -- --------------------------------------------------------
 
@@ -710,7 +719,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`IdUsuario`, `TipoDeUsuario`, `Correo`) VALUES
-('AWB6wjwgZgVIv70pNzsWgMUiaqB2', 4, 'h3lltronik@hotmail.com');
+('AWB6wjwgZgVIv70pNzsWgMUiaqB2', 4, 'h3lltronik@hotmail.com'),
+('YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 4, 'edgar.agustin.martinez@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -730,10 +740,19 @@ CREATE TABLE `usuarioemoticon` (
 --
 
 CREATE TABLE `usuariologros` (
+  `id` int(11) NOT NULL,
   `IdUsuario` varchar(30) NOT NULL,
   `IdLogro` smallint(6) NOT NULL,
-  `Progreso` tinyint(4) NOT NULL
+  `progreso` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `usuariologros`
+--
+
+INSERT INTO `usuariologros` (`id`, `IdUsuario`, `IdLogro`, `progreso`) VALUES
+(1, 'AWB6wjwgZgVIv70pNzsWgMUiaqB2', 1, 24),
+(2, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1093,6 +1112,7 @@ ALTER TABLE `usuarioemoticon`
 -- Indices de la tabla `usuariologros`
 --
 ALTER TABLE `usuariologros`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `LogrosUsuario` (`IdLogro`),
   ADD KEY `UsuarioLogros` (`IdUsuario`);
 
@@ -1198,7 +1218,7 @@ ALTER TABLE `imagenhub`
 -- AUTO_INCREMENT de la tabla `logros`
 --
 ALTER TABLE `logros`
-  MODIFY `IdLogro` smallint(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdLogro` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `personajes`
@@ -1210,7 +1230,7 @@ ALTER TABLE `personajes`
 -- AUTO_INCREMENT de la tabla `personalizacion`
 --
 ALTER TABLE `personalizacion`
-  MODIFY `IdPersonalizacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `IdPersonalizacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `post`
@@ -1271,6 +1291,12 @@ ALTER TABLE `tipocontenido`
 --
 ALTER TABLE `tiposusuario`
   MODIFY `idTipo` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `usuariologros`
+--
+ALTER TABLE `usuariologros`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `venta`

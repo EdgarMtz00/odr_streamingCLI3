@@ -22,6 +22,7 @@ import CreateHub from '@/components/red social/crearHub.vue'
 import HubImages from '@/components/red social/mostrarImagenes.vue'
 import CreateImage from '@/components/red social/crearImagen.vue'
 import CalificarVendedor from '@/components/tienda/calificarVendedor.vue'
+import logroBase from '@/components/logros/logroBase/logroBase.vue'
 
 import SingleImage from '@/components/red social/informacionImagen.vue'
 import MainProductos from "@/components/tienda/mainTienda.vue"
@@ -41,6 +42,11 @@ const router = new Router({
       path: '/',
       name: 'Main page',
       component: StreamingMainPage
+    },
+    {
+      path:'/logros',
+      name: 'Logros',
+      component: logroBase      
     },
     {
       path: '/uploadContent',
