@@ -25,7 +25,6 @@ export default({
                 console.log("Hubo un error en el GET a /logros.php", error)
             });
         }
-
     },
     getters: {
         getLogros (state) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-09-2019 a las 04:33:39
+-- Tiempo de generación: 26-09-2019 a las 04:55:59
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.2.2
 
@@ -364,7 +364,8 @@ CREATE TABLE `logros` (
 --
 
 INSERT INTO `logros` (`IdLogro`, `Recompensa`, `Descripcion`, `Titulo`, `repeticiones`) VALUES
-(1, 10, 'Ver 5 videos', 'Ver 5 videos', 5);
+(1, 10, 'Ver 5 o mas videos de cualquier categoria', 'Ver 5 videos', 5),
+(2, 1, '1', '1', 1);
 
 -- --------------------------------------------------------
 
@@ -1218,7 +1219,7 @@ ALTER TABLE `imagenhub`
 -- AUTO_INCREMENT de la tabla `logros`
 --
 ALTER TABLE `logros`
-  MODIFY `IdLogro` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `IdLogro` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `personajes`

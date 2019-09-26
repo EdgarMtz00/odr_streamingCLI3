@@ -46,7 +46,9 @@ const router = new Router({
     {
       path:'/logros',
       name: 'Logros',
-      component: logroBase      
+      component: logroBase,
+      //requerir inicio de sesion antes
+      beforeEnter: AuthGuard      
     },
     {
       path: '/uploadContent',

@@ -11,10 +11,32 @@
                 <v-data-table :items="logros">
                     <template slot="items" slot-scope="data">
                         <td>
-                        <v-card min-width="1" max-width="1280" min-height="1" max-height="1920">
+                        <md-card min-width="1" max-width="1280" min-height="1" max-height="1920">
                             <!-- TODO: LOGRO -->
-                            <p>{{data.item.IdLogro}}</p>
-                        </v-card>
+                            <!-- Avance -->
+                            <md-card-expand>
+                                <md-card-header>
+                                    <div class="md-title">{{data.item.titulo}}</div>
+                                    <md-card-actions md-alignment="space-between">
+                                        <md-card-expand-trigger>
+                                            <md-button class="md-primary">Ver Mas</md-button>
+                                        </md-card-expand-trigger>
+                                    </md-card-actions>
+                                </md-card-header>
+                                <md-card-expand-content>
+                                    <md-card-content md-alignment="space-between">
+                                    <div>{{data.item.descripcion}}</div>
+                                    <div>Recompensa: {{data.item.recompensa}} <i class="material-icons">monetization_on</i></div>
+                                    </md-card-content>
+                                </md-card-expand-content>
+                                <v-progress-linear
+                                color="light-green darken-4"
+                                height="10"
+                                :value= "(data.item.progreso * 100) / data.item.repeticiones "
+                                striped></v-progress-linear>
+                            </md-card-expand>
+                            <!-- Avance -->
+                        </md-card>
                         </td>
                     </template>
                 </v-data-table>
@@ -25,6 +47,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+
 export default {
      data () {
         return {
