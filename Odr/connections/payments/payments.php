@@ -8,7 +8,9 @@ use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 
-include 'common.php';
+require ('../common.php');
+require('conf.php');
+
 $body = file_get_contents('php://input'); 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $order = $body['order'];
@@ -48,6 +50,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     try {
         $payment->create($apiContext);
+        header('location:' . $payment->getApprovalLink());
         return $payment;
     } catch (Exception $ex) {
         return ['error'=>"error"];
