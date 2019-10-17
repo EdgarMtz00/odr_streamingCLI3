@@ -94,7 +94,8 @@ export default({
        },
        // Es una lista con los usuarios que contactaron al vendedor de un producto, con ella se realiza el proceso de marcar
        // Como vendido
-       usuariosContactados: []
+       usuariosContactados: [],
+       emoticones:[],
   },
   mutations: {
       setFiltro (state, payload) {
@@ -105,6 +106,9 @@ export default({
       },
       setProductos (state, payload) {
           state.productos = payload
+      },
+      setEmoticones (state, payload){
+        state.emoticones = payload
       },
       addProducto (state, producto) {
           state.productos.push(producto)
@@ -321,12 +325,25 @@ export default({
                        nickname: producto.Nickname,
                        type: type,
                        profilePic: urlBase + 'Profiles/' + producto.idUsuario + "/profile.jpg"
-                   }
+                     }
                       commit('addCategoria', producto.categoria)
                       newProductos.push(aux)
                   });
+                  let emoticones = [];
+                  data.emoticones.forEach(emoticon =>{
+                    let aux = {
+                        id: emoticon.IdEmoticon,
+                        nombre: emoticon.NombreDeEmoticon,
+                        precio: emoticon.Precio,
+                        saga: emoticon.IdSaga,
+                        Thumbnail: emoticon.Thumbnail
+                    }
+                    emoticones.push(aux);
+                  });
                   console.log("Nuevos", newProductos)
+                  console.log("emoticones", emoticones)
                   commit('setProductos', newProductos)
+                  commit('setEmoticones', emoticones)
               }
             });
       },
@@ -494,6 +511,9 @@ export default({
       },
       getProductos (state) {
           return state.productos
+      },
+      getEmoticones (state){
+          return state.emoticones
       },
       getFiltro (state) {
           return state.filtro

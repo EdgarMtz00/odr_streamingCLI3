@@ -36,6 +36,7 @@ import Comment from './components/comentarios/comentario.vue'
 import TerminosYCondiciones from './components/terminosYCondiciones.vue'
 
 import Producto from "./components/tienda/producto.vue";
+import Emoticon from "./components/tienda/emoticon.vue";
 import MarcarVendido from "./components/tienda/marcarVendido.vue";
 import MainCarrito from "./components/tienda/carrito/mainCarrito.vue";
 import CrearProducto from "./components/tienda/crearProducto.vue";
@@ -63,6 +64,7 @@ Vue.component('comentario-component', Comment)
 Vue.component('terminos-y-condiciones', TerminosYCondiciones)
 
 Vue.component("producto-component", Producto);
+Vue.component("emoticon-component", Emoticon);
 Vue.component("marcar-vendido-component", MarcarVendido);
 Vue.component("carrito-component", MainCarrito);
 Vue.component("crear-producto-component", CrearProducto);
