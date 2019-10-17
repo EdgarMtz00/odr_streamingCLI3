@@ -6,11 +6,14 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
+  "engines": {
+    "node": "8"
+  },
   "dependencies": {
     "@kugatsu/vuenotification": "^1.1.2",
     "axios": "^0.18.0",
     "express": "^4.16.4",
-    "firebase": "^5.11.1",
+    "firebase": "^4.12.1",
     "firebase-tools": "^6.10.0",
     "moment": "^2.24.0",
     "mysql": "^2.16.0",

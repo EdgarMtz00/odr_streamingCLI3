@@ -12,7 +12,6 @@
                     <template slot="items" slot-scope="data">
                         <td>
                         <md-card min-width="1" max-width="1280" min-height="1" max-height="1920">
-                            <!-- TODO: LOGRO -->
                             <!-- Avance -->
                             <md-card-expand>
                                 <md-card-header>
