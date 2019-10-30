@@ -29,6 +29,9 @@
                             <v-divider class="my-2"></v-divider>
                             <v-layout row wrap class="headline">
                                 ${{precio}}<div class="body-3 ml-2">MXN</div>
+                                <v-btn :color="colorStatus" @click="comprarEmoticon()">
+                                    Comprar
+                                </v-btn>
                             </v-layout>
                         </v-flex>
                     </v-layout>
@@ -74,86 +77,27 @@ export default {
         }
     },
     methods: {
-        añadirCarrito () {
-            if (!this.isUserLogged) {
-                // this.$router.push('/')
-                this.$router.push('/login')
-            } else {
-                let newProducto = {
-                    titulo: this.titulo,
-                    precio: this.precio,
-                    url: this.url,
-                    imagen: this.imagen,
-                    descripcion: this.descripcion,
-                    imagenes: this.imagenes,
-                    stock: this.stock,
-                    id: this.id,
-                    nickname: this.nickname
-                }
-                this.$store.commit('addCarrito', newProducto)
-                this.$store.commit('subStock', newProducto)
-
-                this.changeStatus()
-            }
-        },
-        changeStatus: function(){
-            this.productoStatus = 'Added to Cart'
-            this.iconStatus = 'check'
-            this.colorStatus = 'orange'
-            setTimeout(() => {
-                this.productoStatus = 'Add to Cart'
-                this.iconStatus = 'add'
-                this.colorStatus = 'success'
-            }, 2000);
-        },
-        setEditarProducto () {
-            let editProducto = {
-                titulo: this.titulo,
-                precio: this.precio,
-                url: this.url,
-                imagen: this.imagen,
-                categoria: this.categoria,
-                descripcion: this.descripcion,
-                imagenes: this.imagenes,
-                stock: this.stock,
-                id: this.id,
-            }
-            this.$store.commit('setEditarProducto', editProducto)
-        },
-        setComprarProducto () {
-            let producto = {
-                idUsuario: this.idUsuario,
-                nickname: this.nickname,
-                profilePic: this.profilePic,
-            }
-            this.$store.commit('setProductoComprar', producto)
-        },
-        reportarProducto () {
-            let productReport = {
-                idUsuario: this.idUsuario,
-                idContenido: this.id,
-                contenido: 'Titulo: ' + this.titulo + ' Descripcion: ' + this.descripcion + ' Imagen: ' + this.imagen,
-                reporte: this.userReport
-            }
-            this.$store.dispatch('reportProduct', productReport)
+        comprarEmoticon () {
+            this.$store.dispatch('comprarEmoticon', this.id).then((url) => {//peticion para generar la compra
+            //abrir paypal
+            console.log('url')
+            console.log(url)
+            window.open(url, "_blank") 
+            //ToDo: revisar respuesta de paypal
+            })
         }
     },
     computed: {
         ...mapGetters({
             lang: 'getUserLang',
-            user: 'getUserData'
+            user: 'getUserData',
+            paypalUrl: 'getPaypalUrl'
         }),
         xsResPenalty () {
             if (this.$vuetify.breakpoint.smAndDown)
                 return -100
             else
                 return 0
-        },
-        disponibilidad () {
-            return (this.stock > 0)
-        },
-        isFromUser () {
-            return (this.type == 'user')
         },
         puedeEditar () {
             let user = this.$store.getters.getUserData
@@ -162,6 +106,9 @@ export default {
             } else {
                 return false
             }
+        },
+        userOwns(){
+            let user = this.$store.getters.getUserData
         },
         sameUser () {
             let user = this.$store.getters.getUserData

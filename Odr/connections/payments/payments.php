@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 use PayPal\Api\Amount;
 use PayPal\Api\Details;
 use PayPal\Api\Item;
@@ -13,36 +14,48 @@ require ('conf.php');
 
 $body = json_decode(file_get_contents('php://input')); 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $order = $body->order;
-    $user = $body->user;
+    //informacion de la peticion
+    $emoteId = $body['id'];
+    //$user = $body['user'];
 
+    //query del emoticon
+    $q = mysqli_query($conn, "Select * from emoticon where idEmoticon = '$emoteId'");
+    $order = mysqli_fetch_assoc($q);
+
+    //informacion pago para paypal
     $payer = new Payer();
     $payer->setPaymentMethod("paypal");
+
+    //articulo a comprar
     $item = new Item();
-    $item->setName($order->item)
+    $item->setName($order['NombreDeEmoticon'])
     ->setCurrency('USD')
-    ->setQuantity($order->quantity)
+    ->setQuantity(1)
     ->setSku("123")
-    ->setPrice($order->price);
-
+    ->setPrice(150);
+    //cantidad a pagar total
     $amount = new Amount();
-    $amount->setCurrency("USD")
-    ->setTotal($order->price * $order->quantity);
+    $amount->setCurrency("MXN")
+    ->setTotal(150);
 
+    //listado total de articulos
     $itemList = new ItemList();
     $itemList->setItems(array($item));
 
+    //informacion completa de la transaccion
     $transaction = new Transaction();
     $transaction->setAmount($amount)
     ->setItemList($itemList)
-    ->setDescription("Payment description")
+    ->setDescription("ODR emote")
     ->setInvoiceNumber(uniqid());
 
-    $baseUrl = "https://yourdomein.org/odr/connections";
+    //a donde paypal enviara el resultado de la compra
+    $baseUrl = "https://yourdomein.org/odr/connections"; //pendiente dominio web
     $redirectUrls = new RedirectUrls();
     $redirectUrls->setReturnUrl("$baseUrl/ExecutePayment.php")
-    ->setCancelUrl("$baseUrl/ExecutePayment.php?");
+    ->setCancelUrl("$baseUrl/ExecutePayment.php");
 
+    //informacion completa de la operacion a realizar mediante paypal
     $payment = new Payment();
     $payment->setIntent("sale")
         ->setPayer($payer)
@@ -51,7 +64,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     try {
         $payment->create($apiContext);
-        header('location:' . $payment->getApprovalLink());
+        echo '{"url":"' . $payment->getApprovalLink() . '"}';  
+        header('url' . $payment->getApprovalLink());
         return $payment;
     } catch (Exception $e) {
 

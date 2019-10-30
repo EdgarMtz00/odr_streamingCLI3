@@ -283,6 +283,25 @@ export default({
           }
           return aux
       },
+      //
+      comprarEmoticon({commit,getters, dispatch}, emote){   
+        return new Promise((resolve, reject)=>{
+            let urlBase = getters.urlBase
+            //informacion del emote a comprar
+            let emoteData = new FormData()
+            emoteData.id = emote.id
+            emoteData.user = getters.getUserData
+            //peticion de compra al servidor
+            axios.post(urlBase + 'connections/payments/payments.php', emoteData).then(response => {
+                let data = response.data
+                console.log('response:')
+                console.log(response)
+                resolve(data.url)
+            }).catch(error =>{
+                reject()
+            })
+        })
+      },
       cargarProductos ({commit, getters}) {
           let urlBase = getters.urlBase
           console.log("cargando productos")
@@ -330,6 +349,7 @@ export default({
                       newProductos.push(aux)
                   });
                   let emoticones = [];
+                  //buscar los emoticones regresados por la peticion
                   data.emoticones.forEach(emoticon =>{
                     let aux = {
                         id: emoticon.IdEmoticon,
@@ -343,7 +363,7 @@ export default({
                   console.log("Nuevos", newProductos)
                   console.log("emoticones", emoticones)
                   commit('setProductos', newProductos)
-                  commit('setEmoticones', emoticones)
+                  commit('setEmoticones', emoticones) //se setean en un arreglo diferente para dividir productos de emoticones
               }
             });
       },
@@ -529,6 +549,9 @@ export default({
       },
       getUsuariosContactados (state) {
           return state.usuariosContactados
-      }
+      },
+      getPaypalUrl (state) {
+          return state.paypalUrl
+      },
   }
 })
