@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     //articulo a comprar
     $item = new Item();
     $item->setName($order['NombreDeEmoticon'])
-    ->setCurrency('USD')
+    ->setCurrency('MXN')
     ->setQuantity(1)
     ->setSku("123")
     ->setPrice(150);
