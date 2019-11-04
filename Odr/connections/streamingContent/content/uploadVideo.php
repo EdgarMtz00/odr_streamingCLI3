@@ -1,4 +1,5 @@
 <?php
+	header('Access-Control-Allow-Origin: *'); 
   require ('../../common.php');
 
   $idHolder = $_POST['idHolder'];
@@ -10,15 +11,13 @@
   // Crear carpeta del video
   $fullUrl = '../../../'.$category['NombreCategoria'].'/'.$URLHolder.'/'.$urlVideo;
 	if(!is_dir($fullUrl)){
-		mkdir($fullUrl);
+		mkdir($fullUrl, 0777, true);
 	}
 
   $dir_subida = $fullUrl.'/';
   $file = $_FILES['file']['name'];
-  print_r($file);
   $ext = pathinfo($file, PATHINFO_EXTENSION);
   $fichero_subido = $dir_subida . '1.' . $ext;
-
   if (move_uploaded_file($_FILES['file']['tmp_name'], $fichero_subido)) {
       echo json_encode(array('dir'=>$fichero_subido));
       $qSaveVideo = mysqli_query($conn, "INSERT INTO contenido (IdHolder, TituloContenido, URLContenido, NumeroElemento) 
@@ -28,4 +27,4 @@
   } else {
       echo "¡Posible ataque de subida de ficheros!\n";
   }
-?>
+?>  

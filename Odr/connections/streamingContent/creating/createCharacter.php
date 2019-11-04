@@ -37,7 +37,7 @@
         if ($insertQuery) {
             // Crear carpeta individual del conjunto de scans
             if(!is_dir($ruta)){
-                mkdir($ruta);
+                mkdir($ruta, 0777, true);
             }
             foreach($charPics as $aux) {
                 $imgCont++;

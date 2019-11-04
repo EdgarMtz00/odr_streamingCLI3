@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-09-2019 a las 04:55:59
+-- Tiempo de generación: 04-11-2019 a las 05:54:33
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.2.2
 
@@ -78,7 +78,11 @@ INSERT INTO `categorias` (`IdCategoria`, `idTipo`, `NombreCategoria`) VALUES
 (1, 1, 'Manga'),
 (3, 1, 'Comic'),
 (4, 2, 'Anime'),
-(5, 3, 'Musica');
+(5, 3, 'Musica'),
+(7, 1, 'Revista'),
+(9, 2, 'Pelicula'),
+(10, 1, 'Libro'),
+(12, 2, 'Serie');
 
 -- --------------------------------------------------------
 
@@ -107,6 +111,14 @@ CREATE TABLE `contenido` (
   `URLContenido` varchar(60) NOT NULL,
   `NumeroElemento` mediumint(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `contenido`
+--
+
+INSERT INTO `contenido` (`IdContenido`, `IdHolder`, `TituloContenido`, `URLContenido`, `NumeroElemento`) VALUES
+(1, 7, 'adsf', 'adsf', 1),
+(2, 7, 'lkjghjkghkj', 'lkjghjkghkj', 1);
 
 -- --------------------------------------------------------
 
@@ -280,6 +292,14 @@ CREATE TABLE `holder` (
   `URLHolder` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `holder`
+--
+
+INSERT INTO `holder` (`IdHolder`, `IdSaga`, `TituloHolder`, `DescripcionHolder`, `IdCategoria`, `URLHolder`) VALUES
+(6, 3, 'adfasf', 'Descripcion vacia', 1, 'adfasf'),
+(7, 2, 'Titulo vacio', 'Descripcion vacia', 4, 'titulo-vacio');
+
 -- --------------------------------------------------------
 
 --
@@ -303,6 +323,14 @@ CREATE TABLE `holdertags` (
   `IdHolder` int(11) NOT NULL,
   `IdTag` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `holdertags`
+--
+
+INSERT INTO `holdertags` (`IdHolTag`, `IdHolder`, `IdTag`) VALUES
+(1, 6, 1),
+(2, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -380,6 +408,16 @@ CREATE TABLE `personajes` (
   `NumeroImagenes` tinyint(4) NOT NULL,
   `URLPersonaje` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `personajes`
+--
+
+INSERT INTO `personajes` (`IdPersonaje`, `NombrePersonaje`, `DescripcionPersonaje`, `NumeroImagenes`, `URLPersonaje`) VALUES
+(1, 'adfaf', 0x616473666173646661, 1, 'adfaf'),
+(2, 'edgar', '', 1, 'edgar'),
+(3, 'edgar', '', 1, 'edgar'),
+(4, 'edgar', '', 1, 'edgar');
 
 -- --------------------------------------------------------
 
@@ -721,7 +759,7 @@ CREATE TABLE `usuario` (
 
 INSERT INTO `usuario` (`IdUsuario`, `TipoDeUsuario`, `Correo`) VALUES
 ('AWB6wjwgZgVIv70pNzsWgMUiaqB2', 4, 'h3lltronik@hotmail.com'),
-('YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 4, 'edgar.agustin.martinez@gmail.com');
+('YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 2, 'edgar.agustin.martinez@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -1165,7 +1203,7 @@ ALTER TABLE `categoriaforo`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `IdCategoria` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `IdCategoria` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `contadordeusuario`
@@ -1177,7 +1215,7 @@ ALTER TABLE `contadordeusuario`
 -- AUTO_INCREMENT de la tabla `contenido`
 --
 ALTER TABLE `contenido`
-  MODIFY `IdContenido` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdContenido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `emoticon`
@@ -1189,7 +1227,7 @@ ALTER TABLE `emoticon`
 -- AUTO_INCREMENT de la tabla `holder`
 --
 ALTER TABLE `holder`
-  MODIFY `IdHolder` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdHolder` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `holderpersonajes`
@@ -1201,7 +1239,7 @@ ALTER TABLE `holderpersonajes`
 -- AUTO_INCREMENT de la tabla `holdertags`
 --
 ALTER TABLE `holdertags`
-  MODIFY `IdHolTag` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdHolTag` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `hub`
@@ -1225,7 +1263,7 @@ ALTER TABLE `logros`
 -- AUTO_INCREMENT de la tabla `personajes`
 --
 ALTER TABLE `personajes`
-  MODIFY `IdPersonaje` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdPersonaje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `personalizacion`
