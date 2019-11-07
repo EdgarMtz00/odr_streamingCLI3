@@ -248,9 +248,11 @@ export default {
             this.newContent.images.forEach(element => {
                 this.newContent.imagesNoHeader.push(this.removeBase64Headers(element.src))
             });
-            let thumbnail = this.newContent.images.find((element) => {
+            let thumbnail = this.newContent.images[0];
+            /*.find((element) => {
+                console.log('thumbnail' + element.thumbnail)
                 return (element.thumbnail === true)
-            })
+            })*/
 
             bodyFormData.set('Scans', JSON.stringify(this.newContent.imagesNoHeader))
             bodyFormData.set('idSaga', this.newContent.saga.idSaga)
@@ -320,9 +322,9 @@ export default {
             }
             console.log('Crear notificacion', params, {"Access-Control-Allow-Origin": "*"})
             // Llamar a la cloud function para notificar a los usuarios sucritos a ese holder
-            this.axios.get("https://us-central1-odr-streaming.cloudfunctions.net/checkHolderSuscriptions", {params: params}, {"Access-Control-Allow-Origin": "*"}).then(response => {
+            /*this.axios.get("https://us-central1-odr-streaming.cloudfunctions.net/checkHolderSuscriptions", {params: params}, {"Access-Control-Allow-Origin": "*"}).then(response => {
                 console.log("Wey, checa a ver si ya salio", response)
-            })
+            })*/
         },
         // Es solo hacer minusculas todos y reemplazar espacios por guiones
         generarUrl (sauce) {

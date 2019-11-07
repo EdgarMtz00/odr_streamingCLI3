@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.7
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 04-11-2019 a las 05:54:33
--- Versión del servidor: 10.1.30-MariaDB
--- Versión de PHP: 7.2.2
+-- Tiempo de generación: 07-11-2019 a las 16:57:46
+-- Versión del servidor: 10.3.16-MariaDB
+-- Versión de PHP: 7.3.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -118,7 +118,8 @@ CREATE TABLE `contenido` (
 
 INSERT INTO `contenido` (`IdContenido`, `IdHolder`, `TituloContenido`, `URLContenido`, `NumeroElemento`) VALUES
 (1, 7, 'adsf', 'adsf', 1),
-(2, 7, 'lkjghjkghkj', 'lkjghjkghkj', 1);
+(2, 7, 'lkjghjkghkj', 'lkjghjkghkj', 1),
+(3, 8, 'jjjjjj', 'jjjjjj', 1);
 
 -- --------------------------------------------------------
 
@@ -133,6 +134,14 @@ CREATE TABLE `emoticon` (
   `IdSaga` int(11) NOT NULL,
   `Thumbnail` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `emoticon`
+--
+
+INSERT INTO `emoticon` (`IdEmoticon`, `NombreDeEmoticon`, `Precio`, `IdSaga`, `Thumbnail`) VALUES
+(1, '1234124', 150, 4, ''),
+(2, '1234124', 150, 4, '');
 
 -- --------------------------------------------------------
 
@@ -298,7 +307,8 @@ CREATE TABLE `holder` (
 
 INSERT INTO `holder` (`IdHolder`, `IdSaga`, `TituloHolder`, `DescripcionHolder`, `IdCategoria`, `URLHolder`) VALUES
 (6, 3, 'adfasf', 'Descripcion vacia', 1, 'adfasf'),
-(7, 2, 'Titulo vacio', 'Descripcion vacia', 4, 'titulo-vacio');
+(7, 2, 'Titulo vacio', 'Descripcion vacia', 4, 'titulo-vacio'),
+(8, 3, 'mangaa', 'Descripcion vacia', 1, 'mangaa');
 
 -- --------------------------------------------------------
 
@@ -330,7 +340,9 @@ CREATE TABLE `holdertags` (
 
 INSERT INTO `holdertags` (`IdHolTag`, `IdHolder`, `IdTag`) VALUES
 (1, 6, 1),
-(2, 7, 1);
+(2, 7, 1),
+(3, 8, 1),
+(4, 8, 2);
 
 -- --------------------------------------------------------
 
@@ -383,7 +395,7 @@ CREATE TABLE `logros` (
   `IdLogro` smallint(6) NOT NULL,
   `Recompensa` smallint(6) NOT NULL,
   `Descripcion` text NOT NULL,
-  `Titulo` varchar(20) NOT NULL,
+  `Titulo` varchar(50) NOT NULL,
   `repeticiones` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -392,8 +404,51 @@ CREATE TABLE `logros` (
 --
 
 INSERT INTO `logros` (`IdLogro`, `Recompensa`, `Descripcion`, `Titulo`, `repeticiones`) VALUES
-(1, 10, 'Ver 5 o mas videos de cualquier categoria', 'Ver 5 videos', 5),
-(2, 1, '1', '1', 1);
+(3, 50, 'termine de ver 12 episodios de la misma o cualquier otra serie en la página', 'Maratón de series I', 12),
+(4, 100, 'termine de ver 24 episodios de la misma o cualquier otra serie en la página', 'Maratón de series II', 24),
+(5, 250, 'termine de ver 48 episodios de la misma o cualquier otra serie en la página', 'Maratón de series II', 48),
+(6, 500, 'termine de ver 100 episodios de la misma o cualquier otra serie en la página', 'Maratón de series IV', 100),
+(7, 1000, 'termine de ver 250 episodios de la misma o cualquier otra serie en la página', 'Maratón de series V', 250),
+(8, 50, 'termine de ver 24 episodios del mismo o cualquier otro anime en la página', 'Consumidor de anime I', 24),
+(9, 100, 'termine de ver 48 episodios del mismo o cualquier otro anime en la página', 'Consumidor de anime II', 48),
+(10, 250, 'termine de ver 100 episodios del mismo o cualquier otro anime en la página', 'Consumidor de anime III', 100),
+(11, 500, 'termine de ver 250 episodios del mismo o cualquier otro anime en la página', 'Consumidor de anime IV', 250),
+(12, 1000, 'termine de ver 500 episodios del mismo o cualquier otro anime en la página', 'Consumidor de anime V', 500),
+(13, 50, 'termine de leer 2 libros', 'Comedor de libros I', 2),
+(14, 100, 'termine de leer 5 libros', 'Comedor de libros II', 5),
+(15, 250, 'termine de leer 10 libros', 'Comedor de libros II', 10),
+(16, 500, 'termine de leer 25 libros', 'Comedor de libros IV', 25),
+(17, 100, 'termine de leer 50 libros', 'Comedor de libros V', 50),
+(18, 50, 'termine de ver 5 películas que estén registradas en la página', 'Cinéfilo I', 5),
+(19, 100, 'termine de ver 10 películas que estén registradas en la página', 'Cinéfilo II', 10),
+(20, 250, 'termine de ver 25 películas que estén registradas en la página', 'Cinéfilo III', 25),
+(21, 500, 'termine de ver 50 películas que estén registradas en la página', 'Cinéfilo IV', 50),
+(22, 1000, 'termine de ver 100 películas que estén registradas en la página', 'Cinéfilo V', 100),
+(23, 50, 'termine de leer 10 cómics que estén registrados en la página', 'Aficionado de cómics I', 10),
+(24, 100, 'termine de leer 20 cómics que estén registrados en la página', 'Aficionado de cómics II', 20),
+(25, 250, 'termine de leer 50 cómics que estén registrados en la página', 'Aficionado de cómics III', 50),
+(26, 500, 'termine de leer 100 cómics que estén registrados en la página', 'Aficionado de cómics IV', 100),
+(27, 1000, 'termine de leer 250 cómics que estén registrados en la página', 'Aficionado de cómics V', 250),
+(28, 50, 'Termine de leer 10 mangas que estén registrados en la página', 'Lector de manga I', 10),
+(29, 100, 'Termine de leer 20 mangas que estén registrados en la página', 'Lector de manga II', 20),
+(30, 250, 'Termine de leer 50 mangas que estén registrados en la página', 'Lector de manga III', 50),
+(31, 500, 'Termine de leer 100 mangas que estén registrados en la página', 'Lector de manga IV', 100),
+(32, 1000, 'Termine de leer 250 mangas que estén registrados en la página', 'Lector de manga V', 250),
+(33, 50, 'termine de leer 10 revistas que estén registradas en la página', 'Apreciador de revistas I', 10),
+(34, 100, 'termine de leer 20 revistas que estén registradas en la página', 'Apreciador de revistas II', 20),
+(35, 250, 'termine de leer 50 revistas que estén registradas en la página', 'Apreciador de revistas III', 50),
+(36, 500, 'termine de leer 100 revistas que estén registradas en la página', 'Apreciador de revistas IV', 100),
+(37, 1000, 'termine de leer 250 revistas que estén registradas en la página', 'Apreciador de revistas V', 250),
+(38, 50, 'termine de escuchar 12 álbumes que estén registrados en la página', 'Conocedor de música I', 12),
+(39, 100, 'termine de escuchar 24 álbumes que estén registrados en la página', 'Conocedor de música II', 24),
+(40, 250, 'termine de escuchar 48 álbumes que estén registrados en la página', 'Conocedor de música III', 48),
+(41, 500, 'termine de escuchar 100 álbumes que estén registrados en la página', 'Conocedor de música IV', 100),
+(42, 1000, 'termine de escuchar 250 álbumes que estén registrados en la página', 'Conocedor de música V', 250),
+(43, 50, 'haga 25 publicaciones distintas ya sea en el foro o en algún Hub', 'Creador de contenido I', 25),
+(44, 100, 'haga 50 publicaciones distintas ya sea en el foro o en algún Hub', 'Creador de contenido II', 50),
+(45, 250, 'haga 100 publicaciones distintas ya sea en el foro o en algún Hub', 'Creador de contenido III', 100),
+(46, 500, 'haga 250 publicaciones distintas ya sea en el foro o en algún Hub', 'Creador de contenido IV', 250),
+(47, 1000, 'haga 500 publicaciones distintas ya sea en el foro o en algún Hub', 'Creador de contenido V', 500);
 
 -- --------------------------------------------------------
 
@@ -434,11 +489,11 @@ CREATE TABLE `personalizacion` (
   `Ubicacion` varchar(60) NOT NULL DEFAULT ' ',
   `Imagen` varchar(200) NOT NULL DEFAULT ' https://homuapp.000webhostapp.com/Imagenes/4-1-2019-22-24-45.jpg',
   `FechaDeRegistro` date NOT NULL,
-  `IdiomaPreferido` tinyint(4) NOT NULL DEFAULT '1',
+  `IdiomaPreferido` tinyint(4) NOT NULL DEFAULT 1,
   `Edad` varchar(3) NOT NULL DEFAULT ' ',
-  `NotificacionCorreo` tinyint(1) NOT NULL DEFAULT '0',
+  `NotificacionCorreo` tinyint(1) NOT NULL DEFAULT 0,
   `Nickname` varchar(20) NOT NULL DEFAULT ' ',
-  `ConfiguracionInicial` tinyint(1) NOT NULL DEFAULT '0'
+  `ConfiguracionInicial` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -462,6 +517,26 @@ CREATE TABLE `post` (
   `IdUsuario` varchar(30) NOT NULL,
   `IdThread` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `post`
+--
+
+INSERT INTO `post` (`IdPost`, `ContenidoPost`, `FechaDeCreacion`, `IdUsuario`, `IdThread`) VALUES
+(1, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(2, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(3, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(4, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(5, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(6, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(7, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(8, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(9, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(10, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(11, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(12, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(13, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1),
+(14, 'lolololollollolollo', '0000-00-00', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1);
 
 -- --------------------------------------------------------
 
@@ -496,7 +571,7 @@ INSERT INTO `productos` (`idProducto`, `idUsuario`, `nombreProducto`, `descripci
 --
 
 CREATE TABLE `productosvendidos` (
-  `idProducto` int(11) NOT NULL DEFAULT '0',
+  `idProducto` int(11) NOT NULL DEFAULT 0,
   `idUsuario` varchar(30) NOT NULL,
   `nombreProducto` varchar(45) NOT NULL,
   `descripcion` varchar(200) NOT NULL,
@@ -700,6 +775,13 @@ CREATE TABLE `thread` (
   `IdCategoriaForo` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `thread`
+--
+
+INSERT INTO `thread` (`IdThread`, `TituloThread`, `ContenidoThread`, `FechaDeCreacion`, `IdUsuario`, `IdSaga`, `IdCategoriaForo`) VALUES
+(1, 'lololol', 'lololol  <b>afsdafssdfas</b>', '2019-11-06', 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 4, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -790,8 +872,16 @@ CREATE TABLE `usuariologros` (
 --
 
 INSERT INTO `usuariologros` (`id`, `IdUsuario`, `IdLogro`, `progreso`) VALUES
-(1, 'AWB6wjwgZgVIv70pNzsWgMUiaqB2', 1, 24),
-(2, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 1, 1);
+(3, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 43, 5),
+(4, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 44, 3),
+(5, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 45, 3),
+(6, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 46, 3),
+(7, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 47, 3),
+(9, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 28, 3),
+(10, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 29, 3),
+(11, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 30, 3),
+(12, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 31, 3),
+(13, 'YAh8Mz5O9hVfgGPClmnnnOhLcSI2', 32, 3);
 
 -- --------------------------------------------------------
 
@@ -853,7 +943,7 @@ CREATE TABLE `watchlist` (
 --
 DROP TABLE IF EXISTS `getamigos`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getamigos`  AS  select `amigos`.`IdUsuario` AS `idUsuario`,`personalizacion`.`IdUsuario` AS `IdAmigo`,`amigos`.`idChat` AS `idChat`,`personalizacion`.`Nickname` AS `Nickname`,`personalizacion`.`Imagen` AS `Imagen` from (`amigos` join `personalizacion` on((`amigos`.`IdUsuario2` = `personalizacion`.`IdUsuario`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getamigos`  AS  select `amigos`.`IdUsuario` AS `idUsuario`,`personalizacion`.`IdUsuario` AS `IdAmigo`,`amigos`.`idChat` AS `idChat`,`personalizacion`.`Nickname` AS `Nickname`,`personalizacion`.`Imagen` AS `Imagen` from (`amigos` join `personalizacion` on(`amigos`.`IdUsuario2` = `personalizacion`.`IdUsuario`)) ;
 
 -- --------------------------------------------------------
 
@@ -862,7 +952,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `getcategoriastype`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getcategoriastype`  AS  select `categorias`.`IdCategoria` AS `Idcategoria`,`categorias`.`idTipo` AS `IdTipo`,`categorias`.`NombreCategoria` AS `NombreCategoria`,`tipocontenido`.`Nombre` AS `TipoContenido` from (`categorias` join `tipocontenido` on((`categorias`.`idTipo` = `tipocontenido`.`idTipo`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getcategoriastype`  AS  select `categorias`.`IdCategoria` AS `Idcategoria`,`categorias`.`idTipo` AS `IdTipo`,`categorias`.`NombreCategoria` AS `NombreCategoria`,`tipocontenido`.`Nombre` AS `TipoContenido` from (`categorias` join `tipocontenido` on(`categorias`.`idTipo` = `tipocontenido`.`idTipo`)) ;
 
 -- --------------------------------------------------------
 
@@ -871,7 +961,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `getcontentdata`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getcontentdata`  AS  select `contenido`.`IdHolder` AS `IdHolder`,`contenido`.`TituloContenido` AS `TituloContenido`,`contenido`.`URLContenido` AS `URLContenido`,`contenido`.`NumeroElemento` AS `NumeroElemento` from (`contenido` join `holder` on((`contenido`.`IdHolder` = `holder`.`IdHolder`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getcontentdata`  AS  select `contenido`.`IdHolder` AS `IdHolder`,`contenido`.`TituloContenido` AS `TituloContenido`,`contenido`.`URLContenido` AS `URLContenido`,`contenido`.`NumeroElemento` AS `NumeroElemento` from (`contenido` join `holder` on(`contenido`.`IdHolder` = `holder`.`IdHolder`)) ;
 
 -- --------------------------------------------------------
 
@@ -880,7 +970,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `getholdersdata`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getholdersdata`  AS  select `holder`.`IdHolder` AS `IdHolder`,`holder`.`IdSaga` AS `IdSaga`,`holder`.`TituloHolder` AS `TituloHolder`,`holder`.`DescripcionHolder` AS `DescripcionHolder`,`holder`.`IdCategoria` AS `IdCategoria`,`holder`.`URLHolder` AS `URLHolder`,`categorias`.`NombreCategoria` AS `NombreCategoria` from (`holder` join `categorias` on((`holder`.`IdCategoria` = `categorias`.`IdCategoria`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getholdersdata`  AS  select `holder`.`IdHolder` AS `IdHolder`,`holder`.`IdSaga` AS `IdSaga`,`holder`.`TituloHolder` AS `TituloHolder`,`holder`.`DescripcionHolder` AS `DescripcionHolder`,`holder`.`IdCategoria` AS `IdCategoria`,`holder`.`URLHolder` AS `URLHolder`,`categorias`.`NombreCategoria` AS `NombreCategoria` from (`holder` join `categorias` on(`holder`.`IdCategoria` = `categorias`.`IdCategoria`)) ;
 
 -- --------------------------------------------------------
 
@@ -889,7 +979,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `getpersonajesdata`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getpersonajesdata`  AS  select `personajes`.`IdPersonaje` AS `idpersonaje`,`holderpersonajes`.`IdHolder` AS `idHolder`,`personajes`.`NombrePersonaje` AS `nombrepersonaje`,`personajes`.`DescripcionPersonaje` AS `descripcionpersonaje`,`personajes`.`NumeroImagenes` AS `numeroimagenes`,`personajes`.`URLPersonaje` AS `urlpersonaje` from (`personajes` join `holderpersonajes` on((`personajes`.`IdPersonaje` = `holderpersonajes`.`IdPersonaje`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getpersonajesdata`  AS  select `personajes`.`IdPersonaje` AS `idpersonaje`,`holderpersonajes`.`IdHolder` AS `idHolder`,`personajes`.`NombrePersonaje` AS `nombrepersonaje`,`personajes`.`DescripcionPersonaje` AS `descripcionpersonaje`,`personajes`.`NumeroImagenes` AS `numeroimagenes`,`personajes`.`URLPersonaje` AS `urlpersonaje` from (`personajes` join `holderpersonajes` on(`personajes`.`IdPersonaje` = `holderpersonajes`.`IdPersonaje`)) ;
 
 -- --------------------------------------------------------
 
@@ -898,7 +988,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `getrelatedholders`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getrelatedholders`  AS  select `holder`.`IdSaga` AS `IdSaga`,`holder`.`IdHolder` AS `IdHolder`,`getpersonajesdata`.`idpersonaje` AS `IdPersonaje`,`holder`.`TituloHolder` AS `TituloHolder`,`categorias`.`NombreCategoria` AS `NombreCategoria`,`holder`.`URLHolder` AS `URLHolder`,`saga`.`URLSaga` AS `URLSaga` from (((`getpersonajesdata` join `holder` on((`getpersonajesdata`.`idHolder` = `holder`.`IdHolder`))) join `categorias` on((`categorias`.`IdCategoria` = `holder`.`IdCategoria`))) join `saga` on((`holder`.`IdSaga` = `saga`.`IdSaga`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getrelatedholders`  AS  select `holder`.`IdSaga` AS `IdSaga`,`holder`.`IdHolder` AS `IdHolder`,`getpersonajesdata`.`idpersonaje` AS `IdPersonaje`,`holder`.`TituloHolder` AS `TituloHolder`,`categorias`.`NombreCategoria` AS `NombreCategoria`,`holder`.`URLHolder` AS `URLHolder`,`saga`.`URLSaga` AS `URLSaga` from (((`getpersonajesdata` join `holder` on(`getpersonajesdata`.`idHolder` = `holder`.`IdHolder`)) join `categorias` on(`categorias`.`IdCategoria` = `holder`.`IdCategoria`)) join `saga` on(`holder`.`IdSaga` = `saga`.`IdSaga`)) ;
 
 -- --------------------------------------------------------
 
@@ -907,7 +997,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `getsagacategs`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getsagacategs`  AS  select `saga`.`IdSaga` AS `IdSaga`,`categorias`.`NombreCategoria` AS `NombreCategoria` from ((`sagacateg` join `saga` on((`sagacateg`.`idSaga` = `saga`.`IdSaga`))) join `categorias` on((`categorias`.`IdCategoria` = `sagacateg`.`idCategoria`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getsagacategs`  AS  select `saga`.`IdSaga` AS `IdSaga`,`categorias`.`NombreCategoria` AS `NombreCategoria` from ((`sagacateg` join `saga` on(`sagacateg`.`idSaga` = `saga`.`IdSaga`)) join `categorias` on(`categorias`.`IdCategoria` = `sagacateg`.`idCategoria`)) ;
 
 -- --------------------------------------------------------
 
@@ -916,7 +1006,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `gettagsinfo`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gettagsinfo`  AS  select `tags`.`IdTag` AS `IdTag`,`holdertags`.`IdHolder` AS `IdHolder`,`tags`.`NombreTag` AS `NombreTag` from (`holdertags` join `tags` on((`holdertags`.`IdTag` = `tags`.`IdTag`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `gettagsinfo`  AS  select `tags`.`IdTag` AS `IdTag`,`holdertags`.`IdHolder` AS `IdHolder`,`tags`.`NombreTag` AS `NombreTag` from (`holdertags` join `tags` on(`holdertags`.`IdTag` = `tags`.`IdTag`)) ;
 
 -- --------------------------------------------------------
 
@@ -925,7 +1015,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `getuserinformation`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getuserinformation`  AS  select `usuario`.`IdUsuario` AS `idUsuario`,`personalizacion`.`NombreUsuario` AS `NombreUsuario`,`personalizacion`.`Descripcion` AS `Descripcion`,`personalizacion`.`Sexo` AS `Sexo`,`personalizacion`.`Ubicacion` AS `Ubicacion`,`personalizacion`.`FechaDeRegistro` AS `FechaDeRegistro`,`personalizacion`.`IdiomaPreferido` AS `IdiomaPreferido`,`personalizacion`.`Edad` AS `Edad`,`personalizacion`.`NotificacionCorreo` AS `NotificacionCorreo`,`personalizacion`.`Nickname` AS `Nickname`,`personalizacion`.`ConfiguracionInicial` AS `ConfiguracionInicial`,`tiposusuario`.`idTipo` AS `idTipo`,`tiposusuario`.`descripcion` AS `cuenta` from ((`personalizacion` join `usuario` on((`personalizacion`.`IdUsuario` = `usuario`.`IdUsuario`))) join `tiposusuario` on((`usuario`.`TipoDeUsuario` = `tiposusuario`.`idTipo`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getuserinformation`  AS  select `usuario`.`IdUsuario` AS `idUsuario`,`personalizacion`.`NombreUsuario` AS `NombreUsuario`,`personalizacion`.`Descripcion` AS `Descripcion`,`personalizacion`.`Sexo` AS `Sexo`,`personalizacion`.`Ubicacion` AS `Ubicacion`,`personalizacion`.`FechaDeRegistro` AS `FechaDeRegistro`,`personalizacion`.`IdiomaPreferido` AS `IdiomaPreferido`,`personalizacion`.`Edad` AS `Edad`,`personalizacion`.`NotificacionCorreo` AS `NotificacionCorreo`,`personalizacion`.`Nickname` AS `Nickname`,`personalizacion`.`ConfiguracionInicial` AS `ConfiguracionInicial`,`tiposusuario`.`idTipo` AS `idTipo`,`tiposusuario`.`descripcion` AS `cuenta` from ((`personalizacion` join `usuario` on(`personalizacion`.`IdUsuario` = `usuario`.`IdUsuario`)) join `tiposusuario` on(`usuario`.`TipoDeUsuario` = `tiposusuario`.`idTipo`)) ;
 
 -- --------------------------------------------------------
 
@@ -934,7 +1024,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `getusers`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getusers`  AS  select `usuario`.`IdUsuario` AS `IdUsuario`,`personalizacion`.`Nickname` AS `nickname` from (`usuario` join `personalizacion` on((`usuario`.`IdUsuario` = `personalizacion`.`IdUsuario`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `getusers`  AS  select `usuario`.`IdUsuario` AS `IdUsuario`,`personalizacion`.`Nickname` AS `nickname` from (`usuario` join `personalizacion` on(`usuario`.`IdUsuario` = `personalizacion`.`IdUsuario`)) ;
 
 --
 -- Índices para tablas volcadas
@@ -1215,19 +1305,19 @@ ALTER TABLE `contadordeusuario`
 -- AUTO_INCREMENT de la tabla `contenido`
 --
 ALTER TABLE `contenido`
-  MODIFY `IdContenido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdContenido` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `emoticon`
 --
 ALTER TABLE `emoticon`
-  MODIFY `IdEmoticon` smallint(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdEmoticon` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `holder`
 --
 ALTER TABLE `holder`
-  MODIFY `IdHolder` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `IdHolder` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `holderpersonajes`
@@ -1239,7 +1329,7 @@ ALTER TABLE `holderpersonajes`
 -- AUTO_INCREMENT de la tabla `holdertags`
 --
 ALTER TABLE `holdertags`
-  MODIFY `IdHolTag` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdHolTag` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `hub`
@@ -1257,7 +1347,7 @@ ALTER TABLE `imagenhub`
 -- AUTO_INCREMENT de la tabla `logros`
 --
 ALTER TABLE `logros`
-  MODIFY `IdLogro` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `IdLogro` smallint(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de la tabla `personajes`
@@ -1275,7 +1365,7 @@ ALTER TABLE `personalizacion`
 -- AUTO_INCREMENT de la tabla `post`
 --
 ALTER TABLE `post`
-  MODIFY `IdPost` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdPost` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
@@ -1317,7 +1407,7 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT de la tabla `thread`
 --
 ALTER TABLE `thread`
-  MODIFY `IdThread` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `IdThread` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tipocontenido`
@@ -1335,7 +1425,7 @@ ALTER TABLE `tiposusuario`
 -- AUTO_INCREMENT de la tabla `usuariologros`
 --
 ALTER TABLE `usuariologros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `venta`
