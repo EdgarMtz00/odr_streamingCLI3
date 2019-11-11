@@ -68,13 +68,12 @@ export default {
     beforeDestroy () {
         // Cambiar el valor de 'reproduccion' a false para cambiar el estado del usuario a reproduciendo medios
         let user = this.$store.getters.getUserData;
-        let idLogro;
-        
-        this.$store.commit('setReproduccion', false)
+        let nombreLogro = this.currentContent.type;
+        this.$store.commit('setLogro', nombreLogro)
+        this.$store.dispatch('updateLogros', user.id)
     },
     computed: {
         saga () {
-            
             return this.$store.getters.getSagaData
         },
         currentContent () {

@@ -8,6 +8,7 @@ export default({
         categorys: [],
         tags: [],
         reproduccion: false,
+        logro: '',
     },
     mutations: {
         setSagaData (state, payload) {
@@ -32,9 +33,24 @@ export default({
         },
         setReproduccion (state, payload) {
             state.reproduccion = payload
+        },
+        setLogro(state, payload){
+            state.logro = payload
         }
     },
     actions: {
+        updateLogros({getters, state}, usuario){
+            let urlBase = getters.urlBase
+            let data =  {"idUsuario": usuario, "nombreLogro": state.logro}
+            console.log(data)
+            axios.post(urlBase + 'connections/logros.php', data).then(response => {
+                let data = response.data
+                console.log('logro')
+                console.log(data)
+            }).catch(error => {
+                console.log(error)
+            })
+        },
         loadSagasInfo ({commit, getters}) {
             let urlBase = getters.urlBase
             commit('clearSagas')
@@ -176,6 +192,9 @@ export default({
         },
         getReproduccion (state) {
             return state.reproduccion
+        },
+        getLogro (state) {
+            return state.logro
         }
     }
 })
