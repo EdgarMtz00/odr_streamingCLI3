@@ -1,7 +1,7 @@
 <?php
 include 'common.php';
-"Content-Type": "application/x-www-form-urlencoded",
-Accept: "application/json"
+header('Access-Control-Allow-Origin: *');
+header('Content-type: application/json');
 $body = file_get_contents('php://input'); 
 $body = json_decode($body);
 if($_SERVER['REQUEST_METHOD'] == 'POST'){

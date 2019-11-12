@@ -48,6 +48,8 @@ export default({
                 console.log('logro')
                 console.log(data)
             }).catch(error => {
+                console.log("error")
+                console.log(error.response);
                 console.log(error)
             })
         },
