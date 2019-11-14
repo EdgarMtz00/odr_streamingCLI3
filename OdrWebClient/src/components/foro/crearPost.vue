@@ -13,6 +13,7 @@
                         <v-btn @click="formatearTexto('Cross')">{{crossTxt[currLanguaje]}}</v-btn>
                         <v-btn @click="formatearTexto('Bullet')">{{bulletTxt[currLanguaje]}}</v-btn>
                         <v-btn @click="formatearTexto('Break')">{{lineBreakTxt[currLanguaje]}}</v-btn>
+                        <emoticon-selector></emoticon-selector>
                     </v-card>
                     <v-card>
                         <v-text-field v-model="newPost.post" label="Post" outline></v-text-field>

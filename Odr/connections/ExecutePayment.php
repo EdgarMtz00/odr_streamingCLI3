@@ -1,5 +1,6 @@
 <?php
-    require ('../common.php');
+    header('Location: https://odrstreaming.000webhostapp.com/');
+    require ('common.php');
     require('conf.php');
 
     if (empty($_GET['paymentId']) || empty($_GET['PayerID'])) {

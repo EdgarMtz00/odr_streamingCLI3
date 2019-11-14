@@ -302,6 +302,18 @@ export default({
             })
         })
       },
+      cargarEmotes({commit, getters}, idUsuario){
+        let urlBase = getters.urlBase
+        var aux = [];
+        fetch(urlBase + 'connections/emotes.php?' + idUsuario)
+            .then(res => res.json())
+            .then(data => {
+                data.forEach(function(d){
+                    aux.push(d.idEmoticon)
+                });
+                commit('setEmoticones', aux)
+            })
+      },
       cargarProductos ({commit, getters}) {
           let urlBase = getters.urlBase
           console.log("cargando productos")
@@ -424,7 +436,6 @@ export default({
           let formData = new FormData ()
           formData.set('id', id)
         //   commit('deleteProducto', id)
-          
           axios.post(urlBase + 'connections/productos/eliminarProducto.php', formData).then(response => {
               let data = response.data
               if (data.status.includes('OK')) {
@@ -484,7 +495,6 @@ export default({
                   //alert('Solo el comprador puede entrar a esa pagina ' + data.idComprador + " " + payload.idUsuario)
                   router.push('/')
               }
-              
           })
       },
       crearNotificacionVenta ({commit}, payload) {

@@ -24,7 +24,7 @@
             $imgCont = 0;
             // Crear carpeta individual del producto
             if(!is_dir($ruta)){
-                mkdir($ruta);
+                mkdir($ruta, 0777, true);
             }
             foreach($imagenes as $aux) {
                 $imgCont++;
