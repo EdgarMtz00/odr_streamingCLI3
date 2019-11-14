@@ -5,17 +5,17 @@ header('Content-type: application/json');
 $body = file_get_contents('php://input'); 
 $body = json_decode($body);
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $idUsuario = $body->idUsuario;
-    $nombreLogro = $body->nombreLogro;
+    $idUsuario = $_POST["idUsuario"];
+    $nombreLogro = $_POST["nombreLogro"];
     if($nombreLogro == 'Pelicula'){
         $nombreLogro = 'cinefilo';
     }
     $repeticiones = 1;
     $response = array();
-    $busqueda = '%'.strtolower($nombreLogro).'%';
+    $busqueda = '%'.mb_strtolower($nombreLogro).'%';
     //revisar si ya tiene progreso en el logro
     $logro = mysqli_query($conn, "SELECT u.progreso, l.repeticiones, l.IdLogro from usuariologros as u join logros as l on u.idLogro = l.idLogro Where u.idUsuario = '$idUsuario' and l.titulo like '$busqueda'");
-    if($logro){
+    if(mysqli_num_rows($logro)!=0){
         //si es asi lo aumenta
         while($l = $logro->fetch_array(MYSQLI_ASSOC)){
             $id = $l["IdLogro"];

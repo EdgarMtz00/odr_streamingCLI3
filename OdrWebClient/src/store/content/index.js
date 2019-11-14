@@ -1,7 +1,7 @@
 import axios from 'axios'
 import * as firebase from 'firebase'
 
-export default({
+export default ({
     state: {
         sagas: [],
         saga: {},
@@ -11,74 +11,81 @@ export default({
         logro: '',
     },
     mutations: {
-        setSagaData (state, payload) {
-            state.saga = {...payload}
+        setSagaData(state, payload) {
+            state.saga = {...payload }
             console.log("state.saga", state.saga)
         },
-        setSagas (state, payload) {
+        setSagas(state, payload) {
             payload.forEach(element => {
                 state.sagas.push(element)
             });
         },
-        setCategorys (state, payload) {
+        setCategorys(state, payload) {
             payload.forEach(element => {
                 state.categorys.push(element)
             });
         },
-        setTags (state, payload) {
+        setTags(state, payload) {
             state.tags = payload
         },
-        clearSagas (state) {
+        clearSagas(state) {
             state.sagas = []
         },
-        setReproduccion (state, payload) {
+        setReproduccion(state, payload) {
             state.reproduccion = payload
         },
-        setLogro(state, payload){
+        setLogro(state, payload) {
             state.logro = payload
         }
     },
     actions: {
-        updateLogros({getters, state}, usuario){
+        updateLogros({ getters, state }, usuario) {
             let urlBase = getters.urlBase
-            let data =  {"idUsuario": usuario, "nombreLogro": state.logro}
-            console.log(data)
-            axios.post(urlBase + 'connections/logros.php', data).then(response => {
+            const formData = new FormData();
+            formData.append("idUsuario", usuario)
+            formData.append("nombreLogro", state.logro)
+            let data = { "idUsuario": usuario, "nombreLogro": state.logro }
+            console.log(formData)
+            console.log(urlBase + 'connections/logros.php')
+            axios.post(urlBase + 'connections/logros.php', formData, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(response => {
                 let data = response.data
                 console.log('logro')
                 console.log(data)
             }).catch(error => {
                 console.log("error")
-                console.log(error.response);
                 console.log(error)
             })
         },
-        loadSagasInfo ({commit, getters}) {
+        loadSagasInfo({ commit, getters }) {
             let urlBase = getters.urlBase
             commit('clearSagas')
-            // axios.post(urlBase + "connections/streamingContent/getSaga.php").then(response => {
-            //     commit('setSagas', response.data)
-            // })
+                // axios.post(urlBase + "connections/streamingContent/getSaga.php").then(response => {
+                //     commit('setSagas', response.data)
+                // })
 
             fetch(urlBase + "connections/streamingContent/getSaga.php")
-            .then(res => res.json())
-            .then(data => {
-                commit('setSagas', data)
-            });
+                .then(res => res.json())
+                .then(data => {
+                    commit('setSagas', data)
+                });
         },
-        loadCategorys ({commit, getters}) {
+        loadCategorys({ commit, getters }) {
             let urlBase = getters.urlBase
-            // axios.post(urlBase + "connections/streamingContent/getCategorys.php").then(response => {
-            //     commit('setCategorys', response.data)
-            // })
+                // axios.post(urlBase + "connections/streamingContent/getCategorys.php").then(response => {
+                //     commit('setCategorys', response.data)
+                // })
 
             fetch(urlBase + "connections/streamingContent/getCategorys.php")
-            .then(res => res.json())
-            .then(data => {
-                commit('setCategorys', data)
-            });
+                .then(res => res.json())
+                .then(data => {
+                    commit('setCategorys', data)
+                });
         },
-        loadSagaData ({commit, getters, dispatch}, urlSaga) {
+        loadSagaData({ commit, getters, dispatch }, urlSaga) {
             commit('clearSagas')
             let bodyFormData = new FormData()
             let urlBase = getters.urlBase
@@ -93,10 +100,10 @@ export default({
             axios.post(urlBase + 'connections/streamingContent/getSagaContent.php', bodyFormData).then(response => {
                 console.log('Sagas response', response)
                 let data = response.data
-                // La base de datos guarda la url de las imagenes com http://locahost y ps hay que corregir
+                    // La base de datos guarda la url de las imagenes com http://locahost y ps hay que corregir
                 saga.name = data.TituloSaga
                 saga.idSaga = data.IdSaga
-                // console.log('Ps hay que cambiarle ptm', data)
+                    // console.log('Ps hay que cambiarle ptm', data)
                 saga.photoInfo = {
                     thumbnail: urlBase + 'resources/' + data.ThumbnailSaga,
                     background: urlBase + 'resources/' + data.BackgroundSaga,
@@ -110,14 +117,14 @@ export default({
                     });
                 }
                 saga.categorys = categs
-                // console.log("categs", categs)
+                    // console.log("categs", categs)
 
                 if (Array.isArray(data.holders)) {
                     data.holders.forEach(element => {
                         let rutaBase = urlBase;
                         let rutaThumbnail = '';
                         rutaThumbnail = rutaBase + element.NombreCategoria + '/' + element.URLHolder + '/thumbnail.jpg'
-                        //obtener tags
+                            //obtener tags
                         let tagsT = []
                         if (Array.isArray(element.tags)) {
                             element.tags.forEach(elementTag => {
@@ -127,10 +134,10 @@ export default({
                         //Obtener scans
                         let contenidos = []
                         let contContenidos = 0
-                        
+
                         if (Array.isArray(element.contenidos)) {
                             element.contenidos.forEach(elementContenidos => {
-                                elementContenidos.thumbnail = rutaBase + element.NombreCategoria + "/" + 
+                                elementContenidos.thumbnail = rutaBase + element.NombreCategoria + "/" +
                                     element.URLHolder + "/" + elementContenidos.URLContenido + "/thumbnail.jpg"
                                 contenidos.push(elementContenidos)
                             });
@@ -162,10 +169,10 @@ export default({
 
                 console.log("Final saga:", saga)
                 commit('setSagaData', saga)
-                // Cargar los holders a las que el usuario este suscrito
+                    // Cargar los holders a las que el usuario este suscrito
             })
         },
-        loadTags ({commit, getters}) {
+        loadTags({ commit, getters }) {
             let urlBase = getters.urlBase
             axios.post(urlBase + 'connections/streamingContent/creating/getAllTags.php').then(response => {
                 let data = response.data
@@ -180,22 +187,22 @@ export default({
         },
     },
     getters: {
-        getSagaData (state) {
+        getSagaData(state) {
             return state.saga
         },
-        getSagas (state) {
+        getSagas(state) {
             return state.sagas
         },
-        getCategorys (state) {
+        getCategorys(state) {
             return state.categorys
         },
-        getTags (state) {
+        getTags(state) {
             return state.tags
         },
-        getReproduccion (state) {
+        getReproduccion(state) {
             return state.reproduccion
         },
-        getLogro (state) {
+        getLogro(state) {
             return state.logro
         }
     }
