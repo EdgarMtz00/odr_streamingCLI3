@@ -47,9 +47,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
     }
     //regresa la informacion del logro creado o modificado
-    $logro = mysqli_query($conn, "SELECT u.progreso, l.repeticiones from usuariologros as u join logros as l on u.idLogro = l.idLogro Where u.idUsuario = '$idUsuario' and l.titulo = '$nombreLogro'");
-    $logro = mysqli_fetch_assoc($logro);
-    $response['completado'] = $logro['progreso'] >= $logro['repeticiones'];
+    $logro = mysqli_query($conn, "SELECT u.progreso, l.recompensa, l.repeticiones from usuariologros as u join logros as l on u.idLogro = l.idLogro Where u.idUsuario = '$idUsuario' and l.titulo = '$nombreLogro'");
+    while($l = $logro->fetch_array(MYSQLI_ASSOC)){
+        if($l['progreso'] == $l['repeticiones']){
+            $r = $l['recompensa'];
+            $res = mysqli_query($conn, "Update personalizacion set dinero = dinero + '$r' where IdUsuario = '$idUsuario'");
+        }
+    }
     echo json_encode($response);
 }elseif($_SERVER['REQUEST_METHOD']=='GET'){
     $idUsuario = $_GET['idUsuario'];

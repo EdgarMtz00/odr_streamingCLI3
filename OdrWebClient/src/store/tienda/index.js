@@ -289,8 +289,9 @@ export default({
             let urlBase = getters.urlBase
             //informacion del emote a comprar
             let emoteData = new FormData()
-            emoteData.id = emote.id
-            emoteData.user = getters.getUserData
+            emoteData.id = emote
+            emoteData.user = getters.getUserData.id;
+            console.log(emoteData)
             //peticion de compra al servidor
             axios.post(urlBase + 'connections/payments/payments.php', emoteData).then(response => {
                 let data = response.data

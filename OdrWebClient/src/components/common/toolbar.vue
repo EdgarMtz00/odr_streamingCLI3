@@ -88,7 +88,7 @@
                     <img :src="userData.imagen" alt="alt">
                     </v-avatar>
                 </v-layout>
-                <div v-show="!xsOnly">{{userData.nickname}}</div>
+                <div v-show="!xsOnly">{{userData.nickname}} ${{userData.dinero}}</div>
                 </v-btn>
 
                 <!-- <carrito-component class="mt-2 ml-3" v-show="isUserLogged && tiendaActive"></carrito-component> -->
@@ -233,6 +233,7 @@ export default {
         },
         userData () {
             let data = this.$store.getters.getUserConfig
+            data.dinero = this.$store.getters.getUserData.dinero
             if (data)
                 return data
             else 
