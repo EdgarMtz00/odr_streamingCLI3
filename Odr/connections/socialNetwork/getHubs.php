@@ -1,6 +1,8 @@
 <?php
     // Este php es para obtener los datos para el componente
     require('../common.php');
+    header('Access-Control-Allow-Origin: *');
+    header('Content-type: application/json');
     $hubs = [];
 
     if ($conn) {

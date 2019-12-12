@@ -1,7 +1,8 @@
 <?php 
 	header('Access-Control-Allow-Origin: *'); 
 	//$conn = mysqli_connect('localhost', 'root', '', 'odr_streaming'); //<- Primera version
-	$conn = mysqli_connect('localhost', 'root', '', 'odr');
+	//$conn = mysqli_connect('localhost', 'root', '', 'odr');
+	$conn = mysqli_connect('localhost', 'id11554100_root', 'odrdatabase', 'id11554100_odr');
 	$urlBase = 'http://localhost/Odr/';
 
 	function generateId ($idLength) {

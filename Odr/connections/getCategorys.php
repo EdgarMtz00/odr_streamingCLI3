@@ -1,5 +1,7 @@
 <?php 
 require ('common.php');
+header('Access-Control-Allow-Origin: *');
+header('Content-type: application/json');
 
 	if ($conn) {
 		$resultQ = mysqli_query($conn, "SELECT * FROM categorias");

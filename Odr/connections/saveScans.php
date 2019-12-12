@@ -1,5 +1,7 @@
 <?php 
 	require ('common.php');
+	header('Access-Control-Allow-Origin: *');
+	header('Content-type: application/json');
 	$idLength = 15;
 	$thumbnail = $_POST['thumbnailScans'];
 	$idSaga = $_POST['idSaga'];
