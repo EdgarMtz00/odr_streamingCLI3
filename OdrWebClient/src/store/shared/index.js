@@ -1,22 +1,22 @@
 import axios from 'axios'
 import * as firebase from 'firebase'
 
-export default({
+export default ({
     state: {
-        urlBase: 'http://localhost/Odr/',
+        urlBase: 'https://odrstreaming.000webhostapp.com/Odr/',
         loading: false,
         notificationsDrawer: false,
     },
     mutations: {
-        setLoading (state, payload) {
+        setLoading(state, payload) {
             state.loading = payload
         },
-        setNotificationsDrawer (state, payload) {
+        setNotificationsDrawer(state, payload) {
             state.notificationsDrawer = payload
         },
     },
     actions: {
-        reputacion ({commit, getters}, payload) {
+        reputacion({ commit, getters }, payload) {
             let idUsuario = payload.idUsuario
             let idThumb = payload.id
             if (payload.thumbup) {
@@ -31,13 +31,13 @@ export default({
         }
     },
     getters: {
-        getLoading (state) {
+        getLoading(state) {
             return state.loading
         },
-        urlBase (state) {
+        urlBase(state) {
             return state.urlBase
         },
-        getNotificationsDrawer (state) {
+        getNotificationsDrawer(state) {
             return state.notificationsDrawer
         },
     }

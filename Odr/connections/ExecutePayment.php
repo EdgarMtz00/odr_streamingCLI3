@@ -1,6 +1,8 @@
 <?php
     require ('../common.php');
     require('conf.php');
+    header('Access-Control-Allow-Origin: *');
+    header('Content-type: application/json');
 
     if (empty($_GET['paymentId']) || empty($_GET['PayerID'])) {
         throw new Exception('The response is missing the paymentId and PayerID');

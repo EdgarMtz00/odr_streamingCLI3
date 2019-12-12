@@ -2,6 +2,8 @@
     // Este PHP es para conseguir especificamente los nombres de todos los personajes que hay, solamente,
     // para poder mostrarlos sin la descripcion que pues puede ser larga y pesada
     require ('common.php');
+    header('Access-Control-Allow-Origin: *');
+    header('Content-type: application/json');
     $response = [];
 
     if ($conn) {

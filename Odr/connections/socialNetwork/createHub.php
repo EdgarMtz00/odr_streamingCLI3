@@ -1,5 +1,7 @@
 <?php 
     require ('../common.php');
+    header('Access-Control-Allow-Origin: *');
+    header('Content-type: application/json');
 
     $tituloHub = $_POST['TituloHub'];
     $idUsuario = $_POST['IdUsuario'];
