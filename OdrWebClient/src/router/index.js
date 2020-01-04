@@ -37,168 +37,167 @@ import AuthGuard from './auth-guard'
 Vue.use(Router)
 
 const router = new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'Main page',
-      component: StreamingMainPage
-    },
-    {
-      path:'/logros',
-      name: 'Logros',
-      component: logroBase,
-      //requerir inicio de sesion antes
-      beforeEnter: AuthGuard      
-    },
-    {
-      path: '/uploadContent',
-      name: 'Upload Content',
-      component: UploadContent
-    },
-    {
-      path: '/sagas/:urlSaga',
-      name: 'Selected Saga',
-      component: sagaBase
-    },
-    {
-      path: '/sagas/:urlSaga/:urlHolder',
-      name: 'Holder',
-      component: holderBase
-    },
-    {
-      path: '/sagas/:urlSaga/:urlHolder/:urlContenido/:nPagina',
-      name: 'Media player',
-      component: mediaPlayer
-    },
-    {
-      path: '/characters/:urlChar',
-      name: 'Character information',
-      component: PersonajeBase
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: MainLogin,
-      beforeEnter: (to, from, next) => {
-        if (store.getters.getUserData.id) {
-            console.log("si hay user")
-            next ('/')
-        } else {
-            console.log("no hay user")
-            next()
+    routes: [{
+            path: '/public_html/',
+            name: 'Main page',
+            component: StreamingMainPage
+        },
+        {
+            path: '/logros',
+            name: 'Logros',
+            component: logroBase,
+            //requerir inicio de sesion antes
+            beforeEnter: AuthGuard
+        },
+        {
+            path: '/uploadContent',
+            name: 'Upload Content',
+            component: UploadContent
+        },
+        {
+            path: '/sagas/:urlSaga',
+            name: 'Selected Saga',
+            component: sagaBase
+        },
+        {
+            path: '/sagas/:urlSaga/:urlHolder',
+            name: 'Holder',
+            component: holderBase
+        },
+        {
+            path: '/sagas/:urlSaga/:urlHolder/:urlContenido/:nPagina',
+            name: 'Media player',
+            component: mediaPlayer
+        },
+        {
+            path: '/characters/:urlChar',
+            name: 'Character information',
+            component: PersonajeBase
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: MainLogin,
+            beforeEnter: (to, from, next) => {
+                if (store.getters.getUserData.id) {
+                    console.log("si hay user")
+                    next('/')
+                } else {
+                    console.log("no hay user")
+                    next()
+                }
+            }
+        },
+        {
+            path: '/profileConfiguration',
+            name: 'Configuration',
+            component: Configuration,
+            beforeEnter: AuthGuard
+        },
+        {
+            path: '/profileView/:idProfile',
+            name: 'Configuration',
+            component: ProfileView,
+        },
+        {
+            path: '/avatar',
+            name: 'Avatar',
+            component: Avatar,
+            beforeEnter: AuthGuard
+        },
+        {
+            path: '/chat',
+            name: 'Chat',
+            component: Chat,
+            beforeEnter: AuthGuard
+        },
+        {
+            path: '/forums/:urlSaga/:urlCategory/createTopic',
+            name: 'Create Topic',
+            component: CreateTopic,
+            beforeEnter: AuthGuard
+        },
+        {
+            path: '/forums/:urlSaga/:urlCategory/:urlThread/createPost',
+            name: 'Create Post',
+            component: CreatePost,
+            beforeEnter: AuthGuard
+        },
+        {
+            path: '/forums',
+            name: 'Forums',
+            component: Forums
+        },
+        {
+            path: '/forums/:urlSaga',
+            name: 'Forum Categories',
+            component: ForumCategories
+        },
+        {
+            path: '/forums/:urlSaga/:urlCategory',
+            name: 'Category Topics',
+            component: ShowTopics
+        },
+        {
+            path: '/forums/:urlSaga/:urlCategory/:urlThread',
+            name: 'Topic Posts',
+            component: ShowPosts
+        },
+        {
+            path: "/shop",
+            name: "Tienda",
+            component: MainProductos
+        },
+        {
+            path: '/social',
+            name: 'Social',
+            component: SocialNetwork
+        },
+        {
+            path: '/social/:urlSaga',
+            name: 'Hubs',
+            component: Hubs
+        },
+        {
+            path: '/createHub',
+            name: 'Create Hub',
+            component: CreateHub,
+            beforeEnter: AuthGuard
+        },
+        {
+            path: '/social/:urlSaga/:urlHub',
+            name: 'Hub Images',
+            component: HubImages,
+        },
+        {
+            path: '/createImage',
+            name: 'Create Image',
+            component: CreateImage,
+            beforeEnter: AuthGuard
+        },
+        {
+            path: '/calificarVendedor/:idVendedor/:idProducto',
+            name: 'Calificar vendedor',
+            component: CalificarVendedor,
+            beforeEnter: AuthGuard
+        },
+        {
+            path: '/social/:urlSaga/:urlHub/:urlImagen',
+            name: 'Image',
+            component: SingleImage,
+        },
+        {
+            path: "/shop",
+            name: "Tienda",
+            component: MainProductos
+        },
+        {
+            path: '/report',
+            name: 'Reportes',
+            component: Reportes
         }
-      }
-    },
-    {
-      path: '/profileConfiguration',
-      name: 'Configuration',
-      component: Configuration,
-      beforeEnter: AuthGuard
-    },
-    {
-      path: '/profileView/:idProfile',
-      name: 'Configuration',
-      component: ProfileView,
-    },
-    {
-      path: '/avatar',
-      name: 'Avatar',
-      component: Avatar,
-      beforeEnter: AuthGuard
-    },
-    {
-      path: '/chat',
-      name: 'Chat',
-      component: Chat,
-      beforeEnter: AuthGuard
-    },
-    {
-      path: '/forums/:urlSaga/:urlCategory/createTopic',
-      name: 'Create Topic',
-      component: CreateTopic,
-      beforeEnter: AuthGuard
-    },
-    {
-      path: '/forums/:urlSaga/:urlCategory/:urlThread/createPost',
-      name: 'Create Post',
-      component: CreatePost,
-      beforeEnter: AuthGuard
-    },
-    {
-      path: '/forums',
-      name: 'Forums',
-      component: Forums
-    },
-    {
-      path: '/forums/:urlSaga',
-      name: 'Forum Categories',
-      component: ForumCategories
-    },
-    {
-      path: '/forums/:urlSaga/:urlCategory',
-      name: 'Category Topics',
-      component: ShowTopics
-    },
-    {
-      path: '/forums/:urlSaga/:urlCategory/:urlThread',
-      name: 'Topic Posts',
-      component: ShowPosts
-    },
-    {
-      path: "/shop",
-      name: "Tienda",
-      component: MainProductos
-    },
-    {
-      path: '/social',
-      name: 'Social',
-      component: SocialNetwork
-    },
-    {
-      path: '/social/:urlSaga',
-      name: 'Hubs',
-      component: Hubs
-    },
-    {
-      path: '/createHub',
-      name: 'Create Hub',
-      component: CreateHub,
-      beforeEnter: AuthGuard
-    },
-    {
-      path: '/social/:urlSaga/:urlHub',
-      name: 'Hub Images',
-      component: HubImages,
-    },
-    {
-      path: '/createImage',
-      name: 'Create Image',
-      component: CreateImage,
-      beforeEnter: AuthGuard
-    },
-    {
-      path: '/calificarVendedor/:idVendedor/:idProducto',
-      name: 'Calificar vendedor',
-      component: CalificarVendedor,
-      beforeEnter: AuthGuard
-    },
-    {
-      path: '/social/:urlSaga/:urlHub/:urlImagen',
-      name: 'Image',
-      component: SingleImage,
-    },
-    {
-      path: "/shop",
-      name: "Tienda",
-      component: MainProductos
-    },
-    {
-      path: '/report',
-      name: 'Reportes',
-      component: Reportes
-    }
-  ],
-  mode: 'history'
+    ],
+    mode: 'history'
 })
 
 

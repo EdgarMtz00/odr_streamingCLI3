@@ -55,9 +55,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     ->setInvoiceNumber(uniqid());
 
     //a donde paypal enviara el resultado de la compra
-    $baseUrl = "https://odrstreaming.000webhostapp.com/Odr/connections"; //pendiente dominio web
+    //$baseUrl = "https://odrstreaming.000webhostapp.com/Odr/connections"; //pendiente dominio web
+    $baseUrl = "localhost:80/Odr/connections";
     $redirectUrls = new RedirectUrls();
-    $redirectUrls->setReturnUrl("$baseUrl/ExecutePayment.php")
+    $redirectUrls->setReturnUrl("$baseUrl/payments/ExecutePayment.php")
     ->setCancelUrl("$baseUrl/ExecutePayment.php");
 
     //informacion completa de la operacion a realizar mediante paypal

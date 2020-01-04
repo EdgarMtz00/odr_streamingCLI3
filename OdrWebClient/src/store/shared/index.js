@@ -4,6 +4,7 @@ import * as firebase from 'firebase'
 export default ({
     state: {
         urlBase: 'https://odrstreaming.000webhostapp.com/Odr/',
+        //urlBase: 'http://localhost:80/Odr/',
         loading: false,
         notificationsDrawer: false,
     },

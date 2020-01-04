@@ -1,5 +1,9 @@
 <?php 
-	header('Access-Control-Allow-Origin: *'); 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH');
+//header("Access-Control-Allow-Headers: X-Requested-With");
+
+
 	//$conn = mysqli_connect('localhost', 'root', '', 'odr_streaming'); //<- Primera version
 	//$conn = mysqli_connect('localhost', 'root', '', 'odr');
 	$conn = mysqli_connect('localhost', 'id11554100_root', 'odrdatabase', 'id11554100_odr');
